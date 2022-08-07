@@ -18,13 +18,12 @@ end
 -- e.g.: require('color_scheme').setup{}, vim.cmd('color_scheme')
 
 -- OneDark styles: dark, darker, cool, deep, warm, warmer, light
---require('onedark').setup {
---  styles = 'deep',
---  colors = { fg = '#b2bbcc' }, --default: #a0a8b7
---}
---require('onedark').load()
-vim.cmd("colorscheme monokai")
-vim.o.background='light'
+require('onedark').setup {
+  styles = 'deep',
+  colors = { fg = '#b2bbcc' }, --default: #a0a8b7
+}
+require('onedark').load()
+vim.o.background='dark'
 
 -- statusline color schemes:
 -- import with: require('colors').colorscheme_name

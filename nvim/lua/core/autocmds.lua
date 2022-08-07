@@ -70,3 +70,16 @@ autocmd('BufLeave', {
   command = 'stopinsert'
 })
 
+-- Show Diagnostics or Documenation on Hover
+autocmd({'CursorHold', 'CursorHoldI'}, {
+  callback = function()
+    local lineNum = vim.api.nvim_win_get_cursor(0)[1]
+    local diagnostic = vim.diagnostic.get(0,  { lnum = lineNum - 1})
+
+    if (table.getn(diagnostic) > 0) then
+      vim.diagnostic.open_float();
+    else
+      vim.cmd('silent! lua vim.lsp.buf.hover()')
+    end
+  end
+})

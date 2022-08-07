@@ -52,6 +52,15 @@ map('n', '<leader>sw', ':lua require("spectre").open_visual({select_word=true})<
 map('v', '<leader>sv', ':lua require("spectre").open_visual()<CR>')
 map('n', '<leader>sf', ':lua require("spectre").open_file_search()<CR>')              -- Search Current File
 
+require("telescope").load_extension("refactoring")
+
+-- remap to open the Telescope refactoring menu in visual mode
+map(
+	"v",
+	"<leader>rr",
+	"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+	{ noremap = true }
+)
 
 -- Applications and Plugins shortcuts
 -----------------------------------------------------------

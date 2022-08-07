@@ -14,3 +14,5 @@ require('plugins/nvim-cmp')
 require('plugins/nvim-treesitter')
 require('plugins/alpha-nvim')
 require('plugins/nvim-spectre')
+require('plugins/bufferline')
+

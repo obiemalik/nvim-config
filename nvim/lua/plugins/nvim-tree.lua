@@ -31,7 +31,7 @@ nvim_tree.setup {
   respect_buf_cwd = false,
   update_cwd = true,
   view = {
-    width = 32,
+    width = 36,
     height = 30,
     hide_root_folder = false,
     side = "left",
