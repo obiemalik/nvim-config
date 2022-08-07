@@ -1,14 +1,9 @@
 -----------------------------------------------------------
 -- Define keymaps of Neovim and installed plugins.
 -----------------------------------------------------------
+require('Utils')
 
-local function map(mode, lhs, rhs, opts)
-  local options = { noremap = true, silent = true }
-  if opts then
-    options = vim.tbl_extend('force', options, opts)
-  end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
+local map = Utils.keymap
 
 -- Change leader to a comma
 vim.g.mapleader = ','
@@ -16,12 +11,6 @@ vim.g.mapleader = ','
 -----------------------------------------------------------
 -- Neovim shortcuts
 -----------------------------------------------------------
-
--- Disable arrow keys
-map('', '<up>', '<nop>')
-map('', '<down>', '<nop>')
-map('', '<left>', '<nop>')
-map('', '<right>', '<nop>')
 
 -- Map Esc to kk
 map('i', 'kk', '<Esc>')
@@ -43,9 +32,6 @@ map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
--- Reload configuration without restart nvim
-map('n', '<leader>r', ':so %<CR>')
-
 -- Fast saving with <leader> and s
 map('n', '<leader>s', ':w<CR>')
 map('i', '<leader>s', '<C-c>:w<CR>')
@@ -53,7 +39,20 @@ map('i', '<leader>s', '<C-c>:w<CR>')
 -- Close all windows and exit from Neovim with <leader> and q
 map('n', '<leader>q', ':qa!<CR>')
 
------------------------------------------------------------
+map('n', 'r<Up>', ':resize +2<CR>')
+map('n', 'r<Down>', ':resize -2<CR>')
+map('n', 'r<Left>', ':vertical resize -2<CR>')
+map('n', 'r<Right>', ':vertical resize +2<CR>')
+map('n', 'rd', ':vertical resize 85<CR>')
+map('n', 'rf', ':vertical resize 140<CR>')
+
+-- Search Panel (Spectre)
+map('n', '<leader>sp', ':lua require("spectre").open()<CR>')                          -- Open
+map('n', '<leader>sw', ':lua require("spectre").open_visual({select_word=true})<CR>') -- Search Current Word
+map('v', '<leader>sv', ':lua require("spectre").open_visual()<CR>')
+map('n', '<leader>sf', ':lua require("spectre").open_file_search()<CR>')              -- Search Current File
+
+
 -- Applications and Plugins shortcuts
 -----------------------------------------------------------
 
@@ -68,3 +67,19 @@ map('n', '<leader>n', ':NvimTreeFindFile<CR>')      -- search file
 
 -- Tagbar
 map('n', '<leader>z', ':TagbarToggle<CR>')          -- open/close
+
+-- Telescope
+map('n', '<leader>ff', ':lua require("telescope.builtin").find_files()<CR>')
+map('n', '<leader>fg', ':lua require("telescope.builtin").live_grep()<CR>')
+map('n', '<leader>fb', ':lua require("telescope.builtin").buffers()<CR>')
+map('n', '<leader>fh', ':lua require("telescope.builtin").help_tags()<CR>')
+
+-- Git Conflict
+
+map('n', 'co', '<Plug>(git-conflict-ours)')
+map('n', 'ct', '<Plug>(git-conflict-theirs)')
+map('n', 'cb', '<Plug>(git-conflict-both)')
+map('n', 'c0', '<Plug>(git-conflict-none)')
+map('n', ']x', '<Plug>(git-conflict-prev-conflict)')
+map('n', '[x', '<Plug>(git-conflict-next-conflict)')
+

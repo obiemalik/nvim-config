@@ -15,13 +15,28 @@ end
 nvim_treesitter.setup {
   -- A list of parser names, or "all"
   ensure_installed = {
-    'bash', 'c', 'cpp', 'css', 'html', 'javascript', 'json', 'lua', 'python',
-    'typescript', 'vim'
+    'bash',
+    'c',
+    'cpp',
+    'css',
+    'html',
+    'javascript',
+    'json',
+    'lua',
+    'python',
+    'typescript',
+    'vim'
   },
   -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+  sync_install = true,
+  Automatically = true,
   highlight = {
     -- `false` will disable the whole extension
     enable = true,
   },
+  -- plugin: JoosepAlviste/nvim-ts-context-commentstring
+  context_commentstring = {
+    enable = true
+  }
 }
+
