@@ -40,10 +40,21 @@ local vi_mode_colors = {
 local lsp = require 'feline.providers.lsp'
 local vi_mode_utils = require 'feline.providers.vi_mode'
 
--- LSP diagnostic
+-- LSP diagnostic count
 local lsp_get_diag = function(str)
-  local count = vim.lsp.diagnostic.get_count(0, str)
+  local count = vim.diagnostic.get_count(0, str)
   return (count > 0) and ' '..count..' ' or ''
+end
+
+-- LSP diagnostic position
+local lsp_get_diag_line = function(str)
+  local diags = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  if (diags ~= nil and diags.size ~= nil and diags.size > 0 ) then
+    print(diags[0].position)
+    return  ' '..diags[0].position..' '
+  else
+    return ''
+  end
 end
 
 local separator = '|'
@@ -132,6 +143,17 @@ local comps = {
       hl = {
         fg = colors.fg,
         style = 'bold',
+      },
+      left_sep = ' ',
+      right_sep = ' ',
+    },
+    -- Error position
+    err_position = {
+      provider = lsp_get_diag_line,
+      hl = {
+        fg = '#FFFFFF',
+        bg = colors.red,
+        style = 'bold'
       },
       left_sep = ' ',
       right_sep = ' ',
@@ -249,13 +271,14 @@ table.insert(components.active[2], comps.lsp.name)
 table.insert(components.active[2], comps.file.type)
 table.insert(components.active[2], comps.file.os)
 table.insert(components.active[2], comps.file.position)
+table.insert(components.active[2], comps.file.err_position)
 table.insert(components.active[2], comps.file.line_percentage)
 
 -- Call feline
 feline.setup {
   theme = {
-    bg = colors.bg,
-    fg = colors.fg,
+    bg = "#f8f8f8", --colors.bg,
+    fg = "#555555",
   },
   components = components,
   vi_mode_colors = vi_mode_colors,

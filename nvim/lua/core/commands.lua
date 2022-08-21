@@ -1,7 +1,5 @@
 --- Commands
-require('Utils')
-
-local cmd = Utils.cmd_alias
+local cmd = require('Utils').cmd_alias
 
 cmd('NT', ':NvimTreeToggle')
 cmd('NTR', ':NvimTreeRefresh')
@@ -14,5 +12,6 @@ cmd('VR', 'vertical resize <args>', { nargs=1 })
 
 cmd('W', ':w')
 cmd('BD', 'bprev | bdelete #')
-cmd('C', ':close')
-
+cmd('C', 'close')
+cmd('Q', 'quit')
+cmd('QQ', 'quitall')

@@ -1,9 +1,7 @@
 -----------------------------------------------------------
 -- Define keymaps of Neovim and installed plugins.
 -----------------------------------------------------------
-require('Utils')
-
-local map = Utils.keymap
+local map = require('Utils').keymap
 
 -- Change leader to a comma
 vim.g.mapleader = ','
@@ -56,11 +54,15 @@ require("telescope").load_extension("refactoring")
 
 -- remap to open the Telescope refactoring menu in visual mode
 map(
-	"v",
-	"<leader>rr",
-	"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-	{ noremap = true }
+"v",
+"<leader>rr",
+"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+{ noremap = true }
 )
+
+--map("n", "rn", ":lua vim.lsp.buf.rename()<CR>", { noremap = true })
+--map("n", "rn", '<cmd>lua require("renamer").rename()<CR>', { noremap = true })        -- Rename
+
 
 -- Applications and Plugins shortcuts
 -----------------------------------------------------------
@@ -71,17 +73,12 @@ map('t', '<Esc>', '<C-\\><C-n>')                    -- exit
 
 -- NvimTree
 map('n', '<C-n>', ':NvimTreeToggle<CR>')            -- open/close
-map('n', '<leader>f', ':NvimTreeRefresh<CR>')       -- refresh
-map('n', '<leader>n', ':NvimTreeFindFile<CR>')      -- search file
 
 -- Tagbar
-map('n', '<leader>z', ':TagbarToggle<CR>')          -- open/close
+-- map('n', '<leader>z', ':TagbarToggle<CR>')          -- open/close
 
--- Telescope
-map('n', '<leader>ff', ':lua require("telescope.builtin").find_files()<CR>')
-map('n', '<leader>fg', ':lua require("telescope.builtin").live_grep()<CR>')
-map('n', '<leader>fb', ':lua require("telescope.builtin").buffers()<CR>')
-map('n', '<leader>fh', ':lua require("telescope.builtin").help_tags()<CR>')
+-- Zenmode
+map('n', '<leader>z', ':ZenMode<CR>')
 
 -- Git Conflict
 
@@ -91,4 +88,3 @@ map('n', 'cb', '<Plug>(git-conflict-both)')
 map('n', 'c0', '<Plug>(git-conflict-none)')
 map('n', ']x', '<Plug>(git-conflict-prev-conflict)')
 map('n', '[x', '<Plug>(git-conflict-next-conflict)')
-

@@ -18,55 +18,68 @@ end
 -- e.g.: require('color_scheme').setup{}, vim.cmd('color_scheme')
 
 -- OneDark styles: dark, darker, cool, deep, warm, warmer, light
-require('onedark').setup {
-  styles = 'deep',
-  colors = { fg = '#b2bbcc' }, --default: #a0a8b7
-}
-require('onedark').load()
-vim.o.background='dark'
+-- require('onedark').setup {
+  --   styles = 'deep',
+  --   colors = { fg = '#b2bbcc' }, --default: #a0a8b7
+  -- }
+  -- require('onedark').load()
 
--- statusline color schemes:
--- import with: require('colors').colorscheme_name
-local M = {}
+  vim.g.PaperColor_Theme_Options = {
+    theme= {
+      default= {
+        override = {
+          color00= {'#ffffff', '000'},
+          linenumber_bg = {'#ffffff', '000'}
+        }
+      }
+    }
+  }
 
--- Theme: OneDark (dark)
--- Colors: https://github.com/navarasu/onedark.nvim/blob/master/lua/onedark/palette.lua
-M.onedark_dark = {
-  bg = '#282c34',
-  fg = '#b2bbcc',
-  pink = '#c678dd',
-  green = '#98c379',
-  cyan = '#56b6c2',
-  yellow = '#e5c07b',
-  orange = '#d19a66',
-  red = '#e86671',
-}
+  vim.cmd('colorscheme PaperColor')
+  vim.o.background='light'
 
--- Theme: Monokai (classic)
--- Colors: https://github.com/tanvirtin/monokai.nvim/blob/master/lua/monokai.lua
-M.monokai = {
-  bg = '#202328', --default: #272a30
-  fg = '#f8f8f0',
-  pink = '#f92672',
-  green = '#a6e22e',
-  cyan = '#66d9ef',
-  yellow = '#e6db74',
-  orange = '#fd971f',
-  red = '#e95678',
-}
+  -- statusline color schemes:
+  -- import with: require('colors').colorscheme_name
+  local M = {}
 
--- Theme: Rosé Pine (main)
--- Colors: https://github.com/rose-pine/neovim/blob/main/lua/rose-pine/palette.lua
--- color names are adapted to the formats above
-M.rose_pine = {
-  bg = '#111019', --default: #191724
-  fg = '#e0def4',
-  pink = '#eb6f92',
-  green = '#9ccfd8',
-  cyan = '#31748f',
-  yellow = '#f6c177',
-  orange = '#2a2837',
-  red = '#ebbcba',
-}
+  -- Theme: OneDark (dark)
+  -- Colors: https://github.com/navarasu/onedark.nvim/blob/master/lua/onedark/palette.lua
+  M.onedark_dark = {
+    bg = '#282c34',
+    fg = '#b2bbcc',
+    pink = '#c678dd',
+    green = '#98c379',
+    cyan = '#56b6c2',
+    yellow = '#e5c07b',
+    orange = '#d19a66',
+    red = '#e86671',
+  }
 
-return M
+  -- Theme: Monokai (classic)
+  -- Colors: https://github.com/tanvirtin/monokai.nvim/blob/master/lua/monokai.lua
+  M.monokai = {
+    bg = '#202328', --default: #272a30
+    fg = '#f8f8f0',
+    pink = '#f92672',
+    green = '#a6e22e',
+    cyan = '#66d9ef',
+    yellow = '#e6db74',
+    orange = '#fd971f',
+    red = '#e95678',
+  }
+
+  -- Theme: Rosé Pine (main)
+  -- Colors: https://github.com/rose-pine/neovim/blob/main/lua/rose-pine/palette.lua
+  -- color names are adapted to the formats above
+  M.rose_pine = {
+    bg = '#111019', --default: #191724
+    fg = '#e0def4',
+    pink = '#eb6f92',
+    green = '#9ccfd8',
+    cyan = '#31748f',
+    yellow = '#f6c177',
+    orange = '#2a2837',
+    red = '#ebbcba',
+  }
+
+  return M
