@@ -25,36 +25,36 @@ vim.fn.sign_define('DiagnosticSignHint', {
 
 -- Configure diagnostics displaying
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
-  vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-  })
+vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  virtual_text = false,
+  signs = true,
+  update_in_insert = false,
+})
 
 -- Handle formatting in a smarter way
 -- If the buffer has been edited before formatting has completed, do not try to apply the changes
 vim.lsp.handlers['textDocument/formatting'] =
-  function(err, result, ctx, _)
-    if err ~= nil or result == nil then
-      return
-    end
-
-    -- If the buffer hasn't been modified before the formatting has finished, update the buffer
-    if not vim.api.nvim_buf_get_option(ctx.bufnr, 'modified') then
-      local view = vim.fn.winsaveview()
-      local client = vim.lsp.get_client_by_id(ctx.client_id)
-      vim.lsp.util.apply_text_edits(result, ctx.bufnr, client.offset_encoding)
-      vim.fn.winrestview(view)
-      if ctx.bufnr == vim.api.nvim_get_current_buf() or not ctx.bufnr then
-        vim.api.nvim_command 'noautocmd :update'
-      end
-    end
+function(err, result, ctx, _)
+  if err ~= nil or result == nil then
+    return
   end
 
+  -- If the buffer hasn't been modified before the formatting has finished, update the buffer
+  if not vim.api.nvim_buf_get_option(ctx.bufnr, 'modified') then
+    local view = vim.fn.winsaveview()
+    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    vim.lsp.util.apply_text_edits(result, ctx.bufnr, client.offset_encoding)
+    vim.fn.winrestview(view)
+    if ctx.bufnr == vim.api.nvim_get_current_buf() or not ctx.bufnr then
+      vim.api.nvim_command 'noautocmd :update'
+    end
+  end
+end
+
 vim.lsp.handlers['textDocument/hover'] =
-  vim.lsp.with(vim.lsp.handlers.hover, {
-    border = 'rounded',
-  })
+vim.lsp.with(vim.lsp.handlers.hover, {
+  border = 'rounded',
+})
 
 local icons = {
   Text = '',
@@ -147,7 +147,7 @@ function M.on_attach(client, bufnr)
       buffer = bufnr,
       callback = function()
         print('Formatting...')
-           vim.lsp.buf.format()
+        vim.lsp.buf.format()
       end,
     })
   end
@@ -190,14 +190,14 @@ local function list_or_jump(action, title, opts)
   vim.lsp.buf_request(0, action, params, function(err, result, ctx, _config)
     if err then
       vim.api.nvim_err_writeln('Error when executing ' .. action .. ' : ' ..
-                                 err.message)
+        err.message)
       return
     end
     local flattened_results = {}
     if result then
       -- textDocument/definition can return Location or Location[]
       if not vim.tbl_islist(result) then
-        flattened_results = {result}
+        flattened_results = { result }
       end
 
       vim.list_extend(flattened_results, result)
@@ -207,7 +207,7 @@ local function list_or_jump(action, title, opts)
     flattened_results = filter_out_libraries_from_lsp_items(flattened_results)
 
     local offset_encoding = vim.lsp.get_client_by_id(ctx.client_id)
-                              .offset_encoding
+        .offset_encoding
 
     if #flattened_results == 0 then
       return
@@ -241,39 +241,39 @@ function M.definitions(opts)
 end
 
 vim.lsp.handlers['textDocument/rename'] =
-  function(err, result, ctx)
-    if err then
-      vim.notify(("Error running lsp query 'rename': " .. err),
-        vim.log.levels.ERROR)
-    end
-
-    if result and result.changes then
-      local new_name = ''
-      local old_name = vim.fn.expand '<cword>'
-
-      local msg = ''
-      for f, c in pairs(result.changes) do
-        new_name = c[1].newText
-        msg = msg .. ('%d changes -> %s'):format(#c, f:gsub('file://', '')
-          :gsub(vim.pesc(vim.loop.cwd()), '.')) .. '\n'
-      end
-      -- Remove the last new line
-      msg = msg:sub(1, #msg - 1)
-
-      vim.notify(msg, vim.log.levels.INFO, {
-        title = ('Rename: %s -> %s'):format(old_name, new_name),
-      })
-    end
-
-    local client = vim.lsp.get_client_by_id(ctx.client_id)
-    vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
+function(err, result, ctx)
+  if err then
+    vim.notify(("Error running lsp query 'rename': " .. err),
+      vim.log.levels.ERROR)
   end
+
+  if result and result.changes then
+    local new_name = ''
+    local old_name = vim.fn.expand '<cword>'
+
+    local msg = ''
+    for f, c in pairs(result.changes) do
+      new_name = c[1].newText
+      msg = msg .. ('%d changes -> %s'):format(#c, f:gsub('file://', '')
+        :gsub(vim.pesc(vim.loop.cwd()), '.')) .. '\n'
+    end
+    -- Remove the last new line
+    msg = msg:sub(1, #msg - 1)
+
+    vim.notify(msg, vim.log.levels.INFO, {
+      title = ('Rename: %s -> %s'):format(old_name, new_name),
+    })
+  end
+
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
+  vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
+end
 
 vim.lsp.buf.rename = {
   float = function()
     local curr_name = vim.fn.expand '<cword>'
     local tshl =
-      require('nvim-treesitter-playground.hl-info').get_treesitter_hl()
+    require('nvim-treesitter-playground.hl-info').get_treesitter_hl()
     if tshl and #tshl > 0 then
       local ind = tshl[#tshl]:match '^.*()%*%*.*%*%*'
       tshl = tshl[#tshl]:sub(ind + 2, -3)
@@ -282,7 +282,7 @@ vim.lsp.buf.rename = {
     local win = require('plenary.popup').create(curr_name, {
       title = 'New Name',
       style = 'minimal',
-      borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+      borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
       relative = 'cursor',
       borderhighlight = 'FloatBorder',
       titlehighlight = 'Title',
@@ -304,10 +304,10 @@ vim.lsp.buf.rename = {
       map_opts)
     vim.api.nvim_buf_set_keymap(0, 'i', '<CR>',
       "<cmd>stopinsert | lua vim.lsp.buf.rename.apply('" .. curr_name .. "'," ..
-        win .. ')<CR>', map_opts)
+      win .. ')<CR>', map_opts)
     vim.api.nvim_buf_set_keymap(0, 'n', '<CR>',
       "<cmd>stopinsert | lua vim.lsp.buf.rename.apply('" .. curr_name .. "'," ..
-        win .. ')<CR>', map_opts)
+      win .. ')<CR>', map_opts)
   end,
   apply = function(curr, win)
     local newName = vim.trim(vim.api.nvim_get_current_line())
