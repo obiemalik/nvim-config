@@ -45,19 +45,19 @@ map('n', 'rd', ':vertical resize 85<CR>')
 map('n', 'rf', ':vertical resize 140<CR>')
 
 -- Search Panel (Spectre)
-map('n', '<leader>sp', ':lua require("spectre").open()<CR>')                          -- Open
+map('n', '<leader>sp', ':lua require("spectre").open()<CR>') -- Open
 map('n', '<leader>sw', ':lua require("spectre").open_visual({select_word=true})<CR>') -- Search Current Word
 map('v', '<leader>sv', ':lua require("spectre").open_visual()<CR>')
-map('n', '<leader>sf', ':lua require("spectre").open_file_search()<CR>')              -- Search Current File
+map('n', '<leader>sf', ':lua require("spectre").open_file_search()<CR>') -- Search Current File
 
 require("telescope").load_extension("refactoring")
 
 -- remap to open the Telescope refactoring menu in visual mode
 map(
-"v",
-"<leader>rr",
-"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-{ noremap = true }
+  "v",
+  "<leader>rr",
+  "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+  { noremap = true }
 )
 
 --map("n", "rn", ":lua vim.lsp.buf.rename()<CR>", { noremap = true })
@@ -68,11 +68,11 @@ map(
 -----------------------------------------------------------
 
 -- Terminal mappings
-map('n', '<C-t>', ':Term<CR>', { noremap = true })  -- open
-map('t', '<Esc>', '<C-\\><C-n>')                    -- exit
+map('n', '<C-t>', ':Term<CR>', { noremap = true }) -- open
+map('t', '<Esc>', '<C-\\><C-n>') -- exit
 
 -- NvimTree
-map('n', '<C-n>', ':NvimTreeToggle<CR>')            -- open/close
+map('n', '<C-n>', ':NvimTreeToggle<CR>') -- open/close
 
 -- Tagbar
 -- map('n', '<leader>z', ':TagbarToggle<CR>')          -- open/close
@@ -88,3 +88,8 @@ map('n', 'cb', '<Plug>(git-conflict-both)')
 map('n', 'c0', '<Plug>(git-conflict-none)')
 map('n', ']x', '<Plug>(git-conflict-prev-conflict)')
 map('n', '[x', '<Plug>(git-conflict-next-conflict)')
+
+-- Diagnostics
+-- map('n', '<leader>d', ':lua vim.lsp.diagnostic.set_loclist()<CR>')
+map('n', '<leader>n', ':lua vim.diagnostic.goto_next()<CR>')
+map('n', '<leader>p', ':lua vim.diagnostic.goto_prev()<CR>')

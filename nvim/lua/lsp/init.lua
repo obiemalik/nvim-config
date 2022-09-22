@@ -26,7 +26,7 @@ vim.fn.sign_define('DiagnosticSignHint', {
 -- Configure diagnostics displaying
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
 vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  virtual_text = false,
+  -- virtual_text = false,
   signs = true,
   update_in_insert = false,
 })
@@ -133,8 +133,9 @@ function M.on_attach(client, bufnr)
   end, opts)
 
   local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+  local formatting_ls_list = { 'sumneko_lua' }
 
-  if client.server_capabilities.documentFormattingProvider then
+  if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
     print('Init formatting:', client.name)
 
     vim.api.nvim_clear_autocmds {

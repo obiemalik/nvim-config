@@ -5,8 +5,8 @@
 -- Define autocommands with Lua APIs
 -- See: h:api-autocmd, h:augroup
 
-local augroup = vim.api.nvim_create_augroup   -- Create/get autocommand group
-local autocmd = vim.api.nvim_create_autocmd   -- Create autocommand
+local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
+local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
 -- Highlight on yank
 augroup('YankHighlight', { clear = true })
@@ -71,12 +71,34 @@ autocmd('BufLeave', {
 })
 
 -- Show Diagnostics or Documenation on Hover
-autocmd({'CursorHold', 'CursorHoldI'}, {
+autocmd({ 'CursorHold', 'CursorHoldI' }, {
   callback = function()
-    local lineNum = vim.api.nvim_win_get_cursor(0)[1]
-    local diagnostic = vim.diagnostic.get(0,  { lnum = lineNum - 1})
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local diagnostic = vim.diagnostic.get(0, { lnum = cursor[1] - 1 })
 
+    -- Only show diagnostic if cursor is over the artifact
+    -- TODO: Show diagnostic for artifact under cursor only, not all line diagnostics
+    local isUnderCursor = false
     if (#diagnostic > 0) then
+      for i = 1, #diagnostic do
+        if isUnderCursor == false then
+          if diagnostic[i].end_lnum ~= diagnostic[i].lnum then
+            -- if multiline diagnostic, show only on few characters of first line
+            isUnderCursor = cursor[2] > diagnostic[i].col - 2 and cursor[2] < diagnostic[i].col + 2
+          else
+            if math.abs(diagnostic[i].end_col - diagnostic[i].col) < 2 then
+              isUnderCursor = cursor[2] > diagnostic[i].col - 2 and cursor[2] < diagnostic[i].end_col + 2
+            else
+              isUnderCursor = cursor[2] > diagnostic[i].col - 1 and cursor[2] < diagnostic[i].end_col
+            end
+          end
+        end
+        --print('D:', isUnderCursor, cursor[2], vim.inspect(diagnostic[i]))
+      end
+    end
+
+    print("S:", isUnderCursor)
+    if (#diagnostic > 0 and isUnderCursor) then
       vim.diagnostic.open_float();
     else
       vim.cmd('silent! lua vim.lsp.buf.hover()')
@@ -85,16 +107,16 @@ autocmd({'CursorHold', 'CursorHoldI'}, {
 })
 
 autocmd('BufWritePre', {
-  pattern = {'*.ts', '*.tsx', '*.js', '*.jsx', '*.mjs', '*.cjs', '*.json', "*.md", "*.html", "*.css"},
+  pattern = { '*.json', "*.md", "*.html", "*.css" },
   callback = function()
     vim.cmd('Prettier')
   end,
 })
 
 autocmd('BufWritePre', {
-  pattern = {'*.ts', '*.tsx', '*.js', '*.jsx', '*.mjs', '*.cjs'},
+  pattern = { '*.ts', '*.tsx', '*.js', '*.jsx', '*.mjs', '*.cjs' },
   callback = function()
     vim.cmd('EslintFixAll')
+    vim.cmd('Prettier')
   end,
 })
-

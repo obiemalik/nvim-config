@@ -16,7 +16,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     install_path,
   })
   vim.o.runtimepath = vim.fn.stdpath('data') .. '/site/pack/*/start/*,' ..
-                        vim.o.runtimepath
+      vim.o.runtimepath
 end
 
 -- Autocommand that reloads neovim whenever you save the packer_init.lua file
@@ -35,10 +35,10 @@ end
 
 -- Install plugins
 return packer.startup(function(use)
-  use {'wbthomason/packer.nvim'}
+  use { 'wbthomason/packer.nvim' }
 
   -- UI --
-  use {'kyazdani42/nvim-tree.lua'} -- File explorer
+  use { 'kyazdani42/nvim-tree.lua' } -- File explorer
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
@@ -47,28 +47,28 @@ return packer.startup(function(use)
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
     requires = {
-      {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'},
-      {'nvim-telescope/telescope-fzf-native.nvim'},
-      {'nvim-telescope/telescope-ui-select.nvim'},
+      { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope-fzf-native.nvim' },
+      { 'nvim-telescope/telescope-ui-select.nvim' },
     },
   }
 
-  use {'windwp/nvim-spectre'} -- Search/Replace Panel
-  use {'kyazdani42/nvim-web-devicons'} -- Icons
-  use {'preservim/tagbar'} -- Tag viewer
+  use { 'windwp/nvim-spectre' } -- Search/Replace Panel
+  use { 'kyazdani42/nvim-web-devicons' } -- Icons
+  use { 'preservim/tagbar' } -- Tag viewer
   use { -- Bufferline
     'akinsho/bufferline.nvim',
     tag = "v2.*",
   }
-  use {'feline-nvim/feline.nvim'} -- Statusline
-  use {'goolord/alpha-nvim'} -- Dashboard (start screen)
-  use {'folke/zen-mode.nvim'} -- Zen Mode
+  use { 'feline-nvim/feline.nvim' } -- Statusline
+  use { 'goolord/alpha-nvim' } -- Dashboard (start screen)
+  use { 'folke/zen-mode.nvim' } -- Zen Mode
 
   -- Color schemes --
 
-  use {'NLKNguyen/papercolor-theme'}
-  use {'navarasu/onedark.nvim'}
-  use {'tanvirtin/monokai.nvim'}
+  use { 'NLKNguyen/papercolor-theme' }
+  use { 'navarasu/onedark.nvim' }
+  use { 'tanvirtin/monokai.nvim' }
   use {
     'rose-pine/neovim',
     as = 'rose-pine',
@@ -96,10 +96,10 @@ return packer.startup(function(use)
 
   -- EDITOR --
 
-  use {'airblade/vim-rooter'} -- Root Workspace to Project
+  use { 'airblade/vim-rooter' } -- Root Workspace to Project
   use { -- GIT Labels
     'lewis6991/gitsigns.nvim',
-    requires = {'nvim-lua/plenary.nvim'},
+    requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       require('gitsigns').setup()
     end,
@@ -111,7 +111,7 @@ return packer.startup(function(use)
     end,
   }
 
-  use {'JoosepAlviste/nvim-ts-context-commentstring'} -- TSX Comments
+  use { 'JoosepAlviste/nvim-ts-context-commentstring' } -- TSX Comments
   use { -- Peek Goto Line
     'nacro90/numb.nvim',
     config = function()
@@ -136,9 +136,9 @@ return packer.startup(function(use)
     'iamcco/markdown-preview.nvim',
     run = 'cd app && npm install',
     setup = function()
-      vim.g.mkdp_filetypes = {'markdown'}
+      vim.g.mkdp_filetypes = { 'markdown' }
     end,
-    ft = {'markdown'},
+    ft = { 'markdown' },
   }
 
   use { -- Surround Code Blocks
@@ -159,7 +159,7 @@ return packer.startup(function(use)
       require('colorizer').setup()
     end,
   }
-  use {"lukas-reineke/indent-blankline.nvim"} -- Show Indent Markers
+  use { "lukas-reineke/indent-blankline.nvim" } -- Show Indent Markers
 
   -- Treesitter (Code Highlighting)
   use {
@@ -177,11 +177,11 @@ return packer.startup(function(use)
   }
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    after = {'nvim-treesitter'},
+    after = { 'nvim-treesitter' },
   }
   use {
     'RRethy/nvim-treesitter-textsubjects',
-    after = {'nvim-treesitter'},
+    after = { 'nvim-treesitter' },
   }
 
   use {
@@ -193,11 +193,11 @@ return packer.startup(function(use)
 
   use {
     "ThePrimeagen/refactoring.nvim", -- Refactor
-    requires = {{"nvim-lua/plenary.nvim"}, {"nvim-treesitter/nvim-treesitter"}},
+    requires = { { "nvim-lua/plenary.nvim" }, { "nvim-treesitter/nvim-treesitter" } },
   }
 
-  use {'gbprod/stay-in-place.nvim'} -- Fix Indent Cursor Position
-  use {'AndrewRadev/splitjoin.vim'} -- Spread code-block
+  use { 'gbprod/stay-in-place.nvim' } -- Fix Indent Cursor Position
+  use { 'AndrewRadev/splitjoin.vim' } -- Spread code-block
 
   use {
     'lewis6991/hover.nvim',
