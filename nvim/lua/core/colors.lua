@@ -35,8 +35,9 @@ require('onedark').setup {
 }
 require('onedark').load()
 
---vim.cmd('colorscheme PaperColor')
-vim.o.background = 'dark'
+--vim.cmd('colorscheme onedark')
+vim.cmd('colorscheme PaperColor')
+vim.o.background = 'light'
 
 -- statusline color schemes:
 -- import with: require('colors').colorscheme_name

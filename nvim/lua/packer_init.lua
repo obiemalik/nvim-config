@@ -270,7 +270,6 @@ return packer.startup(function(use)
 
   use { 'MunifTanjim/prettier.nvim', config = function() require 'plugins.prettier' end }
 
-
   -- use { 'mhartington/formatter.nvim' }
   --
   -- use {

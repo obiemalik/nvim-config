@@ -93,11 +93,9 @@ autocmd({ 'CursorHold', 'CursorHoldI' }, {
             end
           end
         end
-        --print('D:', isUnderCursor, cursor[2], vim.inspect(diagnostic[i]))
       end
     end
 
-    print("S:", isUnderCursor)
     if (#diagnostic > 0 and isUnderCursor) then
       vim.diagnostic.open_float();
     else
