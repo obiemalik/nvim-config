@@ -29,7 +29,7 @@ vim.diagnostic.config({ virtual_text = true })
 -- Add additional capabilities supported by nvim-cmp
 -- See: https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -51,6 +51,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Highlighting references
@@ -129,10 +130,10 @@ local servers = {
   'cssls',
   'clangd',
   'html',
-  'pyright',
   'tailwindcss',
   'terraform_lsp',
   'tsserver',
+  'pylsp'
 }
 
 -- Call setup

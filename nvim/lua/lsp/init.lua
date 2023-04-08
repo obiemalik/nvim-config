@@ -133,8 +133,10 @@ function M.on_attach(client, bufnr)
   end, opts)
 
   local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-  local formatting_ls_list = { 'sumneko_lua' }
+  local formatting_ls_list = { 'sumneko_lua', 'pylsp' }
 
+  print('Formatter: ', client.server_capabilities.documentFormattingProvider,
+    vim.tbl_contains(formatting_ls_list, client.name))
   if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
     print('Init formatting:', client.name)
 
@@ -156,7 +158,7 @@ function M.on_attach(client, bufnr)
 end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities = require('cmp_nvim_lsp').update_capabilities(M.capabilities)
+M.capabilities = require('cmp_nvim_lsp').default_capabilities(M.capabilities)
 
 -- If the LSP response includes any `node_modules`, then try to remove them and
 -- see if there are any options left. We probably want to navigate to the code

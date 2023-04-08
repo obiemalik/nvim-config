@@ -35,7 +35,7 @@ nvim_treesitter.setup {
   },
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = true,
-  Automatically = true,
+  automatically = true,
   highlight = {
     enable = true,
     use_languagetree = true,
@@ -59,6 +59,4 @@ nvim_treesitter.setup {
     enable = true,
     enable_autocmd = false,
   },
-
 }
-

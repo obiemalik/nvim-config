@@ -17,7 +17,7 @@ if not status_ok then
 end
 
 -- Set colorscheme (from core/colors.lua/colorscheme_name)
-local colors = require('core/colors').onedark_dark
+local colors = require('core/colors').statusline
 
 local vi_mode_colors = {
   NORMAL = colors.cyan,
@@ -43,15 +43,15 @@ local vi_mode_utils = require 'feline.providers.vi_mode'
 -- LSP diagnostic count
 local lsp_get_diag = function(str)
   local count = vim.diagnostic.get_count(0, str)
-  return (count > 0) and ' '..count..' ' or ''
+  return (count > 0) and ' ' .. count .. ' ' or ''
 end
 
 -- LSP diagnostic position
 local lsp_get_diag_line = function(str)
   local diags = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-  if (diags ~= nil and diags.size ~= nil and diags.size > 0 ) then
+  if (diags ~= nil and diags.size ~= nil and diags.size > 0) then
     print(diags[0].position)
-    return  ' '..diags[0].position..' '
+    return ' ' .. diags[0].position .. ' '
   else
     return ''
   end
@@ -65,7 +65,7 @@ local comps = {
   vi_mode = {
     left = {
       provider = function()
-        local label = ' '..vi_mode_utils.get_vim_mode()..' '
+        local label = ' ' .. vi_mode_utils.get_vim_mode() .. ' '
         return label
       end,
       hl = function()
@@ -186,7 +186,7 @@ local comps = {
     },
     warn = {
       provider = 'diagnostic_warnings',
-      icon = ' ' ,
+      icon = ' ',
       hl = { fg = colors.yellow },
       left_sep = ' ',
     },
