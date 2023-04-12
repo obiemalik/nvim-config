@@ -4,11 +4,14 @@ require('lspconfig').pylsp.setup {
   settings = {
     pylsp = {
       plugins = {
-        pycodestyle = {
-          ignore = { 'W391' },
-          maxLineLength = 80
+        flake8 = {
+          enabled = true
         }
+      },
+      formatting = {
+        provider = "flake8"
       }
     }
   }
 }
+

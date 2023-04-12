@@ -34,7 +34,7 @@ autocmd('BufEnter', {
 augroup('setLineLength', { clear = true })
 autocmd('Filetype', {
   group = 'setLineLength',
-  pattern = { 'text', 'markdown', 'html', 'xhtml', 'javascript', 'typescript' },
+  pattern = { 'text', 'markdown', 'html', 'xhtml', 'python' },
   command = 'setlocal cc=0'
 })
 
