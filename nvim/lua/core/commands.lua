@@ -1,5 +1,5 @@
 --- Commands
-local cmd = require('Utils').cmd_alias
+local cmd = require('utils').cmd_alias
 
 cmd('NT', ':NvimTreeToggle')
 cmd('NTR', ':NvimTreeRefresh')

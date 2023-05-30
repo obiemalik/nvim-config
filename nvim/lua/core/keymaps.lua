@@ -1,7 +1,7 @@
 -----------------------------------------------------------
 -- Define keymaps of Neovim and installed plugins.
 -----------------------------------------------------------
-local map = require('Utils').keymap
+local map = require('utils').keymap
 
 -- Change leader to a comma
 vim.g.mapleader = ','
