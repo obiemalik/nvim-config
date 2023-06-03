@@ -51,8 +51,7 @@ function(err, result, ctx, _)
   end
 end
 
-vim.lsp.handlers['textDocument/hover'] =
-vim.lsp.with(vim.lsp.handlers.hover, {
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'rounded',
 })
 
@@ -135,10 +134,7 @@ function M.on_attach(client, bufnr)
   local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
   local formatting_ls_list = { 'sumneko_lua', 'pylsp' }
 
-  print('Formatter: ', client.server_capabilities.documentFormattingProvider,
-    vim.tbl_contains(formatting_ls_list, client.name))
   if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
-    print('Init formatting:', client.name)
 
     vim.api.nvim_clear_autocmds {
       group = formatting_augroup,
@@ -149,7 +145,6 @@ function M.on_attach(client, bufnr)
       group = formatting_augroup,
       buffer = bufnr,
       callback = function()
-        print('Formatting...')
         vim.lsp.buf.format()
       end,
     })
@@ -157,8 +152,32 @@ function M.on_attach(client, bufnr)
 
 end
 
+-- capabilities
+
+local cmp_status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if not cmp_status_ok then
+  return
+end
+
+
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities = require('cmp_nvim_lsp').default_capabilities(M.capabilities)
+M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
+
+M.capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities.textDocument.completion.completionItem.preselectSupport = true
+M.capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+M.capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+M.capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+M.capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+M.capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+M.capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  },
+}
 
 -- If the LSP response includes any `node_modules`, then try to remove them and
 -- see if there are any options left. We probably want to navigate to the code

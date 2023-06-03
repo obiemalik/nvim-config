@@ -38,7 +38,11 @@ return packer.startup(function(use)
   use { 'wbthomason/packer.nvim' }
 
   -- UI --
-  use { 'kyazdani42/nvim-tree.lua' } -- File explorer
+  use { 'kyazdani42/nvim-tree.lua', -- File explorer
+    config = function()
+    require('plugins/nvim-tree')
+    end
+  }
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
@@ -233,6 +237,7 @@ return packer.startup(function(use)
     'neovim/nvim-lspconfig', -- Built-in LSP configurations
     config = function()
       require 'lsp'
+      require 'lsp.bash_ls'
       require 'lsp.css_ls'
       require 'lsp.docker_ls'
       require 'lsp.graphql_ls'

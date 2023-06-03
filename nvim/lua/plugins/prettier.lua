@@ -15,6 +15,7 @@ prettier.setup({
     "javascript",
     "javascriptreact",
     "json",
+    'geojson',
     "less",
     "markdown",
     "scss",

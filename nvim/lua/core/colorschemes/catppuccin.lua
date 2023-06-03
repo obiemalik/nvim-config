@@ -48,9 +48,16 @@ require("catppuccin").setup({
 })
 
 
-local schemes = { 'catppuccin', 'catppuccin-latte', 'catppuccin-frappe', 'catppuccin-macchiato', 'catppuccin-mocha',
-  'catppuccin-amoled' }
-vim.cmd.colorscheme(schemes[3])
+local schemes = {
+  'catppuccin',
+  'catppuccin-latte',
+  'catppuccin-frappe',
+  'catppuccin-macchiato',
+  'catppuccin-mocha',
+  'catppuccin-amoled'
+}
+vim.cmd.colorscheme(schemes[4])
+
 -- statusline
 local M = {}
 
@@ -59,16 +66,6 @@ local frappe = require("catppuccin.palettes").get_palette "frappe"
 local macchiato = require("catppuccin.palettes").get_palette "macchiato"
 local mocha = require("catppuccin.palettes").get_palette "mocha"
 
-M.statusline = latte
--- M.statusline = {
---   bg = '#282c34',
---   fg = '#b2bbee',
---   pink = '#ef9ecf',
---   green = '#98c379',
---   cyan = '#56b6c2',
---   yellow = '#e5c07b',
---   orange = '#d19a66',
---   red = '#e86671',
--- }
+M.statusline = mocha
 
 return M

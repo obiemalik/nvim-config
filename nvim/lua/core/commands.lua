@@ -8,6 +8,11 @@ cmd('NTF', ':NvimTreeFindFile')
 cmd('F', ':Telescope find_files')
 cmd('B', ':Telescope buffers');
 
+cmd('DVO', ':DiffviewOpen', { nargs = 1})
+cmd('DVC', ':DiffviewClose')
+cmd('DVR', ':DiffviewRefresh')
+cmd('DVF', ':DiffviewFileHistory')
+
 cmd('VR', 'vertical resize <args>', { nargs = 1 })
 
 cmd('CopyFilePath', ':let @+=@%')

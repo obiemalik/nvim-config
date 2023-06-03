@@ -4,8 +4,10 @@ if not status_ok then
   return
 end
 
-colorscheme.setup {}
-colorscheme.load()
+--colorscheme.setup {}
+colorscheme.setup { palette = require('monokai').pro }
+-- colorscheme.setup { palette = require('monokai').soda }
+-- colorscheme.setup { palette = require('monokai').ristretto }
 
 -- statusline
 local M = {}
