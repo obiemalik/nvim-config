@@ -5,7 +5,7 @@ if not status_ok then
 end
 
 colorscheme.setup {
-  styles = 'cool',
+  styles = 'warm',
   colors = { fg = '#eeeeee' }, --default: #a0a8b7
 }
 

@@ -3,9 +3,11 @@ require('lspconfig').pylsp.setup {
   capabilities = require('lsp').capabilities,
   settings = {
     pylsp = {
+      configurationSources = { "flake8" },
       plugins = {
         flake8 = {
-          enabled = true
+          enabled = true,
+          filename = '.flake8'
         }
       },
       formatting = {

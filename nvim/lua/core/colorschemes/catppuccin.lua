@@ -50,7 +50,7 @@ require("catppuccin").setup({
 
 local schemes = { 'catppuccin', 'catppuccin-latte', 'catppuccin-frappe', 'catppuccin-macchiato', 'catppuccin-mocha',
   'catppuccin-amoled' }
-vim.cmd.colorscheme(schemes[5])
+vim.cmd.colorscheme(schemes[3])
 -- statusline
 local M = {}
 
