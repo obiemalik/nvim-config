@@ -33,6 +33,13 @@ if not status_ok then
   return
 end
 
+packer.init({
+  git = {
+    clone_timeout = 120,
+  },
+  max_jobs = 10
+})
+
 -- Install plugins
 return packer.startup(function(use)
   use { 'wbthomason/packer.nvim' }
@@ -57,7 +64,7 @@ return packer.startup(function(use)
     },
   }
 
-  use { 'windwp/nvim-spectre' } -- Search/Replace Panel
+  use { 'nvim-pack/nvim-spectre' } -- Search/Replace Panel
   use { 'kyazdani42/nvim-web-devicons' } -- Icons
   use { 'preservim/tagbar' } -- Tag viewer
   use { -- Bufferline
@@ -137,6 +144,7 @@ return packer.startup(function(use)
       require('package-info').setup()
     end,
   }
+
   use { -- Markdown Preview
     'iamcco/markdown-preview.nvim',
     run = 'cd app && npm install',
@@ -280,6 +288,7 @@ return packer.startup(function(use)
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim'
     },
+    run = ':MasonUpdate',
   }
 
   use { 'MunifTanjim/prettier.nvim', config = function() require 'plugins.prettier' end }
