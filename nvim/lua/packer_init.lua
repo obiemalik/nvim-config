@@ -232,10 +232,10 @@ return packer.startup(function(use)
   }
 
   -- LSP
-
   use {
     'neovim/nvim-lspconfig', -- Built-in LSP configurations
     config = function()
+      require 'lsp.mason'
       require 'lsp'
       require 'lsp.bash_ls'
       require 'lsp.css_ls'
@@ -258,7 +258,7 @@ return packer.startup(function(use)
     end,
     requires = {
       {
-        'hrsh7th/nvim-cmp',
+       'hrsh7th/nvim-cmp',
         requires = {
           'hrsh7th/cmp-nvim-lsp',
           'hrsh7th/cmp-buffer',
@@ -277,6 +277,8 @@ return packer.startup(function(use)
       },
       'jose-elias-alvarez/typescript.nvim',
       'folke/lua-dev.nvim',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim'
     },
   }
 

@@ -5,8 +5,8 @@ if not status_ok then
 end
 
 colorscheme.setup {
-  styles = 'warm',
-  colors = { fg = '#eeeeee' }, --default: #a0a8b7
+  styles = 'cool', --'warm',
+  colors = { fg = '#eee' }, --default: #a0a8b7
 }
 
 colorscheme.load()

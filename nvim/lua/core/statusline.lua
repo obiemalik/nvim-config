@@ -151,7 +151,7 @@ local comps = {
     err_position = {
       provider = lsp_get_diag_line,
       hl = {
-        fg = '#FFFFFF',
+        fg = colors.fg,
         bg = colors.red,
         style = 'bold'
       },
@@ -277,8 +277,8 @@ table.insert(components.active[2], comps.file.line_percentage)
 -- Call feline
 feline.setup {
   theme = {
-    bg = "#f8f8f8", --colors.bg,
-    fg = "#555555",
+    bg = colors.bg,
+    fg = colors.fg
   },
   components = components,
   vi_mode_colors = vi_mode_colors,

@@ -7,6 +7,7 @@ local builtin = require 'telescope.builtin'
 local map = require('utils').map
 local buf_map = require('utils').buf_map
 
+
 -- Highlight line numbers for diagnostics
 vim.fn.sign_define('DiagnosticSignError', {
   numhl = 'LspDiagnosticsLineNrError',
