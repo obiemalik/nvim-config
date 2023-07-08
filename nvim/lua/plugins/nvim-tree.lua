@@ -26,7 +26,8 @@ nvim_tree.setup {
   sort_by = "name",
   reload_on_bufenter = false,
   respect_buf_cwd = false,
-  update_cwd = true,
+  update_cwd = false,
+  update_root = false,
   view = {
     width = 28,
     hide_root_folder = false,
