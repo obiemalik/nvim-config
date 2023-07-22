@@ -8,7 +8,7 @@ cmd('NTF', ':NvimTreeFindFile')
 cmd('F', ':Telescope find_files')
 cmd('B', ':Telescope buffers');
 
-cmd('DVO', ':DiffviewOpen', { nargs = 1})
+cmd('DVO', ':DiffviewOpen')
 cmd('DVC', ':DiffviewClose')
 cmd('DVR', ':DiffviewRefresh')
 cmd('DVF', ':DiffviewFileHistory')

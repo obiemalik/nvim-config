@@ -136,7 +136,6 @@ function M.on_attach(client, bufnr)
   local formatting_ls_list = { 'sumneko_lua', 'pylsp' }
 
   if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
-
     vim.api.nvim_clear_autocmds {
       group = formatting_augroup,
       buffer = bufnr,

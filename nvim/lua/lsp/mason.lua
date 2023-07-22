@@ -7,7 +7,7 @@ require("mason-lspconfig").setup {
     "eslint",
     "graphql",
     "jsonls",
-    "ltex",
+    "ltex-ls",
     "lua_ls",
     "html",
     "pylsp",

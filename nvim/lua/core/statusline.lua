@@ -55,7 +55,6 @@ function StatusLine:new(colors)
 end
 
 function StatusLine:apply()
-  print(self.colors.fg)
   feline.setup {
     theme = {
       bg = self.colors.bg,

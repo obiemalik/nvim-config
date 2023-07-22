@@ -33,5 +33,5 @@ function SetColorScheme(name)
   statusline:apply()
 end
 
-SetColorScheme("catppuccin-mocha");
+SetColorScheme("catppuccin-latte");
 
