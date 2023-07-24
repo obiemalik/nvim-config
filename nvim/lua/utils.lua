@@ -27,7 +27,7 @@ function Utils.map(modes, lhs, rhs, opts)
   opts = opts or {}
   opts.noremap = opts.noremap == nil and true or opts.noremap
   if type(modes) == 'string' then
-    modes = {modes}
+    modes = { modes }
   end
   for _, mode in ipairs(modes) do
     if type(rhs) == 'string' then
@@ -43,7 +43,7 @@ function Utils.buf_map(buffer, modes, lhs, rhs, opts)
   opts = opts or {}
   opts.noremap = opts.noremap == nil and true or opts.noremap
   if type(modes) == 'string' then
-    modes = {modes}
+    modes = { modes }
   end
   for _, mode in ipairs(modes) do
     if type(rhs) == 'string' then
@@ -63,7 +63,7 @@ end
 -- After running this, each require() would re-run the file.
 local function unload_all_modules()
   -- Lua patterns for the modules to unload
-  local unload_modules = {'^'}
+  local unload_modules = { '^' }
 
   for k, _ in pairs(package.loaded) do
     for _, v in ipairs(unload_modules) do
@@ -140,6 +140,12 @@ end
 
 function Utils.read_package_json()
   return Utils.read_json_file 'package.json'
+end
+
+function Utils.print_table(tbl)
+  for key, value in pairs(tbl) do
+    print(key, value)
+  end
 end
 
 return Utils

@@ -11,6 +11,8 @@
 -- Thanks to ibhagwan for the example to follow:
 -- https://github.com/ibhagwan/nvim-lua
 
+local print_table = require('utils').print_table
+
 local status_ok, feline = pcall(require, 'feline')
 if not status_ok then
   return
@@ -41,25 +43,14 @@ local separator = '|'
 
 StatusLine = { colors = {} }
 
----Setup StatusLine using colors from the colorscheme
----@param colors {}
-function StatusLine:new(colors)
+---Setup StatusLine
+function StatusLine:new()
   local instance = {}
 
   setmetatable(instance, self)
   self.__index = self
 
-  instance.colors = colors
-
-  return instance
-end
-
-function StatusLine:apply()
   feline.setup {
-    theme = {
-      bg = self.colors.bg,
-      fg = self.colors.fg
-    },
     components = self.get_components(self),
     vi_mode_colors = self.get_vi_mode_colors(self),
     force_inactive = {
@@ -75,31 +66,32 @@ function StatusLine:apply()
       bufnames = {},
     },
   }
+
+  instance.feline = feline
+
+  return instance
 end
 
 function StatusLine:get_vi_mode_colors()
-  local colors = self.colors
   return {
-    NORMAL = colors.cyan,
-    INSERT = colors.green,
-    VISUAL = colors.yellow,
-    OP = colors.cyan,
-    BLOCK = colors.cyan,
-    REPLACE = colors.red,
-    ['V-REPLACE'] = colors.red,
-    ENTER = colors.orange,
-    MORE = colors.orange,
-    SELECT = colors.yellow,
-    COMMAND = colors.pink,
-    SHELL = colors.pink,
-    TERM = colors.pink,
-    NONE = colors.yellow,
+    NORMAL = 'cyan',
+    INSERT = 'green',
+    VISUAL = 'yellow',
+    OP = 'cyan',
+    BLOCK = 'cyan',
+    REPLACE = 'red',
+    ['V-REPLACE'] = 'red',
+    ENTER = 'orange',
+    MORE = 'orange',
+    SELECT = 'yellow',
+    COMMAND = 'pink',
+    SHELL = 'pink',
+    TERM = 'pink',
+    NONE = 'yellow',
   }
 end
 
 function StatusLine:get_components()
-  local colors = self.colors
-
   -- My components
   local comps = {
     -- vi_mode -> NORMAL, INSERT..
@@ -112,7 +104,7 @@ function StatusLine:get_components()
         hl = function()
           local set_color = {
             name = vi_mode_utils.get_mode_highlight_name(),
-            fg = colors.bg,
+            fg = 'bg', -- inverted color
             bg = vi_mode_utils.get_mode_color(),
             style = 'bold',
           }
@@ -133,7 +125,7 @@ function StatusLine:get_components()
             file_modified_icon = '',
           }
         },
-        hl = { fg = colors.cyan },
+        hl = { fg = 'fg' },
         icon = '',
       },
       -- File type
@@ -147,10 +139,10 @@ function StatusLine:get_components()
           end
           return ' ' .. icon .. ' ' .. type
         end,
-        hl = { fg = colors.fg },
+        hl = { fg = 'fg' },
         left_sep = {
           str = ' ' .. separator,
-          hl = { fg = colors.fg },
+          hl = { fg = 'fg' },
         },
         righ_sep = ' ',
       },
@@ -168,21 +160,21 @@ function StatusLine:get_components()
           end
           return icon .. os
         end,
-        hl = { fg = colors.fg },
+        hl = { fg = 'fg' },
         left_sep = {
           str = ' ' .. separator,
-          hl = { fg = colors.fg },
+          hl = { fg = 'fg' },
         },
         right_sep = {
           str = ' ' .. separator,
-          hl = { fg = colors.fg },
+          hl = { fg = 'fg' },
         },
       },
       -- Line-column
       position = {
         provider = { name = 'position' },
         hl = {
-          fg = colors.fg,
+          fg = 'fg',
           style = 'bold',
         },
         left_sep = ' ',
@@ -192,8 +184,8 @@ function StatusLine:get_components()
       err_position = {
         provider = lsp_get_diag_line,
         hl = {
-          fg = colors.fg,
-          bg = colors.red,
+          fg = 'fg',
+          bg = 'red',
           style = 'bold'
         },
         left_sep = ' ',
@@ -203,7 +195,7 @@ function StatusLine:get_components()
       line_percentage = {
         provider = { name = 'line_percentage' },
         hl = {
-          fg = colors.cyan,
+          fg = 'cyan',
           style = 'bold',
         },
         left_sep = ' ',
@@ -212,7 +204,7 @@ function StatusLine:get_components()
       -- Simple scrollbar
       scroll_bar = {
         provider = { name = 'scroll_bar' },
-        hl = { fg = colors.fg },
+        hl = { fg = 'fg' },
         left_sep = ' ',
         right_sep = ' ',
       },
@@ -222,25 +214,25 @@ function StatusLine:get_components()
       err = {
         provider = 'diagnostic_errors',
         icon = ' ',
-        hl = { fg = colors.red },
+        hl = { fg = 'red' },
         left_sep = '  ',
       },
       warn = {
         provider = 'diagnostic_warnings',
         icon = ' ',
-        hl = { fg = colors.yellow },
+        hl = { fg = 'yellow' },
         left_sep = ' ',
       },
       info = {
         provider = 'diagnostic_info',
         icon = ' ',
-        hl = { fg = colors.green },
+        hl = { fg = 'green' },
         left_sep = ' ',
       },
       hint = {
         provider = 'diagnostic_hints',
         icon = ' ',
-        hl = { fg = colors.cyan },
+        hl = { fg = 'cyan' },
         left_sep = ' ',
       },
     },
@@ -248,7 +240,7 @@ function StatusLine:get_components()
       name = {
         provider = 'lsp_client_names',
         icon = '  ',
-        hl = { fg = colors.pink },
+        hl = { fg = 'pink' },
         left_sep = '  ',
         right_sep = ' ',
       }
@@ -258,25 +250,25 @@ function StatusLine:get_components()
       branch = {
         provider = 'git_branch',
         icon = ' ',
-        hl = { fg = colors.pink },
+        hl = { fg = 'pink' },
         left_sep = '  ',
       },
       add = {
         provider = 'git_diff_added',
         icon = '  ',
-        hl = { fg = colors.green },
+        hl = { fg = 'green' },
         left_sep = ' ',
       },
       change = {
         provider = 'git_diff_changed',
         icon = '  ',
-        hl = { fg = colors.orange },
+        hl = { fg = 'orange' },
         left_sep = ' ',
       },
       remove = {
         provider = 'git_diff_removed',
         icon = '  ',
-        hl = { fg = colors.red },
+        hl = { fg = 'red' },
         left_sep = ' ',
       }
     }
@@ -318,4 +310,4 @@ function StatusLine:get_components()
   return components
 end
 
-return StatusLine
+return StatusLine:new()

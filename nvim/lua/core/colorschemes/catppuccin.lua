@@ -40,10 +40,10 @@ colorscheme.setup({
   },
   color_overrides = {
     latte = {
-      text = '#000000',
+      text = '#333333',
       base = '#ffffff',
       mantle = '#ffffff',
-      crust = '#ffffff',
+      crust = '#f0f0f0',
     },
   },
   custom_highlights = {},
@@ -69,7 +69,13 @@ local function get_colors(scheme)
     pallete = string.sub(scheme, index + 1, string.len(scheme))
   end
 
-  return palletes.get_palette(pallete)
+  -- update colors to conform to statusline reqs
+  local colors = palletes.get_palette(pallete)
+
+  colors.bg = colors.crust
+  colors.fg = colors.text
+
+  return colors
 end
 
 local Catppuccin = {}
@@ -88,8 +94,10 @@ function Catppuccin:new(scheme)
   setmetatable(instance, self)
   self.__index = self
 
+  local pallete = get_colors(scheme)
+
   instance.scheme = scheme
-  instance.statusline = get_colors(scheme)
+  instance.statusline = pallete
 
   return instance
 end
