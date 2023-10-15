@@ -27,21 +27,13 @@ nvim_tree.setup {
   reload_on_bufenter = false,
   respect_buf_cwd = false,
   update_cwd = false,
-  update_root = false,
   view = {
     width = 28,
-    hide_root_folder = false,
     side = "left",
     preserve_window_proportions = false,
     number = false,
     relativenumber = false,
     signcolumn = "yes",
-    mappings = {
-      custom_only = false,
-      list = {
-        -- user mappings go here
-      },
-    },
   },
   renderer = {
     add_trailing = false,

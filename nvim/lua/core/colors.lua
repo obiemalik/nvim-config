@@ -2,7 +2,6 @@
 -- Color schemes configuration file
 -----------------------------------------------------------
 
-local print_table = require('utils').print_table
 local Schemes = {
   catppuccin = require('core/colorschemes/catppuccin'),
   papercolor = require('core/colorschemes/papercolor'),
