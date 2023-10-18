@@ -105,8 +105,13 @@ return packer.startup(function(use)
       require('git-conflict').setup()
     end,
   }
+  use {
+    'tveskag/nvim-blame-line'
+  }
 
   -- EDITOR --
+
+  use { 'github/copilot.vim' }
 
   use { 'airblade/vim-rooter' } -- Root Workspace to Project
   use { -- GIT Labels
@@ -130,13 +135,13 @@ return packer.startup(function(use)
       require('numb').setup()
     end,
   }
-  -- use { -- Highlight TODO/FIXME/...
-  --   'folke/todo-comments.nvim',
-  --   requires = 'nvim-lua/plenary.nvim',
-  --   config = function()
-  --     require('todo-comments').setup()
-  --   end,
-  -- }
+  use { -- Highlight TODO/FIXME/...
+    'folke/todo-comments.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function()
+      require('todo-comments').setup()
+    end,
+  }
   use { -- NPM Package Info
     'vuki656/package-info.nvim',
     requires = 'MunifTanjim/nui.nvim',
@@ -179,7 +184,7 @@ return packer.startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function()
-      require('plugins/treesitter')
+      require('plugins/nvim-treesitter')
     end,
     requires = {
       'windwp/nvim-ts-autotag', -- Automatically end & rename tags
@@ -263,6 +268,7 @@ return packer.startup(function(use)
       require 'lsp.svelte_ls'
       require 'lsp.tailwind_ls'
       require 'lsp.python_ls'
+      require 'lsp.rust_ls'
     end,
     requires = {
       {

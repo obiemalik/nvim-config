@@ -2,6 +2,7 @@ require("mason").setup()
 require("mason-lspconfig").setup {
   ensure_installed = {
     "bashls",
+    "codelldb",
     "cssls",
     "dockerls",
     "eslint",
@@ -10,6 +11,7 @@ require("mason-lspconfig").setup {
     "lua_ls",
     "html",
     "pylsp",
+    "rust_analyzer",
     "sqlls",
     "tailwindcss",
     "tsserver",
