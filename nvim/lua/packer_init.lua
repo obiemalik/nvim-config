@@ -11,7 +11,7 @@ local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({
+  fn.system({
     'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
     install_path,
   })
@@ -47,7 +47,7 @@ return packer.startup(function(use)
   -- UI --
   use { 'kyazdani42/nvim-tree.lua', -- File explorer
     config = function()
-    require('plugins/nvim-tree')
+      require('plugins/nvim-tree')
     end
   }
   use {
@@ -64,16 +64,16 @@ return packer.startup(function(use)
     },
   }
 
-  use { 'nvim-pack/nvim-spectre' } -- Search/Replace Panel
+  use { 'nvim-pack/nvim-spectre' }       -- Search/Replace Panel
   use { 'kyazdani42/nvim-web-devicons' } -- Icons
-  use { 'preservim/tagbar' } -- Tag viewer
-  use { -- Bufferline
+  use { 'preservim/tagbar' }             -- Tag viewer
+  use {                                  -- Bufferline
     'akinsho/bufferline.nvim',
     tag = "v2.*",
   }
   use { 'feline-nvim/feline.nvim' } -- Statusline
-  use { 'goolord/alpha-nvim' } -- Dashboard (start screen)
-  use { 'folke/zen-mode.nvim' } -- Zen Mode
+  use { 'goolord/alpha-nvim' }      -- Dashboard (start screen)
+  use { 'folke/zen-mode.nvim' }     -- Zen Mode
 
   -- Color schemes --
 
@@ -114,7 +114,7 @@ return packer.startup(function(use)
   use { 'github/copilot.vim' }
 
   use { 'airblade/vim-rooter' } -- Root Workspace to Project
-  use { -- GIT Labels
+  use {                         -- GIT Labels
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     config = function()
@@ -128,8 +128,7 @@ return packer.startup(function(use)
     end,
   }
 
-  use { 'JoosepAlviste/nvim-ts-context-commentstring' } -- TSX Comments
-  use { -- Peek Goto Line
+  use {                                                 -- Peek Goto Line
     'nacro90/numb.nvim',
     config = function()
       require('numb').setup()
@@ -188,11 +187,19 @@ return packer.startup(function(use)
     end,
     requires = {
       'windwp/nvim-ts-autotag', -- Automatically end & rename tags
-      -- Dynamically set commentstring based on cursor location in file
-      'JoosepAlviste/nvim-ts-context-commentstring',
       'nvim-treesitter/playground',
     },
   }
+
+  -- Dynamically set commentstring based on cursor location in file
+  use {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    config = function()
+      require('ts_context_commentstring').setup()
+    end,
+    before = { "nvim-treesitter" }
+  }
+
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = { 'nvim-treesitter' },
@@ -272,7 +279,7 @@ return packer.startup(function(use)
     end,
     requires = {
       {
-       'hrsh7th/nvim-cmp',
+        'hrsh7th/nvim-cmp',
         requires = {
           'hrsh7th/cmp-nvim-lsp',
           'hrsh7th/cmp-buffer',
@@ -284,11 +291,11 @@ return packer.startup(function(use)
           require 'plugins.cmp'
         end,
       }, {
-        'jose-elias-alvarez/null-ls.nvim',
-        config = function()
-          require 'lsp.null_ls'
-        end,
-      },
+      'jose-elias-alvarez/null-ls.nvim',
+      config = function()
+        require 'lsp.null_ls'
+      end,
+    },
       'jose-elias-alvarez/typescript.nvim',
       'folke/lua-dev.nvim',
       'williamboman/mason.nvim',
