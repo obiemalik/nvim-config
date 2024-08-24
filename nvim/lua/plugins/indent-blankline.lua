@@ -33,13 +33,29 @@ hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
   vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
 end)
 
+local highlight = {
+  "CursorColumn",
+  "Whitespace",
+}
+
 indent_blankline.setup {
-  indent = { highlight = highlight },
+  indent = { highlight = highlight, char = "" },
+  whitespace = {
+    highlight = highlight,
+    remove_blankline_trail = false,
+  },
   scope = {
     exclude = {
       language = {
-        'help', 'dashboard', 'git', 'markdown', 'text', 'terminal', 'lspinfo',
-        'packer', 'NvimTree',
+        'help',
+        'dashboard',
+        'git',
+        'markdown',
+        'text',
+        'terminal',
+        'lspinfo',
+        'packer',
+        'NvimTree',
       }
     }
   },

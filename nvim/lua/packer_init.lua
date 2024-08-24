@@ -56,7 +56,7 @@ return packer.startup(function(use)
   }
   use { -- Telescope (Fuzzy File Search)
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.1',
+    tag = '0.1.8',
     requires = {
       { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim' },
@@ -69,7 +69,8 @@ return packer.startup(function(use)
   use { 'preservim/tagbar' }             -- Tag viewer
   use {                                  -- Bufferline
     'akinsho/bufferline.nvim',
-    tag = "v2.*",
+    tag = "*",
+    requires = 'nvim-tree/nvim-web-devicons'
   }
   use { 'feline-nvim/feline.nvim' } -- Statusline
   use { 'goolord/alpha-nvim' }      -- Dashboard (start screen)
@@ -85,6 +86,8 @@ return packer.startup(function(use)
     'rose-pine/neovim',
     as = 'rose-pine',
   }
+  use { "miikanissi/modus-themes.nvim" }
+  use { "bluz71/vim-moonfly-colors", as = "moonfly" }
 
   use { -- Keybinding Popup
     'folke/which-key.nvim',
@@ -111,7 +114,11 @@ return packer.startup(function(use)
 
   -- EDITOR --
 
-  use { 'github/copilot.vim' }
+  use {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+  }
 
   use { 'airblade/vim-rooter' } -- Root Workspace to Project
   use {                         -- GIT Labels
@@ -128,12 +135,13 @@ return packer.startup(function(use)
     end,
   }
 
-  use {                                                 -- Peek Goto Line
+  use { -- Peek Goto Line
     'nacro90/numb.nvim',
     config = function()
       require('numb').setup()
     end,
   }
+
   use { -- Highlight TODO/FIXME/...
     'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
@@ -290,23 +298,98 @@ return packer.startup(function(use)
         config = function()
           require 'plugins.cmp'
         end,
-      }, {
-      'jose-elias-alvarez/null-ls.nvim',
-      config = function()
-        require 'lsp.null_ls'
-      end,
-    },
+      },
       'jose-elias-alvarez/typescript.nvim',
       'folke/lua-dev.nvim',
       'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim'
+      'williamboman/mason-lspconfig.nvim',
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      --
+      -- require 'plugins.nvim-lint',
+      -- require 'plugins.conform'
     },
     run = ':MasonUpdate',
   }
 
   use { 'MunifTanjim/prettier.nvim', config = function() require 'plugins.prettier' end }
 
-  -- use { 'mhartington/formatter.nvim' }
+  -- use { unpack(require 'plugins.nvim-lint') }
+
+  use {
+    "mfussenegger/nvim-lint",
+    config = function()
+      local lint = require("lint")
+
+      lint.linters_by_ft = {
+        javascript = { "eslint" },
+        typescript = { "eslint" },
+        javascriptreact = { "eslint" },
+        typescriptreact = { "eslint" },
+        svelte = { "eslint" },
+        python = { "mypy", "flake8" },
+      }
+
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          lint.try_lint()
+        end,
+      })
+
+      vim.keymap.set("n", "<leader>l", function()
+        lint.try_lint()
+      end, { desc = "Trigger linting for current file" })
+    end,
+  }
+
+  use {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local conform = require("conform")
+
+      local prettier_eslint_fn = function()
+        vim.cmd('EslintFixAll')
+        return { "prettier" }
+      end
+
+      conform.setup({
+        formatters_by_ft = {
+          javascript = prettier_eslint_fn,
+          typescript = prettier_eslint_fn,
+          javascriptreact = { "prettier" },
+          typescriptreact = { "prettier" },
+          svelte = { "prettier" },
+          css = { "prettier" },
+          html = { "prettier" },
+          json = { "prettier" },
+          yaml = { "prettier" },
+          markdown = { "prettier" },
+          graphql = { "prettier" },
+          lua = { "stylua" },
+          python = { "black", "isort" }
+        },
+        format_on_save = {
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 5000,
+        },
+      })
+
+      vim.keymap.set({ "n", "v" }, "<leader>f", function()
+        conform.format({
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 5000,
+        })
+      end, { desc = "Format file or range (in visual mode)" })
+    end,
+  }
+
+  -- use { unpack(require 'plugins.plantuml') }
+
   --
   -- use {
   --   'filipdutescu/renamer.nvim',
