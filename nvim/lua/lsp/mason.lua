@@ -1,5 +1,20 @@
-require("mason").setup()
-require("mason-lspconfig").setup {
+local mason = require "mason"
+local mason_tool_installer = require "mason-tool-installer"
+local mason_lspconfig = require "mason-lspconfig"
+
+mason.setup {}
+
+mason_tool_installer.setup {
+  ensure_installed = {
+    "mypy",
+    "flake8",
+    "isort",
+    "prettier",
+    "blackd-client"
+  }
+}
+
+mason_lspconfig.setup {
   ensure_installed = {
     "bashls",
     "cssls",
@@ -7,13 +22,14 @@ require("mason-lspconfig").setup {
     "eslint",
     "graphql",
     "jsonls",
+    "ltex",
     "lua_ls",
     "html",
-    "pylsp",
+    "pyright",
     "rust_analyzer",
     "sqlls",
     "tailwindcss",
     "tsserver",
-    "yamlls"
+    "yamlls",
   },
 }

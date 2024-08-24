@@ -5,7 +5,9 @@
 local Schemes = {
   catppuccin = require('core/colorschemes/catppuccin'),
   papercolor = require('core/colorschemes/papercolor'),
-  onedark = require('core/colorschemes/onedark')
+  onedark = require('core/colorschemes/onedark'),
+  modus = require('core/colorschemes/modus'),
+  moonfly = require('core/colorschemes/moonfly')
 }
 
 local statusline = require('core/statusline')
@@ -33,4 +35,7 @@ function SetColorScheme(name)
   statusline.feline.use_theme(scheme.statusline)
 end
 
-SetColorScheme("catppuccin-frappe");
+--SetColorScheme("papercolor")
+--SetColorScheme("catppuccin-frappe");
+--SetColorScheme("catppuccin-macchiato");
+SetColorScheme("moonfly")
