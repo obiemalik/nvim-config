@@ -271,7 +271,7 @@ return packer.startup(function(use)
       require 'lsp.graphql_ls'
       require 'lsp.json_ls'
       require 'lsp.php_ls'
-      require 'lsp.tsserver_ls'
+      require 'lsp.ts_ls'
       require 'lsp.eslint_ls'
       require 'lsp.yaml_ls'
       require 'lsp.lua_ls'

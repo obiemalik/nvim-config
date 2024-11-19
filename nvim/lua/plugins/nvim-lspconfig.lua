@@ -95,22 +95,22 @@ end
 Language servers setup:
 
 For language servers list see:
-https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 
 Bash --> bashls
-https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#bashls
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#bashls
 
 Python --> pyright
-https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyright
 
 C-C++ --> clangd
-https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#clangd
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#clangd
 
 HTML/CSS/JSON --> vscode-html-languageserver
-https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#html
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#html
 
-JavaScript/TypeScript --> tsserver
-https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#tsserver
+JavaScript/TypeScript --> ts_ls
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls
 
 --]]
 
@@ -124,7 +124,7 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches.
 -- Add your language server below:
-local servers = { 'bashls', 'pylsp', 'clangd', 'html', 'cssls', 'tsserver' }
+local servers = { 'bashls', 'pylsp', 'clangd', 'html', 'cssls', 'ts_ls' }
 
 -- Call setup
 for _, lsp in ipairs(servers) do
