@@ -29,7 +29,7 @@ mason_lspconfig.setup {
     "rust_analyzer",
     "sqlls",
     "tailwindcss",
-    "tsserver",
+    "ts_ls",
     "yamlls",
   },
 }

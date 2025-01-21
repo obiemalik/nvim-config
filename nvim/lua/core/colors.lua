@@ -35,7 +35,7 @@ function SetColorScheme(name)
   statusline.feline.use_theme(scheme.statusline)
 end
 
---SetColorScheme("papercolor")
+SetColorScheme("papercolor")
 --SetColorScheme("catppuccin-frappe");
 --SetColorScheme("catppuccin-macchiato");
-SetColorScheme("moonfly")
+--SetColorScheme("moonfly")

@@ -271,7 +271,7 @@ return packer.startup(function(use)
       require 'lsp.graphql_ls'
       require 'lsp.json_ls'
       require 'lsp.php_ls'
-      require 'lsp.tsserver_ls'
+      require 'lsp.ts_ls'
       require 'lsp.eslint_ls'
       require 'lsp.yaml_ls'
       require 'lsp.lua_ls'
@@ -350,15 +350,10 @@ return packer.startup(function(use)
     config = function()
       local conform = require("conform")
 
-      local prettier_eslint_fn = function()
-        vim.cmd('EslintFixAll')
-        return { "prettier" }
-      end
-
       conform.setup({
         formatters_by_ft = {
-          javascript = prettier_eslint_fn,
-          typescript = prettier_eslint_fn,
+          javascript = { "prettier" },
+          typescript = { "prettier" },
           javascriptreact = { "prettier" },
           typescriptreact = { "prettier" },
           svelte = { "prettier" },
