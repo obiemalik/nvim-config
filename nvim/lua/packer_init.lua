@@ -350,15 +350,10 @@ return packer.startup(function(use)
     config = function()
       local conform = require("conform")
 
-      local prettier_eslint_fn = function()
-        vim.cmd('EslintFixAll')
-        return { "prettier" }
-      end
-
       conform.setup({
         formatters_by_ft = {
-          javascript = prettier_eslint_fn,
-          typescript = prettier_eslint_fn,
+          javascript = { "prettier" },
+          typescript = { "prettier" },
           javascriptreact = { "prettier" },
           typescriptreact = { "prettier" },
           svelte = { "prettier" },

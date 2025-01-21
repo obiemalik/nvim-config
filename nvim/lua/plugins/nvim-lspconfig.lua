@@ -109,9 +109,12 @@ https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#clangd
 HTML/CSS/JSON --> vscode-html-languageserver
 https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#html
 
+<<<<<<< Updated upstream
 JavaScript/TypeScript --> ts_ls
 https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls
 
+=======
+>>>>>>> Stashed changes
 --]]
 
 -- Define `root_dir` when needed
