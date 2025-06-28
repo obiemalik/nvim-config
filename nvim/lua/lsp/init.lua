@@ -10,26 +10,35 @@ local buf_map = require('utils').buf_map
 
 -- Highlight line numbers for diagnostics
 vim.fn.sign_define('DiagnosticSignError', {
-  numhl = 'LspDiagnosticsLineNrError',
+  numhl = 'DiagnosticLineNrError',
   text = '',
 })
 vim.fn.sign_define('DiagnosticSignWarn', {
-  numhl = 'LspDiagnosticsLineNrWarning',
+  numhl = 'DiagnosticLineNrWarn',
   text = '',
 })
 vim.fn.sign_define('DiagnosticSignInfo', {
+  numhl = 'DiagnosticLineNrInfo',
   text = '',
 })
 vim.fn.sign_define('DiagnosticSignHint', {
+  numhl = 'DiagnosticLineNrHint',
   text = '',
 })
 
 -- Configure diagnostics displaying
-vim.lsp.handlers['textDocument/publishDiagnostics'] =
-vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  -- virtual_text = false,
+vim.diagnostic.config({
+  virtual_text = true,
   signs = true,
   update_in_insert = false,
+  underline = true,
+  severity_sort = false,
+  float = {
+    border = 'rounded',
+    source = 'always',
+    header = '',
+    prefix = '',
+  },
 })
 
 -- Handle formatting in a smarter way
@@ -133,7 +142,7 @@ function M.on_attach(client, bufnr)
   end, opts)
 
   local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-  local formatting_ls_list = { 'sumneko_lua', 'pylsp' }
+  local formatting_ls_list = { 'lua_ls', 'pylsp' }
 
   if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
     vim.api.nvim_clear_autocmds {

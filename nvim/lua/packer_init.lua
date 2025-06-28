@@ -64,10 +64,9 @@ return packer.startup(function(use)
     },
   }
 
-  use { 'nvim-pack/nvim-spectre' }       -- Search/Replace Panel
-  use { 'kyazdani42/nvim-web-devicons' } -- Icons
-  use { 'preservim/tagbar' }             -- Tag viewer
-  use {                                  -- Bufferline
+  use { 'nvim-pack/nvim-spectre' } -- Search/Replace Panel
+  use { 'preservim/tagbar' }       -- Tag viewer
+  use {                            -- Bufferline
     'akinsho/bufferline.nvim',
     tag = "*",
     requires = 'nvim-tree/nvim-web-devicons'
@@ -113,12 +112,6 @@ return packer.startup(function(use)
   }
 
   -- EDITOR --
-
-  use {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-  }
 
   use { 'airblade/vim-rooter' } -- Root Workspace to Project
   use {                         -- GIT Labels
@@ -299,7 +292,6 @@ return packer.startup(function(use)
           require 'plugins.cmp'
         end,
       },
-      'jose-elias-alvarez/typescript.nvim',
       'folke/lua-dev.nvim',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
@@ -374,6 +366,7 @@ return packer.startup(function(use)
       })
 
       vim.keymap.set({ "n", "v" }, "<leader>f", function()
+        vim.lsp.buf.format()
         conform.format({
           lsp_fallback = true,
           async = false,
@@ -407,6 +400,40 @@ return packer.startup(function(use)
   --     require 'dap'
   --   end,
   -- }
+
+  -- AI
+
+  -- use 'stevearc/dressing.nvim'
+  -- use 'nvim-lua/plenary.nvim'
+  -- use 'MunifTanjim/nui.nvim'
+  -- use 'MeanderingProgrammer/render-markdown.nvim'
+  --
+  -- use 'hrsh7th/nvim-cmp'
+  -- use 'nvim-tree/nvim-web-devicons'
+  -- use 'HakonHarnes/img-clip.nvim'
+  -- use 'zbirenbaum/copilot.lua'
+  --
+  -- use {
+  --   'yetone/avante.nvim',
+  --   branch = 'main',
+  --   run = 'make',
+  --   config = function()
+  --     require('avante').setup({
+  --       provider = 'openai',
+  --       auto_suggestions_provider = "openai",
+  --       openai = {
+  --         endpoint = "https://api.openai.com/v1",
+  --         model = "gpt-4o-mini",
+  --         timeout = 30000,               -- Timeout in milliseconds, increase this for reasoning models
+  --         temperature = 0,
+  --         max_completion_tokens = 16384, -- Increase this to include reasoning tokens (for reasoning models)
+  --         reasoning_effort = "medium",   -- low|medium|high, only used for reasoning models
+  --       },
+  --     })
+  --   end
+  -- }
+
+  use 'Exafunction/windsurf.vim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   if packer_bootstrap then
