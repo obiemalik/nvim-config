@@ -56,3 +56,4 @@ vim.keymap.set('n', '<leader>sl', '<cmd>source ~/.config/nvim/lua/plugins/luasni
 
 require 'snippets.typescript'
 require 'snippets.typescriptreact'
+require 'snippets.go'

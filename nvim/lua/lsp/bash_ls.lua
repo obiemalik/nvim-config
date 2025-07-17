@@ -1,4 +1,6 @@
+local lsp = require('lsp')
+
 require('lspconfig').bashls.setup {
-  on_attach = require('lsp').on_attach,
-  capabilities = require('lsp').capabilities,
+  on_attach = lsp.on_attach,
+  capabilities = lsp.capabilities,
 }

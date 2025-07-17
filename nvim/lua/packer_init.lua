@@ -81,10 +81,6 @@ return packer.startup(function(use)
   use { 'navarasu/onedark.nvim' }
   use { 'tanvirtin/monokai.nvim' }
   use { "catppuccin/nvim", as = "catppuccin" }
-  use {
-    'rose-pine/neovim',
-    as = 'rose-pine',
-  }
   use { "miikanissi/modus-themes.nvim" }
   use { "bluz71/vim-moonfly-colors", as = "moonfly" }
 
@@ -277,6 +273,7 @@ return packer.startup(function(use)
       require 'lsp.tailwind_ls'
       require 'lsp.python_ls'
       require 'lsp.rust_ls'
+      require 'lsp.go_ls'
     end,
     requires = {
       {
@@ -312,6 +309,54 @@ return packer.startup(function(use)
     config = function()
       local lint = require("lint")
 
+      -- Configure golangci-lint to use Mason-installed binary
+      local function find_golangci_lint()
+        local mason_path = vim.fn.expand("~/.local/share/nvim/mason/packages/golangci-lint")
+        local handle = io.popen("find " .. mason_path .. " -name 'golangci-lint' -type f 2>/dev/null | head -1")
+        local result = handle:read("*a")
+        handle:close()
+        return result:gsub("\n", "")
+      end
+
+      lint.linters.golangci_lint = {
+        cmd = find_golangci_lint(),
+        stdin = false,
+        args = {
+          "run",
+          "--out-format",
+          "json",
+          "--show-stats=false",
+          "--print-issued-lines=false",
+          "--print-linter-name=false",
+          "--path-prefix",
+          function()
+            return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h")
+          end,
+        },
+        ignore_exitcode = true,
+        parser = function(output)
+          local results = {}
+          local ok, decoded = pcall(vim.json.decode, output)
+          if not ok then
+            return results
+          end
+
+          if decoded.Issues then
+            for _, issue in ipairs(decoded.Issues) do
+              table.insert(results, {
+                lnum = issue.Pos.Line - 1,
+                col = issue.Pos.Column - 1,
+                message = issue.Text,
+                severity = vim.diagnostic.severity.WARN,
+                source = "golangci-lint",
+                code = issue.FromLinter,
+              })
+            end
+          end
+          return results
+        end,
+      }
+
       lint.linters_by_ft = {
         javascript = { "eslint" },
         typescript = { "eslint" },
@@ -319,6 +364,7 @@ return packer.startup(function(use)
         typescriptreact = { "eslint" },
         svelte = { "eslint" },
         python = { "mypy", "flake8" },
+        go = { "golangci_lint" },
       }
 
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -356,7 +402,8 @@ return packer.startup(function(use)
           markdown = { "prettier" },
           graphql = { "prettier" },
           lua = { "stylua" },
-          python = { "black", "isort" }
+          python = { "black", "isort" },
+          go = { "gofumpt", "goimports" },
         },
         format_on_save = {
           lsp_fallback = true,
@@ -430,6 +477,39 @@ return packer.startup(function(use)
   --         reasoning_effort = "medium",   -- low|medium|high, only used for reasoning models
   --       },
   --     })
+  --   end
+  -- }
+
+  -- -- Go development
+  -- use {
+  --   'fatih/vim-go',
+  --   run = ':GoUpdateBinaries',
+  --   ft = 'go',
+  --   config = function()
+  --     -- Disable vim-go LSP features since we're using gopls through nvim-lspconfig
+  --     vim.g.go_def_mapping_enabled = 0
+  --     vim.g.go_doc_keywordprg_enabled = 0
+  --     vim.g.go_code_completion_enabled = 0
+  --     vim.g.go_gopls_enabled = 0
+  --
+  --     -- Enable useful vim-go features
+  --     vim.g.go_fmt_autosave = 0  -- We handle formatting through conform.nvim
+  --     vim.g.go_imports_autosave = 0  -- We handle imports through conform.nvim
+  --     vim.g.go_highlight_types = 1
+  --     vim.g.go_highlight_fields = 1
+  --     vim.g.go_highlight_functions = 1
+  --     vim.g.go_highlight_function_calls = 1
+  --     vim.g.go_highlight_operators = 1
+  --     vim.g.go_highlight_extra_types = 1
+  --     vim.g.go_highlight_build_constraints = 1
+  --     vim.g.go_highlight_generate_tags = 1
+  --
+  --     -- Test settings
+  --     vim.g.go_test_show_name = 1
+  --     vim.g.go_test_timeout = '10s'
+  --
+  --     -- Template settings
+  --     vim.g.go_template_autocreate = 1
   --   end
   -- }
 

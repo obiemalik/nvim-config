@@ -10,7 +10,14 @@ mason_tool_installer.setup {
     "flake8",
     "isort",
     "prettier",
-    "blackd-client"
+    "blackd-client",
+    "gofumpt",
+    "goimports",
+    "golines",
+    "golangci-lint",
+    "gotests",
+    "impl",
+    "staticcheck"
   }
 }
 
@@ -25,6 +32,7 @@ mason_lspconfig.setup {
     "cssls",
     "dockerls",
     "eslint",
+    "gopls",
     "graphql",
     "jsonls",
     "ltex",
