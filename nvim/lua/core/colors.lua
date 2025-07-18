@@ -26,17 +26,44 @@ end
 ---
 
 vim.cmd('command! -nargs=1 SetColorScheme lua SetColorScheme(<f-args>)')
+vim.cmd('command! ResetColorScheme lua ResetColorScheme()')
 
 function SetColorScheme(name)
   local schemename = findSchemeNameByPartialName(Schemes, name)
-  local scheme = Schemes[schemename]:new(name)
-
-  scheme:apply()
-  statusline.feline.use_theme(scheme.statusline)
+  if schemename then
+    local scheme = Schemes[schemename]:new(name)
+    scheme:apply()
+    statusline.feline.use_theme(scheme.statusline)
+  else
+    print("Color scheme not found: " .. name)
+  end
 end
 
---SetColorScheme("papercolor")
---SetColorScheme("catppuccin-frappe");
---SetColorScheme("catppuccin-macchiato");
-SetColorScheme("moonfly")
---SetColorScheme("onedark")
+function ResetColorScheme()
+  -- Check if running on macOS
+  local uname = vim.fn.system('uname'):gsub('%s+', '')
+
+  if uname == 'Darwin' then
+    -- Get Warp's theme
+    local handle = io.popen("defaults read dev.warp.Warp-Stable Theme 2>/dev/null")
+    if handle then
+      local result = handle:read("*a")
+      handle:close()
+
+      if result and string.find(result, "Light") then
+        SetColorScheme("papercolor")
+      else
+        SetColorScheme("moonfly")
+      end
+    else
+      -- Fallback if can't read defaults
+      SetColorScheme("moonfly")
+    end
+  else
+    -- Fallback for non-macOS systems
+    SetColorScheme("moonfly")
+  end
+end
+
+-- Auto-detect theme on startup
+ResetColorScheme()
