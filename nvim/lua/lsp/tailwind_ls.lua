@@ -2,9 +2,36 @@ local read_package_json = require('utils').read_package_json
 
 local package_json = read_package_json()
 
-local have_tailwindish_styling = package_json and package_json.devDependencies.windicss
+-- Check for any Tailwind-related dependencies
+local function has_tailwind_dependencies()
+  if not package_json then
+    return false
+  end
+  
+  local deps = package_json.dependencies or {}
+  local dev_deps = package_json.devDependencies or {}
+  
+  -- Check for common Tailwind-related packages
+  local tailwind_packages = {
+    'tailwindcss',
+    'windicss',
+    '@tailwindcss/forms',
+    '@tailwindcss/typography',
+    '@tailwindcss/aspect-ratio',
+    '@tailwindcss/container-queries'
+  }
+  
+  for _, pkg in ipairs(tailwind_packages) do
+    if deps[pkg] or dev_deps[pkg] then
+      return true
+    end
+  end
+  
+  return false
+end
 
-if have_tailwindish_styling then
+-- Only setup Tailwind LSP if we actually have Tailwind dependencies
+if has_tailwind_dependencies() then
   require('lspconfig').tailwindcss.setup {
     on_attach = require('lsp').on_attach,
     capabilities = require('lsp').capabilities
