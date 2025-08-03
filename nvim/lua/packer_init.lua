@@ -424,8 +424,6 @@ return packer.startup(function(use)
     end,
   }
 
-  -- use { unpack(require 'plugins.plantuml') }
-
   --
   -- use {
   --   'filipdutescu/renamer.nvim',
