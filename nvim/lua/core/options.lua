@@ -6,49 +6,59 @@
 -- See: https://neovim.io/doc/user/vim_diff.html
 -- [2] Defaults - *nvim-defaults*
 
-local g = vim.g -- Global variables
-local o = vim.o --
+local g = vim.g     -- Global variables
+local o = vim.o     --
 local opt = vim.opt -- Set options (global/buffer/windows-scoped)
 
 -----------------------------------------------------------
 -- General
 -----------------------------------------------------------
-opt.mouse = 'a' -- Enable mouse support
+opt.mouse = 'a'               -- Enable mouse support
 opt.clipboard = 'unnamedplus' -- Copy/paste to system clipboard
-opt.swapfile = false -- Don't use swapfile
+
+if vim.fn.has('wsl') == 1 then
+  vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('Yank', { clear = true }),
+    callback = function()
+      vim.fn.system('clip.exe', vim.fn.getreg('"'))
+    end,
+  })
+end
+
+opt.swapfile = false                          -- Don't use swapfile
 opt.completeopt = 'menuone,noinsert,noselect' -- Autocomplete options
 
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
-opt.number = true -- Show line number
-opt.showmatch = true -- Highlight matching parenthesis
+opt.number = true         -- Show line number
+opt.showmatch = true      -- Highlight matching parenthesis
 opt.foldmethod = 'marker' -- Enable folding (default 'foldmarker')
-opt.colorcolumn = '81' -- Line lenght marker at 80 columns
-opt.splitright = true -- Vertical split to the right
-opt.splitbelow = true -- Horizontal split to the bottom
-opt.ignorecase = true -- Ignore case letters when search
-opt.smartcase = true -- Ignore lowercase for the whole pattern
-opt.linebreak = true -- Wrap on word boundary
-opt.termguicolors = true -- Enable 24-bit RGB colors
-opt.laststatus = 3 -- Set global statusline
+opt.colorcolumn = '81'    -- Line lenght marker at 80 columns
+opt.splitright = true     -- Vertical split to the right
+opt.splitbelow = true     -- Horizontal split to the bottom
+opt.ignorecase = true     -- Ignore case letters when search
+opt.smartcase = true      -- Ignore lowercase for the whole pattern
+opt.linebreak = true      -- Wrap on word boundary
+opt.termguicolors = true  -- Enable 24-bit RGB colors
+opt.laststatus = 3        -- Set global statusline
 
 -----------------------------------------------------------
 -- Tabs, indent, cursor
 -----------------------------------------------------------
 opt.scrolloff = 999
-opt.expandtab = true -- Use spaces instead of tabs
-opt.shiftwidth = 2 -- Shift 2 spaces when tab
-opt.tabstop = 2 -- 1 tab == 2 spaces
+opt.expandtab = true   -- Use spaces instead of tabs
+opt.shiftwidth = 2     -- Shift 2 spaces when tab
+opt.tabstop = 2        -- 1 tab == 2 spaces
 opt.smartindent = true -- Autoindent new lines
 
 -----------------------------------------------------------
 -- Memory, CPU
 -----------------------------------------------------------
-opt.hidden = true -- Enable background buffers
-opt.history = 100 -- Remember N lines in history
+opt.hidden = true     -- Enable background buffers
+opt.history = 100     -- Remember N lines in history
 opt.lazyredraw = true -- Faster scrolling
-opt.synmaxcol = 240 -- Max column for syntax highlight
+opt.synmaxcol = 240   -- Max column for syntax highlight
 opt.updatetime = 1000 -- ms to wait for trigger an event
 
 -----------------------------------------------------------
