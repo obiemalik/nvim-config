@@ -6,7 +6,16 @@ local py_path = nil
 if venv_path ~= nil then
   py_path = venv_path .. "/bin/python3"
 else
-  py_path = os.getenv("HOME") .. "/.venv/bin/python"
+  -- Use 'which' to find python3 in PATH as a portable fallback
+  local handle = io.popen("which python3 2>/dev/null")
+  if handle then
+    py_path = handle:read("*a"):gsub("%s+", "")  -- trim whitespace
+    handle:close()
+  end
+  -- If 'which' fails, try common locations
+  if not py_path or py_path == "" then
+    py_path = "python3"  -- Let the system find it in PATH
+  end
 end
 
 local capabilities = require 'lsp'.capabilities
