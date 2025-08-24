@@ -40,6 +40,14 @@ autocmd('Filetype', {
   command = 'setlocal cc=0'
 })
 
+-- Do not soft-wrap in Markdown files
+augroup('markdownNoWrap', { clear = true })
+autocmd('FileType', {
+  group = 'markdownNoWrap',
+  pattern = { 'markdown', 'md' },
+  command = 'setlocal nowrap'
+})
+
 -- Set indentation to 2 spaces
 augroup('setIndent', { clear = true })
 autocmd('Filetype', {

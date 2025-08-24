@@ -151,6 +151,8 @@ return packer.startup(function(use)
     run = 'cd app && npm install',
     setup = function()
       vim.g.mkdp_filetypes = { 'markdown' }
+      vim.g.mkdp_auto_close = 0
+      vim.g.mkdp_markdown_css = './custom/markdown-override.css'
     end,
     ft = { 'markdown' },
   }
