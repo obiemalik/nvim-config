@@ -288,16 +288,13 @@ return packer.startup(function(use)
           'petertriho/cmp-git',
         },
         config = function()
-          require 'plugins.cmp'
+          require 'plugins.nvim-cmp'
         end,
       },
       'folke/lua-dev.nvim',
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
+      'mason-org/mason.nvim',
+      'mason-org/mason-lspconfig.nvim',
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-      --
-      -- require 'plugins.nvim-lint',
-      -- require 'plugins.conform'
     },
     run = ':MasonUpdate',
   }
@@ -385,46 +382,7 @@ return packer.startup(function(use)
     end,
   }
 
-  use {
-    "stevearc/conform.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local conform = require("conform")
-
-      conform.setup({
-        formatters_by_ft = {
-          javascript = { "prettier" },
-          typescript = { "prettier" },
-          javascriptreact = { "prettier" },
-          typescriptreact = { "prettier" },
-          svelte = { "prettier" },
-          css = { "prettier" },
-          html = { "prettier" },
-          json = { "prettier" },
-          yaml = { "prettier" },
-          markdown = { "prettier" },
-          graphql = { "prettier" },
-          lua = { "stylua" },
-          python = { "black", "isort" },
-          go = { "gofumpt", "goimports" },
-        },
-        format_on_save = {
-          lsp_fallback = true,
-          async = false,
-          timeout_ms = 5000,
-        },
-      })
-
-      vim.keymap.set({ "n", "v" }, "<leader>f", function()
-        vim.lsp.buf.format()
-        conform.format({
-          lsp_fallback = true,
-          async = false,
-          timeout_ms = 5000,
-        })
-      end, { desc = "Format file or range (in visual mode)" })
-    end,
-  }
+  use(require 'plugins.conform')
 
   --
   -- use {

@@ -66,7 +66,7 @@ autocmd('CmdlineEnter', {
 
 -- Enter insert mode when switching to terminal
 autocmd('TermOpen', {
-  command = 'setlocal listchars= nonumber norelativenumber nocursorline',
+  command = 'setlocal listchars= nonumber norelativenumber',
 })
 
 autocmd('TermOpen', {

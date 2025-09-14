@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1713484068/share/lua/5.1/?.lua;/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1713484068/share/lua/5.1/?/init.lua;/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1713484068/lib/luarocks/rocks-5.1/?.lua;/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1713484068/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1713484068/lib/lua/5.1/?.so"
+local package_path_str = "/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1741730670/share/lua/5.1/?.lua;/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1741730670/share/lua/5.1/?/init.lua;/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1741730670/lib/luarocks/rocks-5.1/?.lua;/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1741730670/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/obiemalik/.cache/nvim/packer_hererocks/2.1.1741730670/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -127,7 +127,7 @@ _G.packer_plugins = {
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   ["conform.nvim"] = {
-    config = { "\27LJ\2\nj\0\0\3\1\5\0\n6\0\0\0009\0\1\0009\0\2\0009\0\3\0B\0\1\1-\0\0\0009\0\3\0005\2\4\0B\0\2\1K\0\1\0\0À\1\0\3\nasync\1\17lsp_fallback\2\15timeout_ms\3ˆ'\vformat\bbuf\blsp\bvimÇ\6\1\0\a\0+\00006\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3 \0005\4\4\0005\5\3\0=\5\5\0045\5\6\0=\5\a\0045\5\b\0=\5\t\0045\5\n\0=\5\v\0045\5\f\0=\5\r\0045\5\14\0=\5\15\0045\5\16\0=\5\17\0045\5\18\0=\5\19\0045\5\20\0=\5\21\0045\5\22\0=\5\23\0045\5\24\0=\5\25\0045\5\26\0=\5\27\0045\5\28\0=\5\29\0045\5\30\0=\5\31\4=\4!\0035\4\"\0=\4#\3B\1\2\0016\1$\0009\1%\0019\1&\0015\3'\0'\4(\0003\5)\0005\6*\0B\1\5\0012\0\0€K\0\1\0\1\0\1\tdesc*Format file or range (in visual mode)\0\14<leader>f\1\3\0\0\6n\6v\bset\vkeymap\bvim\19format_on_save\1\0\3\nasync\1\17lsp_fallback\2\15timeout_ms\3ˆ'\21formatters_by_ft\1\0\2\19format_on_save\0\21formatters_by_ft\0\ago\1\3\0\0\fgofumpt\14goimports\vpython\1\3\0\0\nblack\nisort\blua\1\2\0\0\vstylua\fgraphql\1\2\0\0\rprettier\rmarkdown\1\2\0\0\rprettier\tyaml\1\2\0\0\rprettier\tjson\1\2\0\0\rprettier\thtml\1\2\0\0\rprettier\bcss\1\2\0\0\rprettier\vsvelte\1\2\0\0\rprettier\20typescriptreact\1\2\0\0\rprettier\20javascriptreact\1\2\0\0\rprettier\15typescript\1\2\0\0\rprettier\15javascript\1\0\14\tjson\0\rmarkdown\0\blua\0\ago\0\fgraphql\0\tyaml\0\thtml\0\bcss\0\vpython\0\vsvelte\0\20typescriptreact\0\20javascriptreact\0\15typescript\0\15javascript\0\1\2\0\0\rprettier\nsetup\fconform\frequire\0" },
+    config = { "\27LJ\2\nJ\0\0\3\1\2\0\5-\0\0\0009\0\0\0005\2\1\0B\0\2\1K\0\1\0\0À\1\0\3\17lsp_fallback\2\nasync\1\15timeout_ms\3è\a\vformatÔ\b\1\0\a\0003\00086\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3(\0005\4\4\0005\5\3\0=\5\5\0045\5\6\0=\5\a\0045\5\b\0=\5\t\0045\5\n\0=\5\v\0045\5\f\0=\5\r\0045\5\14\0=\5\15\0045\5\16\0=\5\17\0045\5\18\0=\5\19\0045\5\20\0=\5\21\0045\5\22\0=\5\23\0045\5\24\0=\5\25\0045\5\26\0=\5\27\0045\5\28\0=\5\29\0045\5\30\0=\5\31\0045\5 \0=\5!\0045\5\"\0=\5#\0045\5$\0=\5%\0045\5&\0=\5'\4=\4)\0035\4*\0=\4+\3B\1\2\0016\1,\0009\1-\0019\1.\0015\3/\0'\0040\0003\0051\0005\0062\0B\1\5\0012\0\0€K\0\1\0\1\0\1\tdesc2Format and fix file or range (in visual mode)\0\14<leader>f\1\3\0\0\6n\6v\bset\vkeymap\bvim\19format_on_save\1\0\4\17lsp_fallback\2\nasync\1\rpriority\0032\15timeout_ms\3è\a\21formatters_by_ft\1\0\2\21formatters_by_ft\0\19format_on_save\0\tbash\1\2\0\0\nshfmt\ash\1\2\0\0\nshfmt\ago\1\3\0\0\fgofumpt\14goimports\vpython\1\3\0\0\nblack\nisort\blua\1\2\0\0\vstylua\fgraphql\1\3\0\0\14prettierd\rprettier\rmarkdown\1\3\0\0\14prettierd\rprettier\tyaml\1\3\0\0\14prettierd\rprettier\njsonc\1\3\0\0\14prettierd\rprettier\tjson\1\3\0\0\14prettierd\rprettier\thtml\1\3\0\0\14prettierd\rprettier\tscss\1\3\0\0\14prettierd\rprettier\bcss\1\3\0\0\14prettierd\rprettier\vsvelte\1\3\0\0\14prettierd\rprettier\20typescriptreact\1\3\0\0\14prettierd\rprettier\20javascriptreact\1\3\0\0\14prettierd\rprettier\15typescript\1\3\0\0\14prettierd\rprettier\15javascript\1\0\18\ago\0\blua\0\rmarkdown\0\ash\0\tbash\0\vpython\0\vsvelte\0\20typescriptreact\0\20javascriptreact\0\15typescript\0\15javascript\0\tjson\0\fgraphql\0\tyaml\0\njsonc\0\thtml\0\tscss\0\bcss\0\1\3\0\0\14prettierd\rprettier\nsetup\fconform\frequire\0" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -163,7 +163,7 @@ _G.packer_plugins = {
     url = "https://github.com/m-demare/hlargs.nvim"
   },
   ["hover.nvim"] = {
-    config = { "\27LJ\2\n3\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\24hover.providers.lsp\frequire­\2\1\0\a\0\17\0!6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0003\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\f\0006\4\0\0'\6\1\0B\4\2\0029\4\1\0045\5\r\0B\0\5\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\14\0006\4\0\0'\6\1\0B\4\2\0029\4\15\0045\5\16\0B\0\5\1K\0\1\0\1\0\1\tdesc\24hover.nvim (select)\17hover_select\agK\1\0\1\tdesc\15hover.nvim\6K\6n\bset\vkeymap\bvim\17preview_opts\1\0\1\vborder\0\tinit\1\0\3\ntitle\2\tinit\0\17preview_opts\0\0\nsetup\nhover\frequire\0" },
+    config = { "\27LJ\2\n3\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\24hover.providers.lsp\frequire­\2\1\0\a\0\17\0!6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0003\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\f\0006\4\0\0'\6\1\0B\4\2\0029\4\1\0045\5\r\0B\0\5\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\14\0006\4\0\0'\6\1\0B\4\2\0029\4\15\0045\5\16\0B\0\5\1K\0\1\0\1\0\1\tdesc\24hover.nvim (select)\17hover_select\agK\1\0\1\tdesc\15hover.nvim\6K\6n\bset\vkeymap\bvim\17preview_opts\1\0\1\vborder\0\tinit\1\0\3\ntitle\2\17preview_opts\0\tinit\0\0\nsetup\nhover\frequire\0" },
     loaded = true,
     path = "/Users/obiemalik/.local/share/nvim/site/pack/packer/start/hover.nvim",
     url = "https://github.com/lewis6991/hover.nvim"
@@ -188,7 +188,7 @@ _G.packer_plugins = {
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/Users/obiemalik/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
-    url = "https://github.com/williamboman/mason-lspconfig.nvim"
+    url = "https://github.com/mason-org/mason-lspconfig.nvim"
   },
   ["mason-tool-installer.nvim"] = {
     loaded = true,
@@ -198,7 +198,7 @@ _G.packer_plugins = {
   ["mason.nvim"] = {
     loaded = true,
     path = "/Users/obiemalik/.local/share/nvim/site/pack/packer/start/mason.nvim",
-    url = "https://github.com/williamboman/mason.nvim"
+    url = "https://github.com/mason-org/mason.nvim"
   },
   ["modus-themes.nvim"] = {
     loaded = true,
@@ -238,7 +238,7 @@ _G.packer_plugins = {
     url = "https://github.com/tveskag/nvim-blame-line"
   },
   ["nvim-cmp"] = {
-    config = { "\27LJ\2\n+\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\16plugins.cmp\frequire\0" },
+    config = { "\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21plugins.nvim-cmp\frequire\0" },
     loaded = true,
     path = "/Users/obiemalik/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
@@ -250,7 +250,7 @@ _G.packer_plugins = {
     url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
   ["nvim-lint"] = {
-    config = { "\27LJ\2\n€\2\0\0\b\0\14\0\0246\0\0\0009\0\1\0009\0\2\0'\2\3\0B\0\2\0026\1\4\0009\1\5\1'\3\6\0\18\4\0\0'\5\a\0&\3\5\3B\1\2\2\18\4\1\0009\2\b\1'\5\t\0B\2\3\2\18\5\1\0009\3\n\1B\3\2\1\18\5\2\0009\3\v\2'\6\f\0'\a\r\0D\3\4\0\5\6\n\tgsub\nclose\a*a\tread9 -name 'golangci-lint' -type f 2>/dev/null | head -1\nfind \npopen\aio5~/.local/share/nvim/mason/packages/golangci-lint\vexpand\afn\bvim[\0\0\5\0\6\0\n6\0\0\0009\0\1\0009\0\2\0006\2\0\0009\2\3\0029\2\4\2)\4\0\0B\2\2\2'\3\5\0D\0\3\0\a:h\22nvim_buf_get_name\bapi\16fnamemodify\afn\bvimì\2\0\1\14\0\21\1*4\1\0\0006\2\0\0006\4\1\0009\4\2\0049\4\3\4\18\5\0\0B\2\3\3\14\0\2\0X\4\1€L\1\2\0009\4\4\3\15\0\4\0X\5\28€6\4\5\0009\6\4\3B\4\2\4X\a\22€6\t\6\0009\t\a\t\18\v\1\0005\f\n\0009\r\b\b9\r\t\r\23\r\0\r=\r\v\f9\r\b\b9\r\f\r\23\r\0\r=\r\r\f9\r\14\b=\r\15\f6\r\1\0009\r\16\r9\r\17\r9\r\18\r=\r\17\f9\r\19\b=\r\20\fB\t\3\1E\a\3\3R\aè\127L\1\2\0\tcode\15FromLinter\tWARN\rseverity\15diagnostic\fmessage\tText\bcol\vColumn\tlnum\1\0\6\vsource\18golangci-lint\tcode\0\tlnum\0\rseverity\0\fmessage\0\bcol\0\tLine\bPos\vinsert\ntable\vipairs\vIssues\vdecode\tjson\bvim\npcall\2\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint¯\a\1\0\t\0.\0;6\0\0\0'\2\1\0B\0\2\0023\1\2\0009\2\3\0005\3\5\0\18\4\1\0B\4\1\2=\4\6\0035\4\a\0003\5\b\0>\5\b\4=\4\t\0033\4\n\0=\4\v\3=\3\4\0025\2\14\0005\3\r\0=\3\15\0025\3\16\0=\3\17\0025\3\18\0=\3\19\0025\3\20\0=\3\21\0025\3\22\0=\3\23\0025\3\24\0=\3\25\0025\3\26\0=\3\27\0025\3\28\0=\3\29\2=\2\f\0006\2\30\0009\2\31\0029\2 \2'\4\1\0005\5!\0B\2\3\0026\3\30\0009\3\31\0039\3\"\0035\5#\0005\6$\0=\2%\0063\a&\0=\a'\6B\3\3\0016\3\30\0009\3(\0039\3)\3'\5*\0'\6+\0003\a,\0005\b-\0B\3\5\0012\0\0€K\0\1\0\1\0\1\tdesc%Trigger linting for current file\0\14<leader>l\6n\bset\vkeymap\rcallback\0\ngroup\1\0\2\ngroup\0\rcallback\0\1\4\0\0\rBufEnter\17BufWritePost\16InsertLeave\24nvim_create_autocmd\1\0\1\nclear\2\24nvim_create_augroup\bapi\bvim\rmarkdown\1\2\0\0\17markdownlint\ago\1\2\0\0\18golangci_lint\vpython\1\3\0\0\tmypy\vflake8\vsvelte\1\2\0\0\veslint\20typescriptreact\1\2\0\0\veslint\20javascriptreact\1\2\0\0\veslint\15typescript\1\2\0\0\veslint\15javascript\1\0\b\vpython\0\vsvelte\0\20typescriptreact\0\20javascriptreact\0\15typescript\0\ago\0\15javascript\0\rmarkdown\0\1\2\0\0\veslint\18linters_by_ft\vparser\0\targs\0\1\b\0\0\brun\17--out-format\tjson\23--show-stats=false\31--print-issued-lines=false\30--print-linter-name=false\18--path-prefix\bcmd\1\0\5\vparser\0\nstdin\1\20ignore_exitcode\2\targs\0\bcmd\0\18golangci_lint\flinters\0\tlint\frequire\0" },
+    config = { "\27LJ\2\n€\2\0\0\b\0\14\0\0246\0\0\0009\0\1\0009\0\2\0'\2\3\0B\0\2\0026\1\4\0009\1\5\1'\3\6\0\18\4\0\0'\5\a\0&\3\5\3B\1\2\2\18\4\1\0009\2\b\1'\5\t\0B\2\3\2\18\5\1\0009\3\n\1B\3\2\1\18\5\2\0009\3\v\2'\6\f\0'\a\r\0D\3\4\0\5\6\n\tgsub\nclose\a*a\tread9 -name 'golangci-lint' -type f 2>/dev/null | head -1\nfind \npopen\aio5~/.local/share/nvim/mason/packages/golangci-lint\vexpand\afn\bvim[\0\0\5\0\6\0\n6\0\0\0009\0\1\0009\0\2\0006\2\0\0009\2\3\0029\2\4\2)\4\0\0B\2\2\2'\3\5\0D\0\3\0\a:h\22nvim_buf_get_name\bapi\16fnamemodify\afn\bvimì\2\0\1\14\0\21\1*4\1\0\0006\2\0\0006\4\1\0009\4\2\0049\4\3\4\18\5\0\0B\2\3\3\14\0\2\0X\4\1€L\1\2\0009\4\4\3\15\0\4\0X\5\28€6\4\5\0009\6\4\3B\4\2\4X\a\22€6\t\6\0009\t\a\t\18\v\1\0005\f\n\0009\r\b\b9\r\t\r\23\r\0\r=\r\v\f9\r\b\b9\r\f\r\23\r\0\r=\r\r\f9\r\14\b=\r\15\f6\r\1\0009\r\16\r9\r\17\r9\r\18\r=\r\17\f9\r\19\b=\r\20\fB\t\3\1E\a\3\3R\aè\127L\1\2\0\tcode\15FromLinter\tWARN\rseverity\15diagnostic\fmessage\tText\bcol\vColumn\tlnum\1\0\6\fmessage\0\bcol\0\tlnum\0\tcode\0\vsource\18golangci-lint\rseverity\0\tLine\bPos\vinsert\ntable\vipairs\vIssues\vdecode\tjson\bvim\npcall\2\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint¯\a\1\0\t\0.\0;6\0\0\0'\2\1\0B\0\2\0023\1\2\0009\2\3\0005\3\5\0\18\4\1\0B\4\1\2=\4\6\0035\4\a\0003\5\b\0>\5\b\4=\4\t\0033\4\n\0=\4\v\3=\3\4\0025\2\14\0005\3\r\0=\3\15\0025\3\16\0=\3\17\0025\3\18\0=\3\19\0025\3\20\0=\3\21\0025\3\22\0=\3\23\0025\3\24\0=\3\25\0025\3\26\0=\3\27\0025\3\28\0=\3\29\2=\2\f\0006\2\30\0009\2\31\0029\2 \2'\4\1\0005\5!\0B\2\3\0026\3\30\0009\3\31\0039\3\"\0035\5#\0005\6$\0=\2%\0063\a&\0=\a'\6B\3\3\0016\3\30\0009\3(\0039\3)\3'\5*\0'\6+\0003\a,\0005\b-\0B\3\5\0012\0\0€K\0\1\0\1\0\1\tdesc%Trigger linting for current file\0\14<leader>l\6n\bset\vkeymap\rcallback\0\ngroup\1\0\2\rcallback\0\ngroup\0\1\4\0\0\rBufEnter\17BufWritePost\16InsertLeave\24nvim_create_autocmd\1\0\1\nclear\2\24nvim_create_augroup\bapi\bvim\rmarkdown\1\2\0\0\17markdownlint\ago\1\2\0\0\18golangci_lint\vpython\1\3\0\0\tmypy\vflake8\vsvelte\1\2\0\0\veslint\20typescriptreact\1\2\0\0\veslint\20javascriptreact\1\2\0\0\veslint\15typescript\1\2\0\0\veslint\15javascript\1\0\b\15typescript\0\rmarkdown\0\15javascript\0\ago\0\vpython\0\vsvelte\0\20typescriptreact\0\20javascriptreact\0\1\2\0\0\veslint\18linters_by_ft\vparser\0\targs\0\1\b\0\0\brun\17--out-format\tjson\23--show-stats=false\31--print-issued-lines=false\30--print-linter-name=false\18--path-prefix\bcmd\1\0\5\targs\0\bcmd\0\nstdin\1\20ignore_exitcode\2\vparser\0\18golangci_lint\flinters\0\tlint\frequire\0" },
     loaded = true,
     path = "/Users/obiemalik/.local/share/nvim/site/pack/packer/start/nvim-lint",
     url = "https://github.com/mfussenegger/nvim-lint"
@@ -279,7 +279,7 @@ _G.packer_plugins = {
     url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
-    after = { "nvim-treesitter-textsubjects", "nvim-treesitter-textobjects" },
+    after = { "nvim-treesitter-textobjects", "nvim-treesitter-textsubjects" },
     config = { "\27LJ\2\n7\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\28plugins/nvim-treesitter\frequire\0" },
     loaded = true,
     only_config = true,
@@ -427,86 +427,86 @@ time([[Defining packer_plugins]], false)
 time([[Setup for markdown-preview.nvim]], true)
 try_loadstring("\27LJ\2\nž\1\0\0\2\0\a\0\r6\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\0\0009\0\1\0)\1\0\0=\1\4\0006\0\0\0009\0\1\0'\1\6\0=\1\5\0K\0\1\0#./custom/markdown-override.css\22mkdp_markdown_css\20mkdp_auto_close\1\2\0\0\rmarkdown\19mkdp_filetypes\6g\bvim\0", "setup", "markdown-preview.nvim")
 time([[Setup for markdown-preview.nvim]], false)
+-- Config for: hover.nvim
+time([[Config for hover.nvim]], true)
+try_loadstring("\27LJ\2\n3\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\24hover.providers.lsp\frequire­\2\1\0\a\0\17\0!6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0003\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\f\0006\4\0\0'\6\1\0B\4\2\0029\4\1\0045\5\r\0B\0\5\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\14\0006\4\0\0'\6\1\0B\4\2\0029\4\15\0045\5\16\0B\0\5\1K\0\1\0\1\0\1\tdesc\24hover.nvim (select)\17hover_select\agK\1\0\1\tdesc\15hover.nvim\6K\6n\bset\vkeymap\bvim\17preview_opts\1\0\1\vborder\0\tinit\1\0\3\ntitle\2\17preview_opts\0\tinit\0\0\nsetup\nhover\frequire\0", "config", "hover.nvim")
+time([[Config for hover.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
--- Config for: hlargs.nvim
-time([[Config for hlargs.nvim]], true)
-try_loadstring("\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\vhlargs\frequire\0", "config", "hlargs.nvim")
-time([[Config for hlargs.nvim]], false)
--- Config for: LuaSnip
-time([[Config for LuaSnip]], true)
-try_loadstring("\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20plugins.luasnip\frequire\0", "config", "LuaSnip")
-time([[Config for LuaSnip]], false)
--- Config for: numb.nvim
-time([[Config for numb.nvim]], true)
-try_loadstring("\27LJ\2\n2\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\tnumb\frequire\0", "config", "numb.nvim")
-time([[Config for numb.nvim]], false)
 -- Config for: nvim-surround
 time([[Config for nvim-surround]], true)
 try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
 time([[Config for nvim-surround]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
-time([[Config for nvim-autopairs]], false)
--- Config for: git-conflict.nvim
-time([[Config for git-conflict.nvim]], true)
-try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17git-conflict\frequire\0", "config", "git-conflict.nvim")
-time([[Config for git-conflict.nvim]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-try_loadstring("\27LJ\2\n+\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\16plugins.cmp\frequire\0", "config", "nvim-cmp")
-time([[Config for nvim-cmp]], false)
--- Config for: prettier.nvim
-time([[Config for prettier.nvim]], true)
-try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21plugins.prettier\frequire\0", "config", "prettier.nvim")
-time([[Config for prettier.nvim]], false)
--- Config for: nvim-colorizer.lua
-time([[Config for nvim-colorizer.lua]], true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
-time([[Config for nvim-colorizer.lua]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\28plugins/nvim-treesitter\frequire\0", "config", "nvim-treesitter")
-time([[Config for nvim-treesitter]], false)
--- Config for: nvim-ts-context-commentstring
-time([[Config for nvim-ts-context-commentstring]], true)
-try_loadstring("\27LJ\2\nF\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\29ts_context_commentstring\frequire\0", "config", "nvim-ts-context-commentstring")
-time([[Config for nvim-ts-context-commentstring]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
-time([[Config for gitsigns.nvim]], false)
--- Config for: hover.nvim
-time([[Config for hover.nvim]], true)
-try_loadstring("\27LJ\2\n3\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\24hover.providers.lsp\frequire­\2\1\0\a\0\17\0!6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0003\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\f\0006\4\0\0'\6\1\0B\4\2\0029\4\1\0045\5\r\0B\0\5\0016\0\b\0009\0\t\0009\0\n\0'\2\v\0'\3\14\0006\4\0\0'\6\1\0B\4\2\0029\4\15\0045\5\16\0B\0\5\1K\0\1\0\1\0\1\tdesc\24hover.nvim (select)\17hover_select\agK\1\0\1\tdesc\15hover.nvim\6K\6n\bset\vkeymap\bvim\17preview_opts\1\0\1\vborder\0\tinit\1\0\3\ntitle\2\tinit\0\17preview_opts\0\0\nsetup\nhover\frequire\0", "config", "hover.nvim")
-time([[Config for hover.nvim]], false)
--- Config for: which-key.nvim
-time([[Config for which-key.nvim]], true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14which-key\frequire\0", "config", "which-key.nvim")
-time([[Config for which-key.nvim]], false)
--- Config for: nvim-lspconfig
-time([[Config for nvim-lspconfig]], true)
-try_loadstring("\27LJ\2\n«\4\0\0\3\0\23\0C6\0\0\0'\2\1\0B\0\2\0016\0\0\0'\2\2\0B\0\2\0016\0\0\0'\2\3\0B\0\2\0016\0\0\0'\2\4\0B\0\2\0016\0\0\0'\2\5\0B\0\2\0016\0\0\0'\2\6\0B\0\2\0016\0\0\0'\2\a\0B\0\2\0016\0\0\0'\2\b\0B\0\2\0016\0\0\0'\2\t\0B\0\2\0016\0\0\0'\2\n\0B\0\2\0016\0\0\0'\2\v\0B\0\2\0016\0\0\0'\2\f\0B\0\2\0016\0\0\0'\2\r\0B\0\2\0016\0\0\0'\2\14\0B\0\2\0016\0\0\0'\2\15\0B\0\2\0016\0\0\0'\2\16\0B\0\2\0016\0\0\0'\2\17\0B\0\2\0016\0\0\0'\2\18\0B\0\2\0016\0\0\0'\2\19\0B\0\2\0016\0\0\0'\2\20\0B\0\2\0016\0\0\0'\2\21\0B\0\2\0016\0\0\0'\2\22\0B\0\2\1K\0\1\0\14lsp.go_ls\16lsp.rust_ls\18lsp.python_ls\20lsp.tailwind_ls\18lsp.svelte_ls\16lsp.html_ls\18lsp.prisma_ls\16lsp.ltex_ls\19lsp.haskell_ls\21lsp.terraform_ls\15lsp.lua_ls\16lsp.yaml_ls\18lsp.eslint_ls\14lsp.ts_ls\15lsp.php_ls\16lsp.json_ls\19lsp.graphql_ls\18lsp.docker_ls\15lsp.css_ls\16lsp.bash_ls\blsp\14lsp.mason\frequire\0", "config", "nvim-lspconfig")
-time([[Config for nvim-lspconfig]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-try_loadstring("\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins/nvim-tree\frequire\0", "config", "nvim-tree.lua")
-time([[Config for nvim-tree.lua]], false)
 -- Config for: todo-comments.nvim
 time([[Config for todo-comments.nvim]], true)
 try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\18todo-comments\frequire\0", "config", "todo-comments.nvim")
 time([[Config for todo-comments.nvim]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
+time([[Config for nvim-autopairs]], false)
+-- Config for: LuaSnip
+time([[Config for LuaSnip]], true)
+try_loadstring("\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20plugins.luasnip\frequire\0", "config", "LuaSnip")
+time([[Config for LuaSnip]], false)
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
+time([[Config for nvim-colorizer.lua]], false)
+-- Config for: which-key.nvim
+time([[Config for which-key.nvim]], true)
+try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14which-key\frequire\0", "config", "which-key.nvim")
+time([[Config for which-key.nvim]], false)
 -- Config for: nvim-lint
 time([[Config for nvim-lint]], true)
-try_loadstring("\27LJ\2\n€\2\0\0\b\0\14\0\0246\0\0\0009\0\1\0009\0\2\0'\2\3\0B\0\2\0026\1\4\0009\1\5\1'\3\6\0\18\4\0\0'\5\a\0&\3\5\3B\1\2\2\18\4\1\0009\2\b\1'\5\t\0B\2\3\2\18\5\1\0009\3\n\1B\3\2\1\18\5\2\0009\3\v\2'\6\f\0'\a\r\0D\3\4\0\5\6\n\tgsub\nclose\a*a\tread9 -name 'golangci-lint' -type f 2>/dev/null | head -1\nfind \npopen\aio5~/.local/share/nvim/mason/packages/golangci-lint\vexpand\afn\bvim[\0\0\5\0\6\0\n6\0\0\0009\0\1\0009\0\2\0006\2\0\0009\2\3\0029\2\4\2)\4\0\0B\2\2\2'\3\5\0D\0\3\0\a:h\22nvim_buf_get_name\bapi\16fnamemodify\afn\bvimì\2\0\1\14\0\21\1*4\1\0\0006\2\0\0006\4\1\0009\4\2\0049\4\3\4\18\5\0\0B\2\3\3\14\0\2\0X\4\1€L\1\2\0009\4\4\3\15\0\4\0X\5\28€6\4\5\0009\6\4\3B\4\2\4X\a\22€6\t\6\0009\t\a\t\18\v\1\0005\f\n\0009\r\b\b9\r\t\r\23\r\0\r=\r\v\f9\r\b\b9\r\f\r\23\r\0\r=\r\r\f9\r\14\b=\r\15\f6\r\1\0009\r\16\r9\r\17\r9\r\18\r=\r\17\f9\r\19\b=\r\20\fB\t\3\1E\a\3\3R\aè\127L\1\2\0\tcode\15FromLinter\tWARN\rseverity\15diagnostic\fmessage\tText\bcol\vColumn\tlnum\1\0\6\vsource\18golangci-lint\tcode\0\tlnum\0\rseverity\0\fmessage\0\bcol\0\tLine\bPos\vinsert\ntable\vipairs\vIssues\vdecode\tjson\bvim\npcall\2\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint¯\a\1\0\t\0.\0;6\0\0\0'\2\1\0B\0\2\0023\1\2\0009\2\3\0005\3\5\0\18\4\1\0B\4\1\2=\4\6\0035\4\a\0003\5\b\0>\5\b\4=\4\t\0033\4\n\0=\4\v\3=\3\4\0025\2\14\0005\3\r\0=\3\15\0025\3\16\0=\3\17\0025\3\18\0=\3\19\0025\3\20\0=\3\21\0025\3\22\0=\3\23\0025\3\24\0=\3\25\0025\3\26\0=\3\27\0025\3\28\0=\3\29\2=\2\f\0006\2\30\0009\2\31\0029\2 \2'\4\1\0005\5!\0B\2\3\0026\3\30\0009\3\31\0039\3\"\0035\5#\0005\6$\0=\2%\0063\a&\0=\a'\6B\3\3\0016\3\30\0009\3(\0039\3)\3'\5*\0'\6+\0003\a,\0005\b-\0B\3\5\0012\0\0€K\0\1\0\1\0\1\tdesc%Trigger linting for current file\0\14<leader>l\6n\bset\vkeymap\rcallback\0\ngroup\1\0\2\ngroup\0\rcallback\0\1\4\0\0\rBufEnter\17BufWritePost\16InsertLeave\24nvim_create_autocmd\1\0\1\nclear\2\24nvim_create_augroup\bapi\bvim\rmarkdown\1\2\0\0\17markdownlint\ago\1\2\0\0\18golangci_lint\vpython\1\3\0\0\tmypy\vflake8\vsvelte\1\2\0\0\veslint\20typescriptreact\1\2\0\0\veslint\20javascriptreact\1\2\0\0\veslint\15typescript\1\2\0\0\veslint\15javascript\1\0\b\vpython\0\vsvelte\0\20typescriptreact\0\20javascriptreact\0\15typescript\0\ago\0\15javascript\0\rmarkdown\0\1\2\0\0\veslint\18linters_by_ft\vparser\0\targs\0\1\b\0\0\brun\17--out-format\tjson\23--show-stats=false\31--print-issued-lines=false\30--print-linter-name=false\18--path-prefix\bcmd\1\0\5\vparser\0\nstdin\1\20ignore_exitcode\2\targs\0\bcmd\0\18golangci_lint\flinters\0\tlint\frequire\0", "config", "nvim-lint")
+try_loadstring("\27LJ\2\n€\2\0\0\b\0\14\0\0246\0\0\0009\0\1\0009\0\2\0'\2\3\0B\0\2\0026\1\4\0009\1\5\1'\3\6\0\18\4\0\0'\5\a\0&\3\5\3B\1\2\2\18\4\1\0009\2\b\1'\5\t\0B\2\3\2\18\5\1\0009\3\n\1B\3\2\1\18\5\2\0009\3\v\2'\6\f\0'\a\r\0D\3\4\0\5\6\n\tgsub\nclose\a*a\tread9 -name 'golangci-lint' -type f 2>/dev/null | head -1\nfind \npopen\aio5~/.local/share/nvim/mason/packages/golangci-lint\vexpand\afn\bvim[\0\0\5\0\6\0\n6\0\0\0009\0\1\0009\0\2\0006\2\0\0009\2\3\0029\2\4\2)\4\0\0B\2\2\2'\3\5\0D\0\3\0\a:h\22nvim_buf_get_name\bapi\16fnamemodify\afn\bvimì\2\0\1\14\0\21\1*4\1\0\0006\2\0\0006\4\1\0009\4\2\0049\4\3\4\18\5\0\0B\2\3\3\14\0\2\0X\4\1€L\1\2\0009\4\4\3\15\0\4\0X\5\28€6\4\5\0009\6\4\3B\4\2\4X\a\22€6\t\6\0009\t\a\t\18\v\1\0005\f\n\0009\r\b\b9\r\t\r\23\r\0\r=\r\v\f9\r\b\b9\r\f\r\23\r\0\r=\r\r\f9\r\14\b=\r\15\f6\r\1\0009\r\16\r9\r\17\r9\r\18\r=\r\17\f9\r\19\b=\r\20\fB\t\3\1E\a\3\3R\aè\127L\1\2\0\tcode\15FromLinter\tWARN\rseverity\15diagnostic\fmessage\tText\bcol\vColumn\tlnum\1\0\6\fmessage\0\bcol\0\tlnum\0\tcode\0\vsource\18golangci-lint\rseverity\0\tLine\bPos\vinsert\ntable\vipairs\vIssues\vdecode\tjson\bvim\npcall\2\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint\"\0\0\2\1\1\0\4-\0\0\0009\0\0\0B\0\1\1K\0\1\0\0À\rtry_lint¯\a\1\0\t\0.\0;6\0\0\0'\2\1\0B\0\2\0023\1\2\0009\2\3\0005\3\5\0\18\4\1\0B\4\1\2=\4\6\0035\4\a\0003\5\b\0>\5\b\4=\4\t\0033\4\n\0=\4\v\3=\3\4\0025\2\14\0005\3\r\0=\3\15\0025\3\16\0=\3\17\0025\3\18\0=\3\19\0025\3\20\0=\3\21\0025\3\22\0=\3\23\0025\3\24\0=\3\25\0025\3\26\0=\3\27\0025\3\28\0=\3\29\2=\2\f\0006\2\30\0009\2\31\0029\2 \2'\4\1\0005\5!\0B\2\3\0026\3\30\0009\3\31\0039\3\"\0035\5#\0005\6$\0=\2%\0063\a&\0=\a'\6B\3\3\0016\3\30\0009\3(\0039\3)\3'\5*\0'\6+\0003\a,\0005\b-\0B\3\5\0012\0\0€K\0\1\0\1\0\1\tdesc%Trigger linting for current file\0\14<leader>l\6n\bset\vkeymap\rcallback\0\ngroup\1\0\2\rcallback\0\ngroup\0\1\4\0\0\rBufEnter\17BufWritePost\16InsertLeave\24nvim_create_autocmd\1\0\1\nclear\2\24nvim_create_augroup\bapi\bvim\rmarkdown\1\2\0\0\17markdownlint\ago\1\2\0\0\18golangci_lint\vpython\1\3\0\0\tmypy\vflake8\vsvelte\1\2\0\0\veslint\20typescriptreact\1\2\0\0\veslint\20javascriptreact\1\2\0\0\veslint\15typescript\1\2\0\0\veslint\15javascript\1\0\b\15typescript\0\rmarkdown\0\15javascript\0\ago\0\vpython\0\vsvelte\0\20typescriptreact\0\20javascriptreact\0\1\2\0\0\veslint\18linters_by_ft\vparser\0\targs\0\1\b\0\0\brun\17--out-format\tjson\23--show-stats=false\31--print-issued-lines=false\30--print-linter-name=false\18--path-prefix\bcmd\1\0\5\targs\0\bcmd\0\nstdin\1\20ignore_exitcode\2\vparser\0\18golangci_lint\flinters\0\tlint\frequire\0", "config", "nvim-lint")
 time([[Config for nvim-lint]], false)
+-- Config for: git-conflict.nvim
+time([[Config for git-conflict.nvim]], true)
+try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17git-conflict\frequire\0", "config", "git-conflict.nvim")
+time([[Config for git-conflict.nvim]], false)
+-- Config for: nvim-lspconfig
+time([[Config for nvim-lspconfig]], true)
+try_loadstring("\27LJ\2\n«\4\0\0\3\0\23\0C6\0\0\0'\2\1\0B\0\2\0016\0\0\0'\2\2\0B\0\2\0016\0\0\0'\2\3\0B\0\2\0016\0\0\0'\2\4\0B\0\2\0016\0\0\0'\2\5\0B\0\2\0016\0\0\0'\2\6\0B\0\2\0016\0\0\0'\2\a\0B\0\2\0016\0\0\0'\2\b\0B\0\2\0016\0\0\0'\2\t\0B\0\2\0016\0\0\0'\2\n\0B\0\2\0016\0\0\0'\2\v\0B\0\2\0016\0\0\0'\2\f\0B\0\2\0016\0\0\0'\2\r\0B\0\2\0016\0\0\0'\2\14\0B\0\2\0016\0\0\0'\2\15\0B\0\2\0016\0\0\0'\2\16\0B\0\2\0016\0\0\0'\2\17\0B\0\2\0016\0\0\0'\2\18\0B\0\2\0016\0\0\0'\2\19\0B\0\2\0016\0\0\0'\2\20\0B\0\2\0016\0\0\0'\2\21\0B\0\2\0016\0\0\0'\2\22\0B\0\2\1K\0\1\0\14lsp.go_ls\16lsp.rust_ls\18lsp.python_ls\20lsp.tailwind_ls\18lsp.svelte_ls\16lsp.html_ls\18lsp.prisma_ls\16lsp.ltex_ls\19lsp.haskell_ls\21lsp.terraform_ls\15lsp.lua_ls\16lsp.yaml_ls\18lsp.eslint_ls\14lsp.ts_ls\15lsp.php_ls\16lsp.json_ls\19lsp.graphql_ls\18lsp.docker_ls\15lsp.css_ls\16lsp.bash_ls\blsp\14lsp.mason\frequire\0", "config", "nvim-lspconfig")
+time([[Config for nvim-lspconfig]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
+time([[Config for gitsigns.nvim]], false)
 -- Config for: package-info.nvim
 time([[Config for package-info.nvim]], true)
 try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17package-info\frequire\0", "config", "package-info.nvim")
 time([[Config for package-info.nvim]], false)
+-- Config for: hlargs.nvim
+time([[Config for hlargs.nvim]], true)
+try_loadstring("\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\vhlargs\frequire\0", "config", "hlargs.nvim")
+time([[Config for hlargs.nvim]], false)
+-- Config for: prettier.nvim
+time([[Config for prettier.nvim]], true)
+try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21plugins.prettier\frequire\0", "config", "prettier.nvim")
+time([[Config for prettier.nvim]], false)
+-- Config for: numb.nvim
+time([[Config for numb.nvim]], true)
+try_loadstring("\27LJ\2\n2\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\tnumb\frequire\0", "config", "numb.nvim")
+time([[Config for numb.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+try_loadstring("\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins/nvim-tree\frequire\0", "config", "nvim-tree.lua")
+time([[Config for nvim-tree.lua]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21plugins.nvim-cmp\frequire\0", "config", "nvim-cmp")
+time([[Config for nvim-cmp]], false)
+-- Config for: nvim-ts-context-commentstring
+time([[Config for nvim-ts-context-commentstring]], true)
+try_loadstring("\27LJ\2\nF\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\29ts_context_commentstring\frequire\0", "config", "nvim-ts-context-commentstring")
+time([[Config for nvim-ts-context-commentstring]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+try_loadstring("\27LJ\2\n7\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\28plugins/nvim-treesitter\frequire\0", "config", "nvim-treesitter")
+time([[Config for nvim-treesitter]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd nvim-treesitter-textsubjects ]]
