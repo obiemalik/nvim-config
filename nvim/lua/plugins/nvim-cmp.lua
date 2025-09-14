@@ -70,6 +70,17 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'path' },
     { name = 'buffer' },
+    { name = 'git', },
+    { name = 'cmp_tabnine', },
   },
+
+  window = {
+    documentation = cmp.config.window.bordered(),
+  },
+
+  experimental = {
+    ghost_text = true,
+  },
+
 }
 

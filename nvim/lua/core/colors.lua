@@ -39,7 +39,7 @@ function SetColorScheme(name)
   end
 end
 
-function ResetColorScheme()
+function ResetColorScheme(default_name)
   -- Check if running on macOS
   local uname = vim.fn.system('uname'):gsub('%s+', '')
 
@@ -53,17 +53,17 @@ function ResetColorScheme()
       if result and string.find(result, "Light") then
         SetColorScheme("papercolor")
       else
-        SetColorScheme("moonfly")
+        SetColorScheme(default_name)
       end
     else
       -- Fallback if can't read defaults
-      SetColorScheme("moonfly")
+      SetColorScheme(default_name)
     end
   else
     -- Fallback for non-macOS systems
-    SetColorScheme("moonfly")
+    SetColorScheme(default_name)
   end
 end
 
 -- Auto-detect theme on startup
-ResetColorScheme()
+ResetColorScheme("onedark")

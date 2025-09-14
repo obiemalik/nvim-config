@@ -44,22 +44,22 @@ vim.diagnostic.config({
 -- Handle formatting in a smarter way
 -- If the buffer has been edited before formatting has completed, do not try to apply the changes
 vim.lsp.handlers['textDocument/formatting'] =
-function(err, result, ctx, _)
-  if err ~= nil or result == nil then
-    return
-  end
+    function(err, result, ctx, _)
+      if err ~= nil or result == nil then
+        return
+      end
 
-  -- If the buffer hasn't been modified before the formatting has finished, update the buffer
-  if not vim.api.nvim_buf_get_option(ctx.bufnr, 'modified') then
-    local view = vim.fn.winsaveview()
-    local client = vim.lsp.get_client_by_id(ctx.client_id)
-    vim.lsp.util.apply_text_edits(result, ctx.bufnr, client.offset_encoding)
-    vim.fn.winrestview(view)
-    if ctx.bufnr == vim.api.nvim_get_current_buf() or not ctx.bufnr then
-      vim.api.nvim_command 'noautocmd :update'
+      -- If the buffer hasn't been modified before the formatting has finished, update the buffer
+      if not vim.api.nvim_buf_get_option(ctx.bufnr, 'modified') then
+        local view = vim.fn.winsaveview()
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
+        vim.lsp.util.apply_text_edits(result, ctx.bufnr, client.offset_encoding)
+        vim.fn.winrestview(view)
+        if ctx.bufnr == vim.api.nvim_get_current_buf() or not ctx.bufnr then
+          vim.api.nvim_command 'noautocmd :update'
+        end
+      end
     end
-  end
-end
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'rounded',
@@ -142,7 +142,9 @@ function M.on_attach(client, bufnr)
   end, opts)
 
   local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-  local formatting_ls_list = { 'lua_ls', 'pylsp' }
+  -- Only include LSPs that should handle formatting directly
+  -- JS/TS formatting is handled by conform.nvim with Prettier
+  local formatting_ls_list = { 'lua_ls', 'pylsp', 'gopls' }
 
   if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
     vim.api.nvim_clear_autocmds {
@@ -158,7 +160,6 @@ function M.on_attach(client, bufnr)
       end,
     })
   end
-
 end
 
 -- capabilities
@@ -168,25 +169,9 @@ if not cmp_status_ok then
   return
 end
 
-
-M.capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
-
-M.capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-M.capabilities.textDocument.completion.completionItem.snippetSupport = true
-M.capabilities.textDocument.completion.completionItem.preselectSupport = true
-M.capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-M.capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-M.capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-M.capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-M.capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-M.capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
-}
+-- Modern way to set up capabilities for nvim-cmp
+-- Let cmp_nvim_lsp handle all capability setup automatically
+M.capabilities = cmp_nvim_lsp.default_capabilities()
 
 -- If the LSP response includes any `node_modules`, then try to remove them and
 -- see if there are any options left. We probably want to navigate to the code
@@ -201,7 +186,7 @@ M.capabilities.textDocument.completion.completionItem.resolveSupport = {
 -- definition in `node_modules/react` as the first result, but we don't want
 -- that.
 local function filter_out_libraries_from_lsp_items(results)
-  local without_node_modules = vim.tbl_filter(function(item)
+  local without_node_modules = vim.filter(function(item)
     return item.targetUri and not string.match(item.targetUri, 'node_modules')
   end, results)
 
@@ -218,7 +203,8 @@ local function list_or_jump(action, title, opts)
   opts = opts or {}
 
   local params = vim.lsp.util.make_position_params()
-  vim.lsp.buf_request(0, action, params, function(err, result, ctx, _config)
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.lsp.buf_request(bufnr, action, params, function(err, result, ctx, _config)
     if err then
       vim.api.nvim_err_writeln('Error when executing ' .. action .. ' : ' ..
         err.message)
@@ -227,7 +213,7 @@ local function list_or_jump(action, title, opts)
     local flattened_results = {}
     if result then
       -- textDocument/definition can return Location or Location[]
-      if not vim.tbl_islist(result) then
+      if not vim.islist(result) then
         flattened_results = { result }
       end
 
@@ -272,39 +258,39 @@ function M.definitions(opts)
 end
 
 vim.lsp.handlers['textDocument/rename'] =
-function(err, result, ctx)
-  if err then
-    vim.notify(("Error running lsp query 'rename': " .. err),
-      vim.log.levels.ERROR)
-  end
+    function(err, result, ctx)
+      if err then
+        vim.notify(("Error running lsp query 'rename': " .. err),
+          vim.log.levels.ERROR)
+      end
 
-  if result and result.changes then
-    local new_name = ''
-    local old_name = vim.fn.expand '<cword>'
+      if result and result.changes then
+        local new_name = ''
+        local old_name = vim.fn.expand '<cword>'
 
-    local msg = ''
-    for f, c in pairs(result.changes) do
-      new_name = c[1].newText
-      msg = msg .. ('%d changes -> %s'):format(#c, f:gsub('file://', '')
-        :gsub(vim.pesc(vim.loop.cwd()), '.')) .. '\n'
+        local msg = ''
+        for f, c in pairs(result.changes) do
+          new_name = c[1].newText
+          msg = msg .. ('%d changes -> %s'):format(#c, f:gsub('file://', '')
+            :gsub(vim.pesc(vim.loop.cwd()), '.')) .. '\n'
+        end
+        -- Remove the last new line
+        msg = msg:sub(1, #msg - 1)
+
+        vim.notify(msg, vim.log.levels.INFO, {
+          title = ('Rename: %s -> %s'):format(old_name, new_name),
+        })
+      end
+
+      local client = vim.lsp.get_client_by_id(ctx.client_id)
+      vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
     end
-    -- Remove the last new line
-    msg = msg:sub(1, #msg - 1)
-
-    vim.notify(msg, vim.log.levels.INFO, {
-      title = ('Rename: %s -> %s'):format(old_name, new_name),
-    })
-  end
-
-  local client = vim.lsp.get_client_by_id(ctx.client_id)
-  vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
-end
 
 vim.lsp.buf.rename = {
   float = function()
     local curr_name = vim.fn.expand '<cword>'
     local tshl =
-    require('nvim-treesitter-playground.hl-info').get_treesitter_hl()
+        require('nvim-treesitter-playground.hl-info').get_treesitter_hl()
     if tshl and #tshl > 0 then
       local ind = tshl[#tshl]:match '^.*()%*%*.*%*%*'
       tshl = tshl[#tshl]:sub(ind + 2, -3)

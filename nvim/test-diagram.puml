@@ -1,0 +1,22 @@
+@startuml
+!theme plain
+
+title PlantUML Test Diagram
+
+actor User
+participant "Neovim" as NV
+participant "PlantUML" as PU
+participant "Browser" as BR
+
+User -> NV: Open .puml file
+User -> NV: Press <leader>p
+NV -> PU: Generate diagram
+PU -> BR: Display SVG
+BR -> User: Show diagram
+
+note right of PU
+  PlantUML is installed via Homebrew
+  and ready to use!
+end note
+
+@enduml
