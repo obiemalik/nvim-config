@@ -1,4 +1,2 @@
-require('lspconfig').rust_analyzer.setup {
-  on_attach = require('lsp').on_attach,
-  capabilities = require('lsp').capabilities,
-}
+vim.lsp.config('rust_analyzer', {})
+vim.lsp.enable('rust_analyzer')

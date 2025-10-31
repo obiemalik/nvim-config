@@ -1,7 +1,5 @@
 -- https://intelephense.com
-require('lspconfig').intelephense.setup {
-  on_attach = require('lsp').on_attach,
-  capabilities = require('lsp').capabilities,
+vim.lsp.config('intelephense', {
   settings = {
     intelephense = {
       environment = {
@@ -9,4 +7,5 @@ require('lspconfig').intelephense.setup {
       }
     }
   }
-}
+})
+vim.lsp.enable('intelephense')

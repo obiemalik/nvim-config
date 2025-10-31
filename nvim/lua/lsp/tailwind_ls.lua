@@ -7,10 +7,10 @@ local function has_tailwind_dependencies()
   if not package_json then
     return false
   end
-  
+
   local deps = package_json.dependencies or {}
   local dev_deps = package_json.devDependencies or {}
-  
+
   -- Check for common Tailwind-related packages
   local tailwind_packages = {
     'tailwindcss',
@@ -20,20 +20,18 @@ local function has_tailwind_dependencies()
     '@tailwindcss/aspect-ratio',
     '@tailwindcss/container-queries'
   }
-  
+
   for _, pkg in ipairs(tailwind_packages) do
     if deps[pkg] or dev_deps[pkg] then
       return true
     end
   end
-  
+
   return false
 end
 
 -- Only setup Tailwind LSP if we actually have Tailwind dependencies
 if has_tailwind_dependencies() then
-  require('lspconfig').tailwindcss.setup {
-    on_attach = require('lsp').on_attach,
-    capabilities = require('lsp').capabilities
-  }
+  vim.lsp.config('tailwindcss', {})
+  vim.lsp.enable('tailwindcss')
 end

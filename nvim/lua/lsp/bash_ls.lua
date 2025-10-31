@@ -1,6 +1,3 @@
-local lsp = require('lsp')
-
-require('lspconfig').bashls.setup {
-  on_attach = lsp.on_attach,
-  capabilities = lsp.capabilities,
-}
+ 
+vim.lsp.config('bashls', {})
+vim.lsp.enable('bashls')

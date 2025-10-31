@@ -1,3 +1,2 @@
-require('lspconfig').terraformls.setup {
-  capabilities = require('lsp').capabilities,
-}
+vim.lsp.config('terraformls', {})
+vim.lsp.enable('terraformls')

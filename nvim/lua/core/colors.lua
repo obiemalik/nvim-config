@@ -7,7 +7,8 @@ local Schemes = {
   papercolor = require('core/colorschemes/papercolor'),
   onedark = require('core/colorschemes/onedark'),
   modus = require('core/colorschemes/modus'),
-  moonfly = require('core/colorschemes/moonfly')
+  moonfly = require('core/colorschemes/moonfly'),
+  oxocarbon = require('core/colorschemes/oxocarbon')
 }
 
 local statusline = require('core/statusline')
@@ -66,4 +67,4 @@ function ResetColorScheme(default_name)
 end
 
 -- Auto-detect theme on startup
-ResetColorScheme("onedark")
+ResetColorScheme("oxocarbon")

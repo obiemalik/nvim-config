@@ -1,4 +1,2 @@
-require('lspconfig').svelte.setup {
-  on_attach = require('lsp').on_attach,
-  capabilities = require('lsp').capabilities
-}
+vim.lsp.config('svelte', {})
+vim.lsp.enable('svelte')

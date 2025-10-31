@@ -83,6 +83,7 @@ return packer.startup(function(use)
   use { "catppuccin/nvim", as = "catppuccin" }
   use { "miikanissi/modus-themes.nvim" }
   use { "bluz71/vim-moonfly-colors", as = "moonfly" }
+  use { 'nyoom-engineering/oxocarbon.nvim' }
 
   use { -- Keybinding Popup
     'folke/which-key.nvim',
@@ -155,6 +156,10 @@ return packer.startup(function(use)
       vim.g.mkdp_markdown_css = './custom/markdown-override.css'
     end,
     ft = { 'markdown' },
+  }
+
+  use { -- PlantUML Preview
+    'javiorfo/nvim-soil'
   }
 
   use { -- Surround Code Blocks
@@ -368,21 +373,63 @@ return packer.startup(function(use)
       }
 
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+      local lintfn = function() 
+        lint.try_lint()
+      end
 
       vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
         group = lint_augroup,
-        callback = function()
-          lint.try_lint()
-        end,
+        callback = lintfn
       })
 
-      vim.keymap.set("n", "<leader>l", function()
-        lint.try_lint()
-      end, { desc = "Trigger linting for current file" })
+      vim.keymap.set("n", "<leader>l", lintfn, { desc = "Trigger linting for current file" })
     end,
   }
 
-  use(require 'plugins.conform')
+  use {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local conform = require("conform")
+
+      conform.setup({
+        formatters_by_ft = {
+          javascript = { "prettierd", "prettier" },
+          typescript = { "prettierd", "prettier" },
+          javascriptreact = { "prettierd", "prettier" },
+          typescriptreact = { "prettierd", "prettier" },
+          svelte = { "prettierd", "prettier" },
+          css = { "prettierd", "prettier" },
+          scss = { "prettierd", "prettier" },
+          html = { "prettierd", "prettier" },
+          json = { "prettierd", "prettier" },
+          jsonc = { "prettierd", "prettier" },
+          yaml = { "prettierd", "prettier" },
+          markdown = { "prettierd", "prettier" },
+          graphql = { "prettierd", "prettier" },
+          lua = { "stylua" },
+          python = { "black", "isort" },
+          go = { "gofumpt", "goimports" },
+          sh = { "shfmt" },
+          bash = { "shfmt" },
+        },
+        format_on_save = {
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 1000,
+          priority = 50
+        },
+      })
+
+      vim.keymap.set({ "n", "v" }, "<leader>f", function()
+        conform.format({
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 1000,
+        })
+      end, { desc = "Format and fix file or range (in visual mode)" })
+    end,
+  }
 
   --
   -- use {

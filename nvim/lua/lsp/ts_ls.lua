@@ -1,7 +1,5 @@
 -- Enhanced ts_ls configuration for better completions and diagnostics
-require('lspconfig').ts_ls.setup {
-  on_attach = require('lsp').on_attach,
-  capabilities = require('lsp').capabilities,
+vim.lsp.config('ts_ls', {
   -- Enable completion, hover, signature help, and other language features
   init_options = {
     preferences = {
@@ -40,4 +38,6 @@ require('lspconfig').ts_ls.setup {
       },
     }
   }
-}
+})
+
+vim.lsp.enable('ts_ls')

@@ -1,8 +1,6 @@
 -- https://github.com/sumneko/lua-language-server
 
-require('lspconfig').lua_ls.setup({
-  on_attach = require('lsp').on_attach,
-  capabilities = require('lsp').capabilities,
+vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       diagnostics = {
@@ -11,3 +9,5 @@ require('lspconfig').lua_ls.setup({
     }
   }
 })
+
+vim.lsp.enable('lua_ls')
