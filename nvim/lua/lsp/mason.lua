@@ -7,10 +7,9 @@ mason.setup {}
 mason_tool_installer.setup {
   ensure_installed = {
     "mypy",
-    "flake8",
     "isort",
+    "black",
     "prettier",
-    "blackd-client",
     "gofumpt",
     "goimports",
     "golines",

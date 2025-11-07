@@ -171,7 +171,9 @@ return packer.startup(function(use)
   use { -- Autopair
     'windwp/nvim-autopairs',
     config = function()
-      require('nvim-autopairs').setup()
+      require('nvim-autopairs').setup({
+        enabled = false
+      })
     end,
   }
   use { -- Render HEX Colors
@@ -367,13 +369,13 @@ return packer.startup(function(use)
         javascriptreact = { "eslint" },
         typescriptreact = { "eslint" },
         svelte = { "eslint" },
-        python = { "mypy", "flake8" },
+        python = { "mypy" },
         go = { "golangci_lint" },
         markdown = { "markdownlint" },
       }
 
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-      local lintfn = function() 
+      local lintfn = function()
         lint.try_lint()
       end
 
@@ -408,10 +410,40 @@ return packer.startup(function(use)
           markdown = { "prettierd", "prettier" },
           graphql = { "prettierd", "prettier" },
           lua = { "stylua" },
-          python = { "black", "isort" },
+          python = { "black", "ruff" },
           go = { "gofumpt", "goimports" },
           sh = { "shfmt" },
           bash = { "shfmt" },
+        },
+        formatters = {
+          black = {
+            command = function()
+              -- Try activated venv first
+              local venv = os.getenv('VIRTUAL_ENV')
+              if venv then
+                local venv_black = venv .. "/bin/black"
+                if vim.fn.executable(venv_black) == 1 then
+                  return venv_black
+                end
+              end
+              -- Try Poetry venv
+              local root = vim.fn.getcwd()
+              local poetry_venv = root .. "/.venv/bin/black"
+              if vim.fn.executable(poetry_venv) == 1 then
+                return poetry_venv
+              end
+              -- Fall back to Mason's Black
+              return "black"
+            end,
+            prepend_args = function()
+              local root = vim.fn.getcwd()
+              local config_path = root .. "/pyproject.toml"
+              if vim.fn.filereadable(config_path) == 1 then
+                return { "--config", config_path }
+              end
+              return {}
+            end
+          },
         },
         format_on_save = {
           lsp_fallback = true,
@@ -420,8 +452,9 @@ return packer.startup(function(use)
           priority = 50
         },
       })
-
+        
       vim.keymap.set({ "n", "v" }, "<leader>f", function()
+        print("Formatting...")
         conform.format({
           lsp_fallback = true,
           async = false,
@@ -519,17 +552,17 @@ return packer.startup(function(use)
   --   end
   -- }
 
-  use {
-    "Exafunction/windsurf.nvim",
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
-    },
-    config = function()
-      require("codeium").setup({
-      })
-    end
-  }
+  -- use {
+  --   "Exafunction/windsurf.nvim",
+  --   requires = {
+  --     "nvim-lua/plenary.nvim",
+  --     "hrsh7th/nvim-cmp",
+  --   },
+  --   config = function()
+  --     require("codeium").setup({
+  --     })
+  --   end
+  -- }
 
   -- Automatically set up your configuration after cloning packer.nvim
   if packer_bootstrap then

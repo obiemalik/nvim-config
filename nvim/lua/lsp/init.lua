@@ -107,6 +107,7 @@ function M.on_attach(client, bufnr)
   }
   buf_map(bufnr, 'n', '<c-]>', M.definitions, opts)
   buf_map(bufnr, 'n', 'gd', vim.lsp.buf.definition, opts)
+  buf_map(bufnr, 'n', 'gt', vim.lsp.buf.declaration, opts)
   buf_map(bufnr, 'n', 'gi', vim.lsp.buf.implementation, opts)
   buf_map(bufnr, 'n', 'gD', vim.lsp.buf.type_definition, opts)
   buf_map(bufnr, 'n', 'gr', builtin.lsp_references, opts)
@@ -144,7 +145,7 @@ function M.on_attach(client, bufnr)
   local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
   -- Only include LSPs that should handle formatting directly
   -- JS/TS formatting is handled by conform.nvim with Prettier
-  local formatting_ls_list = { 'lua_ls', 'pylsp', 'gopls' }
+  local formatting_ls_list = { 'lua_ls', 'gopls' }
 
   if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
     vim.api.nvim_clear_autocmds {

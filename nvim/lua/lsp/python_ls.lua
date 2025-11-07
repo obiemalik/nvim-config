@@ -18,5 +18,12 @@ else
   end
 end
 
-vim.lsp.config('pyright', {})
+vim.lsp.config('pyright', {
+  on_attach = function(client, bufnr)
+    client.server_capabilities.renameProvider = true
+    require('lsp').on_attach(client, bufnr)
+  end
+})
 vim.lsp.enable('pyright')
+
+
