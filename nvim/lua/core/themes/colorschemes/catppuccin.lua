@@ -78,32 +78,19 @@ local function get_colors(scheme)
   return colors
 end
 
-local Catppuccin = {}
-
---- Set colorscheme to one of the following themes:
--- 'catppuccin',
--- 'catppuccin-latte',
--- 'catppuccin-frappe',
--- 'catppuccin-macchiato',
--- 'catppuccin-mocha',
--- 'catppuccin-amoled'
----@param scheme string
-function Catppuccin:new(scheme)
-  local instance = {}
-
-  setmetatable(instance, self)
-  self.__index = self
-
-  local pallete = get_colors(scheme)
-
-  instance.scheme = scheme
-  instance.statusline = pallete
-
-  return instance
+local function apply(scheme)
+  vim.cmd.colorscheme(scheme)
 end
 
-function Catppuccin:apply()
-  vim.cmd.colorscheme(self.scheme)
+local function get_statusline(scheme)
+  return get_colors(scheme)
 end
 
-return Catppuccin
+return {
+  apply = function(scheme)
+    apply(scheme)
+  end,
+  get_statusline = function(scheme)
+    return get_statusline(scheme)
+  end
+}

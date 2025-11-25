@@ -4,7 +4,8 @@ require('core/options')
 require('core/autocmds')
 require('core/commands')
 require('core/keymaps')
-require('core/colors')
+
+require('core/themes')
 
 require('plugins/indent-blankline')
 require('plugins/alpha-nvim')

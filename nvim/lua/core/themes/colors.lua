@@ -2,18 +2,9 @@
 -- Color schemes configuration file
 -----------------------------------------------------------
 
-local Schemes = {
-  catppuccin = require('core/colorschemes/catppuccin'),
-  papercolor = require('core/colorschemes/papercolor'),
-  onedark = require('core/colorschemes/onedark'),
-  modus = require('core/colorschemes/modus'),
-  moonfly = require('core/colorschemes/moonfly'),
-  oxocarbon = require('core/colorschemes/oxocarbon')
-}
-
 local statusline = require('core/statusline')
 
----
+local Schemes = nil
 
 local function findSchemeNameByPartialName(tbl, partialName)
   for key, _ in pairs(tbl) do
@@ -24,23 +15,23 @@ local function findSchemeNameByPartialName(tbl, partialName)
   return nil
 end
 
----
-
-vim.cmd('command! -nargs=1 SetColorScheme lua SetColorScheme(<f-args>)')
-vim.cmd('command! ResetColorScheme lua ResetColorScheme()')
-
-function SetColorScheme(name)
+local function SetColorScheme(name)
+  if not Schemes then
+    print("Color schemes not initialized")
+    return
+  end
   local schemename = findSchemeNameByPartialName(Schemes, name)
   if schemename then
-    local scheme = Schemes[schemename]:new(name)
-    scheme:apply()
-    statusline.feline.use_theme(scheme.statusline)
+    local scheme_module = Schemes[schemename]
+    scheme_module.apply(name)
+    local statusline_colors = scheme_module.get_statusline(name)
+    statusline.feline.use_theme(statusline_colors)
   else
     print("Color scheme not found: " .. name)
   end
 end
 
-function ResetColorScheme(default_name)
+local function ResetColorScheme(default_name)
   -- Check if running on macOS
   local uname = vim.fn.system('uname'):gsub('%s+', '')
 
@@ -66,5 +57,12 @@ function ResetColorScheme(default_name)
   end
 end
 
--- Auto-detect theme on startup
-ResetColorScheme("oxocarbon")
+return {
+  init = function(schemes)
+    Schemes = schemes
+    -- Auto-detect theme on startup
+    ResetColorScheme("modus")
+  end,
+  SetColorScheme = SetColorScheme,
+  ResetColorScheme = ResetColorScheme
+}

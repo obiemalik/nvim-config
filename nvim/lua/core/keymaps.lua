@@ -96,3 +96,6 @@ map('n', '<leader>p', ':lua vim.diagnostic.goto_prev()<CR>')
 
 -- Telescope
 map('n', '<leader>ts', ':Telescope<CR>') -- Open Telescope
+
+-- Color Scheme Picker
+map('n', '<leader>tc', ':ColorSchemePicker<CR>') -- Open color scheme picker
