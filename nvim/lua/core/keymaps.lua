@@ -18,7 +18,6 @@ map('n', '<leader>c', ':nohl<CR>')
 
 -- Toggle auto-indenting for code paste
 map('n', '<F2>', ':set invpaste paste?<CR>')
--- DEPRECATED -- vim.opt.pastetoggle = '<F2>'
 
 -- Change split orientation
 map('n', '<leader>tk', '<C-w>t<C-w>K') -- change vertical to horizontal
@@ -58,10 +57,6 @@ map(
   { noremap = true, silent = true, expr = false }
 )
 
---map("n", "rn", ":lua vim.lsp.buf.rename()<CR>", { noremap = true })
---map("n", "rn", '<cmd>lua require("renamer").rename()<CR>', { noremap = true })        -- Rename
-
-
 -- Applications and Plugins shortcuts
 -----------------------------------------------------------
 
@@ -71,9 +66,6 @@ map('t', '<Esc>', '<C-\\><C-n>')                   -- exit
 
 -- NvimTree
 map('n', '<C-n>', ':NvimTreeToggle<CR>') -- open/close
-
--- Tagbar
--- map('n', '<leader>z', ':TagbarToggle<CR>')          -- open/close
 
 -- Zenmode
 map('n', '<leader>z', ':ZenMode<CR>')
@@ -90,7 +82,6 @@ map('n', '[x', '<Plug>(git-conflict-next-conflict)')
 map('n', '<leader>bl', ':ToggleBlameLine<CR>') -- Git Blame Line
 
 -- Diagnostics
--- map('n', '<leader>d', ':lua vim.lsp.diagnostic.set_loclist()<CR>')
 map('n', '<leader>n', ':lua vim.diagnostic.goto_next()<CR>')
 map('n', '<leader>p', ':lua vim.diagnostic.goto_prev()<CR>')
 

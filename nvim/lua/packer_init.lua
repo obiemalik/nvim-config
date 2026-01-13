@@ -452,7 +452,7 @@ return packer.startup(function(use)
           priority = 50
         },
       })
-        
+
       vim.keymap.set({ "n", "v" }, "<leader>f", function()
         print("Formatting...")
         conform.format({
