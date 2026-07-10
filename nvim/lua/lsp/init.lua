@@ -61,9 +61,9 @@ vim.lsp.handlers['textDocument/formatting'] =
       end
     end
 
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = 'rounded',
-})
+vim.lsp.handlers['textDocument/hover'] = function(err, result, ctx, config)
+  return vim.lsp.handlers.hover(err, result, ctx, vim.tbl_extend('force', config or {}, { border = 'rounded' }))
+end
 
 local icons = {
   Text = '',
@@ -290,12 +290,6 @@ vim.lsp.handlers['textDocument/rename'] =
 vim.lsp.buf.rename = {
   float = function()
     local curr_name = vim.fn.expand '<cword>'
-    local tshl =
-        require('nvim-treesitter-playground.hl-info').get_treesitter_hl()
-    if tshl and #tshl > 0 then
-      local ind = tshl[#tshl]:match '^.*()%*%*.*%*%*'
-      tshl = tshl[#tshl]:sub(ind + 2, -3)
-    end
 
     local win = require('plenary.popup').create(curr_name, {
       title = 'New Name',
@@ -304,7 +298,6 @@ vim.lsp.buf.rename = {
       relative = 'cursor',
       borderhighlight = 'FloatBorder',
       titlehighlight = 'Title',
-      highlight = tshl,
       focusable = true,
       width = 25,
       height = 1,

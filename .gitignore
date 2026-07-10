@@ -1,3 +1,6 @@
 # directories and files to exclude
 nvim/after
 packer/
+
+# AI
+WARP.md

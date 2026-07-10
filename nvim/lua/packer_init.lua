@@ -54,9 +54,10 @@ return packer.startup(function(use)
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
   }
+  use { 'nvim-lua/plenary.nvim'} 
   use { -- Telescope (Fuzzy File Search)
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
+    tag = 'v0.2.2',
     requires = {
       { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim' },
@@ -74,6 +75,12 @@ return packer.startup(function(use)
   use { 'feline-nvim/feline.nvim' } -- Statusline
   use { 'goolord/alpha-nvim' }      -- Dashboard (start screen)
   use { 'folke/zen-mode.nvim' }     -- Zen Mode
+  use {                             -- Fuzzy Search
+    'folke/flash.nvim',
+    config = function()
+      require('plugins/flash')
+    end,
+  }
 
   -- Color schemes --
 
@@ -120,8 +127,11 @@ return packer.startup(function(use)
   }
   use { -- Comments
     'numToStr/Comment.nvim',
+    requires = 'JoosepAlviste/nvim-ts-context-commentstring',
     config = function()
-      require('Comment').setup()
+      require('Comment').setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
     end,
   }
 
@@ -158,10 +168,6 @@ return packer.startup(function(use)
     ft = { 'markdown' },
   }
 
-  use { -- PlantUML Preview
-    'javiorfo/nvim-soil'
-  }
-
   use { -- Surround Code Blocks
     'kylechui/nvim-surround',
     config = function()
@@ -187,13 +193,18 @@ return packer.startup(function(use)
   -- Treesitter (Code Highlighting)
   use {
     'nvim-treesitter/nvim-treesitter',
+    branch = "main",
     run = ':TSUpdate',
     config = function()
-      require('plugins/nvim-treesitter')
+      require('plugins.nvim-treesitter')
     end,
     requires = {
-      'windwp/nvim-ts-autotag', -- Automatically end & rename tags
-      'nvim-treesitter/playground',
+      {
+        'windwp/nvim-ts-autotag', -- Automatically end & rename tags
+        config = function()
+          require('nvim-ts-autotag').setup()
+        end,
+      },
     },
   }
 
@@ -201,19 +212,20 @@ return packer.startup(function(use)
   use {
     'JoosepAlviste/nvim-ts-context-commentstring',
     config = function()
-      require('ts_context_commentstring').setup()
+      vim.g.skip_ts_context_commentstring_module = true
+      require('ts_context_commentstring').setup({ enable_autocmd = false })
     end,
-    before = { "nvim-treesitter" }
   }
 
-  use {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    after = { 'nvim-treesitter' },
-  }
-  use {
-    'RRethy/nvim-treesitter-textsubjects',
-    after = { 'nvim-treesitter' },
-  }
+  -- Disabled: Incompatible with current nvim-treesitter main branch
+  -- use {
+  --   'nvim-treesitter/nvim-treesitter-textobjects',
+  --   after = 'nvim-treesitter',
+  -- }
+  -- use {
+  --   'RRethy/nvim-treesitter-textsubjects',
+  --   after = 'nvim-treesitter',
+  -- }
 
   use {
     'm-demare/hlargs.nvim',
@@ -224,7 +236,25 @@ return packer.startup(function(use)
 
   use {
     "ThePrimeagen/refactoring.nvim", -- Refactor
-    requires = { { "nvim-lua/plenary.nvim" }, { "nvim-treesitter/nvim-treesitter" } },
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-treesitter/nvim-treesitter" },
+      { "lewis6991/async.nvim" },
+    },
+  }
+
+  use { -- Test runner
+    'nvim-neotest/neotest',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+      'antoinemadec/FixCursorHold.nvim',
+      'nvim-neotest/nvim-nio',
+      'nvim-neotest/neotest-python',
+    },
+    config = function()
+      require('plugins.neotest')
+    end,
   }
 
   use { 'gbprod/stay-in-place.nvim' } -- Fix Indent Cursor Position
@@ -307,8 +337,6 @@ return packer.startup(function(use)
   }
 
   use { 'MunifTanjim/prettier.nvim', config = function() require 'plugins.prettier' end }
-
-  -- use { unpack(require 'plugins.nvim-lint') }
 
   use {
     "mfussenegger/nvim-lint",
@@ -452,7 +480,7 @@ return packer.startup(function(use)
           priority = 50
         },
       })
-        
+
       vim.keymap.set({ "n", "v" }, "<leader>f", function()
         print("Formatting...")
         conform.format({

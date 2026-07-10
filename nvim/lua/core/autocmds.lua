@@ -1,5 +1,3 @@
-local async = require('plenary.async')
-
 -----------------------------------------------------------
 -- Autocommand functions
 -----------------------------------------------------------
@@ -18,12 +16,6 @@ autocmd('TextYankPost', {
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = '1000' })
   end
 })
-
--- -- Remove whitespace on save
--- autocmd('BufWritePre', {
---   pattern = '*',
---   command = ":%s/\\s\\+$//e"
--- })
 
 -- Don't auto commenting new lines
 autocmd('BufEnter', {
