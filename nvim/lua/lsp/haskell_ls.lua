@@ -1,2 +1,2 @@
-vim.lsp.config('hls', {})
-vim.lsp.enable('hls')
+vim.lsp.config("hls", {})
+vim.lsp.enable("hls")

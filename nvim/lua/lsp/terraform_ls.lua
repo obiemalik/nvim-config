@@ -1,2 +1,2 @@
-vim.lsp.config('terraformls', {})
-vim.lsp.enable('terraformls')
+vim.lsp.config("terraformls", {})
+vim.lsp.enable("terraformls")

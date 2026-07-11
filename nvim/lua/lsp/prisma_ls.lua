@@ -1,2 +1,2 @@
-vim.lsp.config('prismals', {})
-vim.lsp.enable('prismals')
+vim.lsp.config("prismals", {})
+vim.lsp.enable("prismals")

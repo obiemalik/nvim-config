@@ -1,2 +1,2 @@
-vim.lsp.config('html', {})
-vim.lsp.enable('html')
+vim.lsp.config("html", {})
+vim.lsp.enable("html")

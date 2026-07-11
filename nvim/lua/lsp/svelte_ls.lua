@@ -1,2 +1,2 @@
-vim.lsp.config('svelte', {})
-vim.lsp.enable('svelte')
+vim.lsp.config("svelte", {})
+vim.lsp.enable("svelte")

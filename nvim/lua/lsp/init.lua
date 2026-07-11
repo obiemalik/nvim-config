@@ -1,98 +1,101 @@
-local finders = require 'telescope.finders'
-local pickers = require 'telescope.pickers'
-local make_entry = require 'telescope.make_entry'
-local conf = require('telescope.config').values
-local builtin = require 'telescope.builtin'
+local finders = require("telescope.finders")
+local pickers = require("telescope.pickers")
+local make_entry = require("telescope.make_entry")
+local conf = require("telescope.config").values
+local builtin = require("telescope.builtin")
 
-local map = require('utils').map
-local buf_map = require('utils').buf_map
-
+local map = require("utils").map
+local buf_map = require("utils").buf_map
 
 -- Highlight line numbers for diagnostics
-vim.fn.sign_define('DiagnosticSignError', {
-  numhl = 'DiagnosticLineNrError',
-  text = '',
+vim.fn.sign_define("DiagnosticSignError", {
+    numhl = "DiagnosticLineNrError",
+    text = "",
 })
-vim.fn.sign_define('DiagnosticSignWarn', {
-  numhl = 'DiagnosticLineNrWarn',
-  text = '',
+vim.fn.sign_define("DiagnosticSignWarn", {
+    numhl = "DiagnosticLineNrWarn",
+    text = "",
 })
-vim.fn.sign_define('DiagnosticSignInfo', {
-  numhl = 'DiagnosticLineNrInfo',
-  text = '',
+vim.fn.sign_define("DiagnosticSignInfo", {
+    numhl = "DiagnosticLineNrInfo",
+    text = "",
 })
-vim.fn.sign_define('DiagnosticSignHint', {
-  numhl = 'DiagnosticLineNrHint',
-  text = '',
+vim.fn.sign_define("DiagnosticSignHint", {
+    numhl = "DiagnosticLineNrHint",
+    text = "",
 })
 
 -- Configure diagnostics displaying
 vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  update_in_insert = false,
-  underline = true,
-  severity_sort = false,
-  float = {
-    border = 'rounded',
-    source = 'always',
-    header = '',
-    prefix = '',
-  },
+    virtual_text = true,
+    signs = true,
+    update_in_insert = false,
+    underline = true,
+    severity_sort = false,
+    float = {
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
 })
 
 -- Handle formatting in a smarter way
 -- If the buffer has been edited before formatting has completed, do not try to apply the changes
-vim.lsp.handlers['textDocument/formatting'] =
-    function(err, result, ctx, _)
-      if err ~= nil or result == nil then
+vim.lsp.handlers["textDocument/formatting"] = function(err, result, ctx, _)
+    if err ~= nil or result == nil then
         return
-      end
+    end
 
-      -- If the buffer hasn't been modified before the formatting has finished, update the buffer
-      if not vim.api.nvim_buf_get_option(ctx.bufnr, 'modified') then
+    -- If the buffer hasn't been modified before the formatting has finished, update the buffer
+    if not vim.api.nvim_buf_get_option(ctx.bufnr, "modified") then
         local view = vim.fn.winsaveview()
         local client = vim.lsp.get_client_by_id(ctx.client_id)
         vim.lsp.util.apply_text_edits(result, ctx.bufnr, client.offset_encoding)
         vim.fn.winrestview(view)
         if ctx.bufnr == vim.api.nvim_get_current_buf() or not ctx.bufnr then
-          vim.api.nvim_command 'noautocmd :update'
+            vim.api.nvim_command("noautocmd :update")
         end
-      end
     end
+end
 
-vim.lsp.handlers['textDocument/hover'] = function(err, result, ctx, config)
-  return vim.lsp.handlers.hover(err, result, ctx, vim.tbl_extend('force', config or {}, { border = 'rounded' }))
+vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+    return vim.lsp.handlers.hover(
+        err,
+        result,
+        ctx,
+        vim.tbl_extend("force", config or {}, { border = "rounded" })
+    )
 end
 
 local icons = {
-  Text = '',
-  Method = '',
-  Function = '',
-  Constructor = '',
-  Variable = '',
-  Class = '',
-  Interface = '',
-  Module = '',
-  Property = '',
-  Unit = '',
-  Value = '',
-  Enum = '',
-  Keyword = '',
-  Snippet = '',
-  Color = '',
-  File = '',
-  Folder = '',
-  EnumMember = '',
-  Constant = '',
-  Struct = '',
-  Field = '',
-  TypeParameter = '',
+    Text = "",
+    Method = "",
+    Function = "",
+    Constructor = "",
+    Variable = "",
+    Class = "",
+    Interface = "",
+    Module = "",
+    Property = "",
+    Unit = "",
+    Value = "",
+    Enum = "",
+    Keyword = "",
+    Snippet = "",
+    Color = "",
+    File = "",
+    Folder = "",
+    EnumMember = "",
+    Constant = "",
+    Struct = "",
+    Field = "",
+    TypeParameter = "",
 }
 
 local kinds = vim.lsp.protocol.CompletionItemKind
 for i, kind in ipairs(kinds) do
-  kinds[i] = icons[kind] or kind
+    kinds[i] = icons[kind] or kind
 end
 
 -- Construct some utilities that are needed for setting up the LSP servers
@@ -100,74 +103,66 @@ end
 local M = {}
 
 function M.on_attach(client, bufnr)
-  -- Set up keymaps
-  local opts = {
-    noremap = true,
-    silent = true,
-  }
-  buf_map(bufnr, 'n', '<c-]>', M.definitions, opts)
-  buf_map(bufnr, 'n', 'gd', vim.lsp.buf.definition, opts)
-  buf_map(bufnr, 'n', 'gt', vim.lsp.buf.declaration, opts)
-  buf_map(bufnr, 'n', 'gi', vim.lsp.buf.implementation, opts)
-  buf_map(bufnr, 'n', 'gD', vim.lsp.buf.type_definition, opts)
-  buf_map(bufnr, 'n', 'gr', builtin.lsp_references, opts)
-
-  buf_map(bufnr, 'n', 'K', vim.lsp.buf.hover, opts)
-  buf_map(bufnr, 'n', '<leader>ca', function()
-    vim.lsp.buf.code_action()
-  end, opts)
-  buf_map(bufnr, 'n', 'rn', vim.lsp.buf.rename.float, opts)
-
-  -- Navigate diagnostics
-  buf_map(bufnr, 'n', '[g', function()
-    vim.diagnostic.goto_prev {
-      float = {
-        border = 'rounded',
-      },
+    -- Set up keymaps
+    local opts = {
+        noremap = true,
+        silent = true,
     }
-  end, opts)
-  buf_map(bufnr, 'n', ']g', function()
-    vim.diagnostic.goto_next {
-      float = {
-        border = 'rounded',
-      },
-    }
-  end, opts)
+    buf_map(bufnr, "n", "<c-]>", M.definitions, opts)
+    buf_map(bufnr, "n", "gd", vim.lsp.buf.definition, opts)
+    buf_map(bufnr, "n", "gt", vim.lsp.buf.declaration, opts)
+    buf_map(bufnr, "n", "gi", vim.lsp.buf.implementation, opts)
+    buf_map(bufnr, "n", "gD", vim.lsp.buf.type_definition, opts)
+    buf_map(bufnr, "n", "gr", builtin.lsp_references, opts)
 
-  -- Show diagnostics popup with <leader>d
-  buf_map(bufnr, 'n', '<leader>d', function()
-    vim.diagnostic.open_float(0, {
-      scope = 'line',
-      border = 'rounded',
-    })
-  end, opts)
+    buf_map(bufnr, "n", "K", vim.lsp.buf.hover, opts)
+    buf_map(bufnr, "n", "<leader>ca", function()
+        vim.lsp.buf.code_action()
+    end, opts)
+    buf_map(bufnr, "n", "rn", vim.lsp.buf.rename.float, opts)
 
-  local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-  -- Only include LSPs that should handle formatting directly
-  -- JS/TS formatting is handled by conform.nvim with Prettier
-  local formatting_ls_list = { 'lua_ls', 'gopls' }
+    -- Navigate diagnostics
+    buf_map(bufnr, "n", "[g", function()
+        vim.diagnostic.goto_prev({
+            float = {
+                border = "rounded",
+            },
+        })
+    end, opts)
+    buf_map(bufnr, "n", "]g", function()
+        vim.diagnostic.goto_next({
+            float = {
+                border = "rounded",
+            },
+        })
+    end, opts)
 
-  if client.server_capabilities.documentFormattingProvider and vim.tbl_contains(formatting_ls_list, client.name) then
-    vim.api.nvim_clear_autocmds {
-      group = formatting_augroup,
-      buffer = bufnr,
-    }
-
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      group = formatting_augroup,
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.format()
-      end,
-    })
-  end
+    -- Show diagnostics popup with <leader>d
+    buf_map(bufnr, "n", "<leader>d", function()
+        vim.diagnostic.open_float(0, {
+            scope = "line",
+            border = "rounded",
+        })
+    end, opts)
 end
+
+-- Apply on_attach for every LSP client that attaches, so `*_ls.lua` files
+-- don't each need to remember to wire it in themselves (only pyright did).
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspAttach", { clear = true }),
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client then
+            M.on_attach(client, args.buf)
+        end
+    end,
+})
 
 -- capabilities
 
-local cmp_status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+local cmp_status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not cmp_status_ok then
-  return
+    return
 end
 
 -- Modern way to set up capabilities for nvim-cmp
@@ -187,148 +182,204 @@ M.capabilities = cmp_nvim_lsp.default_capabilities()
 -- definition in `node_modules/react` as the first result, but we don't want
 -- that.
 local function filter_out_libraries_from_lsp_items(results)
-  local without_node_modules = vim.filter(function(item)
-    return item.targetUri and not string.match(item.targetUri, 'node_modules')
-  end, results)
+    local without_node_modules = vim.filter(function(item)
+        return item.targetUri
+            and not string.match(item.targetUri, "node_modules")
+    end, results)
 
-  if #without_node_modules > 0 then
-    return without_node_modules
-  end
+    if #without_node_modules > 0 then
+        return without_node_modules
+    end
 
-  return results
+    return results
 end
 
 -- This function is mostly copied from Telescope, I only added the
 -- `node_modules` filtering.
 local function list_or_jump(action, title, opts)
-  opts = opts or {}
+    opts = opts or {}
 
-  local params = vim.lsp.util.make_position_params()
-  local bufnr = vim.api.nvim_get_current_buf()
-  vim.lsp.buf_request(bufnr, action, params, function(err, result, ctx, _config)
-    if err then
-      vim.api.nvim_err_writeln('Error when executing ' .. action .. ' : ' ..
-        err.message)
-      return
-    end
-    local flattened_results = {}
-    if result then
-      -- textDocument/definition can return Location or Location[]
-      if not vim.islist(result) then
-        flattened_results = { result }
-      end
+    local params = vim.lsp.util.make_position_params()
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.lsp.buf_request(
+        bufnr,
+        action,
+        params,
+        function(err, result, ctx, _config)
+            if err then
+                vim.api.nvim_err_writeln(
+                    "Error when executing " .. action .. " : " .. err.message
+                )
+                return
+            end
+            local flattened_results = {}
+            if result then
+                -- textDocument/definition can return Location or Location[]
+                if not vim.islist(result) then
+                    flattened_results = { result }
+                end
 
-      vim.list_extend(flattened_results, result)
-    end
+                vim.list_extend(flattened_results, result)
+            end
 
-    -- This is the only added step to the Telescope function
-    flattened_results = filter_out_libraries_from_lsp_items(flattened_results)
+            -- This is the only added step to the Telescope function
+            flattened_results =
+                filter_out_libraries_from_lsp_items(flattened_results)
 
-    local offset_encoding = vim.lsp.get_client_by_id(ctx.client_id)
-        .offset_encoding
+            local offset_encoding =
+                vim.lsp.get_client_by_id(ctx.client_id).offset_encoding
 
-    if #flattened_results == 0 then
-      return
-    elseif #flattened_results == 1 and opts.jump_type ~= 'never' then
-      if opts.jump_type == 'tab' then
-        vim.cmd 'tabedit'
-      elseif opts.jump_type == 'split' then
-        vim.cmd 'new'
-      elseif opts.jump_type == 'vsplit' then
-        vim.cmd 'vnew'
-      end
-      vim.lsp.util.jump_to_location(flattened_results[1], offset_encoding)
-    else
-      local locations = vim.lsp.util.locations_to_items(flattened_results,
-        offset_encoding)
-      pickers.new(opts, {
-        prompt_title = title,
-        finder = finders.new_table {
-          results = locations,
-          entry_maker = opts.entry_maker or make_entry.gen_from_quickfix(opts),
-        },
-        previewer = conf.qflist_previewer(opts),
-        sorter = conf.generic_sorter(opts),
-      }):find()
-    end
-  end)
+            if #flattened_results == 0 then
+                return
+            elseif #flattened_results == 1 and opts.jump_type ~= "never" then
+                if opts.jump_type == "tab" then
+                    vim.cmd("tabedit")
+                elseif opts.jump_type == "split" then
+                    vim.cmd("new")
+                elseif opts.jump_type == "vsplit" then
+                    vim.cmd("vnew")
+                end
+                vim.lsp.util.jump_to_location(
+                    flattened_results[1],
+                    offset_encoding
+                )
+            else
+                local locations = vim.lsp.util.locations_to_items(
+                    flattened_results,
+                    offset_encoding
+                )
+                pickers
+                    .new(opts, {
+                        prompt_title = title,
+                        finder = finders.new_table({
+                            results = locations,
+                            entry_maker = opts.entry_maker
+                                or make_entry.gen_from_quickfix(opts),
+                        }),
+                        previewer = conf.qflist_previewer(opts),
+                        sorter = conf.generic_sorter(opts),
+                    })
+                    :find()
+            end
+        end
+    )
 end
 
 function M.definitions(opts)
-  return list_or_jump('textDocument/definition', 'LSP Definitions', opts)
+    return list_or_jump("textDocument/definition", "LSP Definitions", opts)
 end
 
-vim.lsp.handlers['textDocument/rename'] =
-    function(err, result, ctx)
-      if err then
-        vim.notify(("Error running lsp query 'rename': " .. err),
-          vim.log.levels.ERROR)
-      end
+vim.lsp.handlers["textDocument/rename"] = function(err, result, ctx)
+    if err then
+        vim.notify(
+            ("Error running lsp query 'rename': " .. err),
+            vim.log.levels.ERROR
+        )
+    end
 
-      if result and result.changes then
-        local new_name = ''
-        local old_name = vim.fn.expand '<cword>'
+    if result and result.changes then
+        local new_name = ""
+        local old_name = vim.fn.expand("<cword>")
 
-        local msg = ''
+        local msg = ""
         for f, c in pairs(result.changes) do
-          new_name = c[1].newText
-          msg = msg .. ('%d changes -> %s'):format(#c, f:gsub('file://', '')
-            :gsub(vim.pesc(vim.loop.cwd()), '.')) .. '\n'
+            new_name = c[1].newText
+            msg = msg
+                .. ("%d changes -> %s"):format(
+                    #c,
+                    f:gsub("file://", ""):gsub(vim.pesc(vim.loop.cwd()), ".")
+                )
+                .. "\n"
         end
         -- Remove the last new line
         msg = msg:sub(1, #msg - 1)
 
         vim.notify(msg, vim.log.levels.INFO, {
-          title = ('Rename: %s -> %s'):format(old_name, new_name),
+            title = ("Rename: %s -> %s"):format(old_name, new_name),
         })
-      end
-
-      local client = vim.lsp.get_client_by_id(ctx.client_id)
-      vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
     end
+
+    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
+end
 
 vim.lsp.buf.rename = {
-  float = function()
-    local curr_name = vim.fn.expand '<cword>'
+    float = function()
+        local curr_name = vim.fn.expand("<cword>")
 
-    local win = require('plenary.popup').create(curr_name, {
-      title = 'New Name',
-      style = 'minimal',
-      borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
-      relative = 'cursor',
-      borderhighlight = 'FloatBorder',
-      titlehighlight = 'Title',
-      focusable = true,
-      width = 25,
-      height = 1,
-      line = 'cursor+2',
-      col = 'cursor-1',
-    })
+        local win = require("plenary.popup").create(curr_name, {
+            title = "New Name",
+            style = "minimal",
+            borderchars = {
+                "─",
+                "│",
+                "─",
+                "│",
+                "╭",
+                "╮",
+                "╯",
+                "╰",
+            },
+            relative = "cursor",
+            borderhighlight = "FloatBorder",
+            titlehighlight = "Title",
+            focusable = true,
+            width = 25,
+            height = 1,
+            line = "cursor+2",
+            col = "cursor-1",
+        })
 
-    local map_opts = {
-      noremap = true,
-      silent = true,
-    }
-    vim.api.nvim_buf_set_keymap(0, 'i', '<Esc>', '<cmd>stopinsert | q!<CR>',
-      map_opts)
-    vim.api.nvim_buf_set_keymap(0, 'n', '<Esc>', '<cmd>stopinsert | q!<CR>',
-      map_opts)
-    vim.api.nvim_buf_set_keymap(0, 'i', '<CR>',
-      "<cmd>stopinsert | lua vim.lsp.buf.rename.apply('" .. curr_name .. "'," ..
-      win .. ')<CR>', map_opts)
-    vim.api.nvim_buf_set_keymap(0, 'n', '<CR>',
-      "<cmd>stopinsert | lua vim.lsp.buf.rename.apply('" .. curr_name .. "'," ..
-      win .. ')<CR>', map_opts)
-  end,
-  apply = function(curr, win)
-    local newName = vim.trim(vim.api.nvim_get_current_line())
-    vim.api.nvim_win_close(win, true)
-    if #newName > 0 and newName ~= curr then
-      local params = vim.lsp.util.make_position_params()
-      params.newName = newName
-      vim.lsp.buf_request(0, 'textDocument/rename', params)
-    end
-  end,
+        local map_opts = {
+            noremap = true,
+            silent = true,
+        }
+        vim.api.nvim_buf_set_keymap(
+            0,
+            "i",
+            "<Esc>",
+            "<cmd>stopinsert | q!<CR>",
+            map_opts
+        )
+        vim.api.nvim_buf_set_keymap(
+            0,
+            "n",
+            "<Esc>",
+            "<cmd>stopinsert | q!<CR>",
+            map_opts
+        )
+        vim.api.nvim_buf_set_keymap(
+            0,
+            "i",
+            "<CR>",
+            "<cmd>stopinsert | lua vim.lsp.buf.rename.apply('"
+                .. curr_name
+                .. "',"
+                .. win
+                .. ")<CR>",
+            map_opts
+        )
+        vim.api.nvim_buf_set_keymap(
+            0,
+            "n",
+            "<CR>",
+            "<cmd>stopinsert | lua vim.lsp.buf.rename.apply('"
+                .. curr_name
+                .. "',"
+                .. win
+                .. ")<CR>",
+            map_opts
+        )
+    end,
+    apply = function(curr, win)
+        local newName = vim.trim(vim.api.nvim_get_current_line())
+        vim.api.nvim_win_close(win, true)
+        if #newName > 0 and newName ~= curr then
+            local params = vim.lsp.util.make_position_params()
+            params.newName = newName
+            vim.lsp.buf_request(0, "textDocument/rename", params)
+        end
+    end,
 }
 
 return M
