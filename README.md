@@ -49,6 +49,7 @@ Neovim Configuration with Lua
 1. Install [Neovim v0.8.x](https://github.com/neovim/neovim/releases/latest).
 2. Install [Nerd Fonts](https://www.nerdfonts.com/font-downloads), (for the font of the screenshots install [Cozette Font](https://github.com/slavfox/Cozette)).
 3. Install [npm](https://github.com/npm/cli) for download packages of LSP language servers, see: [LSP Configuration](#lsp-configuration).
+3.5. Run [install-dependencies.sh](install-dependencies.sh) to install core tools (ripgrep, fd, fzf, stylua, shfmt, tree-sitter-cli). It only installs editor tooling, not language runtimes — it checks whether `go`/`python3`/`node` are on `PATH` and reports which are missing, since those gate what Mason/LSP/format/lint config gets enabled (see `langs.lua` below).
 4. Make a backup of your current `nvim` folder if necessary:
 
 ```term
@@ -84,6 +85,8 @@ nvim +PackerSync
 sudo npm install -g {language_server}
 ```
 
+Go/Python/JavaScript/TypeScript toolchain installation (Mason tools, LSP servers, formatters, linters) is gated per-machine by `nvim/lua/langs.lua` — copy it from [langs.example.lua](nvim/lua/langs.example.lua) and set which toolchains this machine has. If absent, each language auto-detects by checking whether its executable (`go`, `python3`, `node`) is on `PATH`.
+
 2. Install additional packages for plugins support:
 
 **C, C++:**
@@ -104,7 +107,7 @@ Bash - [bashls](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs
 Python - [pyright](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pyright)
 C, C++ - [clangd](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#clangd)
 HTML, CSS, JSON - [vscode-html](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#html)
-JavaScript, TypeScript - [ts_ls](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls)
+JavaScript, TypeScript - `tsc_native` (TypeScript 7 native compiler, `nvim/lua/lsp/typescript.lua`)
 
 See: [nvim-lspconfig #doc/configs.md](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
 
@@ -128,6 +131,8 @@ See: [nvim-lspconfig #doc/configs.md](https://github.com/neovim/nvim-lspconfig/b
 return require('core/colorschemes/catppuccin');
 ```
 
+- On macOS, startup auto-picks light/dark based on the system appearance (`defaults read -g AppleInterfaceStyle`) — `catppuccin-mocha` for dark, `papercolor` for light — see [nvim/lua/core/themes/colors.lua](nvim/lua/core/themes/colors.lua).
+
 - Statusline - [nvim/lua/plugins/feline.lua](nvim/lua/core/statusline.lua):
   The color scheme is picked up from [nvim/lua/core/colors.lua](nvim/lua/core/colors.lua)
 
@@ -149,6 +154,7 @@ These are the default keymaps, in the following shortcuts, the `<leader>` key is
 | `<Esc>`              | Terminal      | Exit terminal                                  |
 | `<Ctrl> + n`         | Normal        | Open NvimTree                                  |
 | `<leader>z`          | Normal        | Open Tagbar                                    |
+| `<leader>lt`         | Normal        | Toggle linting for current filetype (`:LintToggle`) |
 
 ## Configuration check
 

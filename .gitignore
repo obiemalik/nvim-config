@@ -2,5 +2,8 @@
 nvim/after
 packer/
 
+# Machine-local language config (copy langs.example.lua → langs.lua to customize)
+nvim/lua/langs.lua
+
 # AI
 WARP.md

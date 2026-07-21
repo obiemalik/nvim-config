@@ -2,28 +2,37 @@
 -- url: https://github.com/stevearc/conform.nvim
 
 local conform = require("conform")
+local langs = require("config.langs")
+
+local formatters_by_ft = {
+    javascript = { "prettierd", "prettier" },
+    typescript = { "prettierd", "prettier" },
+    javascriptreact = { "prettierd", "prettier" },
+    typescriptreact = { "prettierd", "prettier" },
+    svelte = { "prettierd", "prettier" },
+    css = { "prettierd", "prettier" },
+    scss = { "prettierd", "prettier" },
+    html = { "prettierd", "prettier" },
+    json = { "prettierd", "prettier" },
+    jsonc = { "prettierd", "prettier" },
+    yaml = { "prettierd", "prettier" },
+    markdown = { "prettierd", "prettier" },
+    graphql = { "prettierd", "prettier" },
+    lua = { "stylua" },
+    sh = { "shfmt" },
+    bash = { "shfmt" },
+}
+
+if langs.go then
+    formatters_by_ft.go = { "gofumpt", "goimports" }
+end
+
+if langs.python then
+    formatters_by_ft.python = { "black", "ruff" }
+end
 
 conform.setup({
-    formatters_by_ft = {
-        javascript = { "prettierd", "prettier" },
-        typescript = { "prettierd", "prettier" },
-        javascriptreact = { "prettierd", "prettier" },
-        typescriptreact = { "prettierd", "prettier" },
-        svelte = { "prettierd", "prettier" },
-        css = { "prettierd", "prettier" },
-        scss = { "prettierd", "prettier" },
-        html = { "prettierd", "prettier" },
-        json = { "prettierd", "prettier" },
-        jsonc = { "prettierd", "prettier" },
-        yaml = { "prettierd", "prettier" },
-        markdown = { "prettierd", "prettier" },
-        graphql = { "prettierd", "prettier" },
-        lua = { "stylua" },
-        python = { "black", "ruff" },
-        go = { "gofumpt", "goimports" },
-        sh = { "shfmt" },
-        bash = { "shfmt" },
-    },
+    formatters_by_ft = formatters_by_ft,
     formatters = {
         black = {
             command = function()

@@ -8,6 +8,7 @@
 
 - [x] **Multiple colorscheme library** — papercolor, onedark, monokai, catppuccin, modus, moonfly, oxocarbon (`lua/core/themes/colorschemes/*.lua`).
 - [x] **Color scheme picker UI** — `<leader>tc` (`:ColorSchemePicker`), `lua/core/themes/colors_picker.lua`.
+- [x] **Auto light/dark colorscheme on startup** — `lua/core/themes/colors.lua` now reads the macOS system appearance (`defaults read -g AppleInterfaceStyle`) instead of Warp's own theme setting, so it tracks the OS toggle regardless of terminal. Default dark scheme switched to `catppuccin-mocha`.
 - [x] **Inline HEX color highlighting** — nvim-colorizer.lua.
 - [x] **Current-line highlight + block insert-mode cursor** — `opt.cursorline`, `opt.guicursor` (`lua/core/options.lua`); blink params dropped since the terminal (Warp) doesn't honor blink escape codes.
 
@@ -36,6 +37,7 @@
 
 - [x] **Format on save + manual format keymap** — `<leader>f`, conform.nvim, per-filetype formatters (prettierd/prettier, stylua, black/ruff, gofumpt/goimports, shfmt). Fixed two bugs blocking this: a `stylua.toml` typo (`indent_type = "Space"` instead of `"Spaces"`, plus width 2→4) that made stylua fail outright and silently leave buffers unformatted, and a conflicting `BufWritePre` autocmd in `lsp/init.lua` that ran each LSP server's own built-in formatter after conform's and clobbered its output for Lua/Go.
 - [x] **Async linting on save/insert-leave + manual trigger** — `<leader>l`, nvim-lint, including a Mason-resolved `golangci-lint` integration.
+- [x] **Per-filetype lint toggle** — `<leader>lt` / `:LintToggle [filetype]`, `lua/plugins/nvim-lint.lua`; disables linting and clears diagnostics for a filetype without touching the global config.
 - [x] **Prettier integration** — prettier.nvim.
 
 ## Fuzzy Finding & Search
@@ -44,6 +46,7 @@
 - [x] **Git status/commits/branches pickers** — `<leader>fx`/`fc`/`fB`.
 - [x] **Native fuzzy sorting + dropdown picker UI** — fzf-native and ui-select extensions.
 - [x] **Project-wide search & replace panel** — `<leader>sp`/`sw`/`sv`/`sf`, grug-far.nvim (replaced nvim-spectre for a cleaner UI).
+- [x] **Preview pane scrolling + focus** — `<C-f>`/`<C-u>` scroll the preview, `<C-p>` hops focus into the preview window and back without closing the picker (`noautocmd` workaround for telescope#2778), `lua/plugins/telescope.lua`. Buffer delete moved from `<C-d>` to `<C-x>` to make room.
 
 ## Git Integration
 
@@ -57,6 +60,7 @@
 
 - [x] **Go build/run/test/docs/tags tooling** — vim-go, lazy-loaded on `ft=go`, LSP features deferred to `gopls`/nvim-lspconfig, formatting deferred to conform.nvim.
 - [x] **Go-specific editor behavior** — tabs/width, `<leader>g*` keymaps, abbreviations, `go.mod` tidy on save, build-tag detection (`lua/plugins/go.lua`).
+- [x] **Fixed `gopls` never actually starting** — `lua/lsp/go_ls.lua` was configuring/enabling `dockerls` (copy-paste artifact) instead of `gopls`; Go projects were silently running without a language server.
 
 ## Hover & Documentation
 
@@ -64,7 +68,7 @@
 
 ## JavaScript/TypeScript Support
 
-- [x] **Language server** (completions, inlay hints, diagnostics) — `ts_ls`, covers `.js`/ `.jsx`/`.ts`/`.tsx`, `lua/lsp/ts_ls.lua`.
+- [x] **Language server** (completions, inlay hints, diagnostics) — `tsc_native` (TypeScript 7 native compiler, `tsc --lsp --stdio`), covers `.js`/`.jsx`/`.ts`/`.tsx`, `lua/lsp/typescript.lua`. Replaces `ts_ls`/typescript-language-server (`lua/lsp/ts_ls.lua`, removed), which broke once Mason started resolving `typescript@7` — no more `tsserver.js` to back it.
 - [x] **Linting** — ESLint via both the `eslint` LSP (code actions, flat-config aware, `lua/lsp/eslint_ls.lua`) and nvim-lint's `eslint` linter on save.
 - [x] **Formatting** — prettierd/prettier via conform.nvim for js/ts/jsx/tsx (ESLint formatting explicitly disabled in favor of Prettier).
 - [x] **JSX/TSX tag auto-close/rename** — nvim-ts-autotag.
@@ -79,12 +83,14 @@
 ## Language Server Protocol (LSP)
 
 - [x] **LSP/tool install management** — Mason, mason-lspconfig, mason-tool-installer.
-- [x] **Language server coverage** — bash, css, docker, graphql, json, php, ts_ls, eslint, yaml, lua, terraform, haskell, ltex, prisma, html, svelte, tailwind, python, rust, go (`lua/lsp/*_ls.lua`).
+- [x] **Language server coverage** — bash, css, docker, graphql, json, php, tsc_native, eslint, yaml, lua, terraform, haskell, ltex, prisma, html, svelte, tailwind, python, rust, go (`lua/lsp/*_ls.lua`).
 - [x] **Shared LSP keymaps** (go-to-definition, hover, code actions, rename, diagnostics nav) — `lua/lsp/init.lua`. Fixed a bug where these (including `rn` rename) only ever applied to `pyright`, since `M.on_attach` was called manually from just `python_ls.lua`; now wired via a global `LspAttach` autocmd so every server gets them.
+- [x] **Per-machine language toolchain gating** — `lua/config/langs.lua` reads a gitignored `lua/langs.lua` (copied from `lua/langs.example.lua`) or auto-detects via `PATH`; Mason installs, LSP servers (`lua/lsp/go_ls.lua`, `python_ls.lua`, `typescript.lua`), conform formatters, and nvim-lint linters all skip a toolchain when its flag is off.
 
 ## Markdown
 
 - [x] **Live markdown preview in browser** — markdown-preview.nvim, lazy-loaded on `ft=markdown`.
+- [x] **Soft-wrap markdown buffers** — `lua/core/autocmds.lua`, switched from `nowrap` to `wrap linebreak` so prose wraps at word boundaries instead of running off-screen.
 
 ## Monorepo Support
 

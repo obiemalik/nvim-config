@@ -1,7 +1,11 @@
 -- Go language server configuration using gopls
 -- https://github.com/golang/tools/blob/master/gopls/doc/vim.md
 
-vim.lsp.config("dockerls", {
+if not require("config.langs").go then
+    return
+end
+
+vim.lsp.config("gopls", {
     settings = {
         gopls = {
             gofumpt = true,
@@ -45,4 +49,4 @@ vim.lsp.config("dockerls", {
     },
 })
 
-vim.lsp.enable("dockerls")
+vim.lsp.enable("gopls")

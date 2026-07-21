@@ -36,17 +36,17 @@ local function ResetColorScheme(default_name)
     local uname = vim.fn.system("uname"):gsub("%s+", "")
 
     if uname == "Darwin" then
-        -- Get Warp's theme
+        -- Get the system's light/dark appearance
         local handle =
-            io.popen("defaults read dev.warp.Warp-Stable Theme 2>/dev/null")
+            io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
         if handle then
             local result = handle:read("*a")
             handle:close()
 
-            if result and string.find(result, "Light") then
-                SetColorScheme("papercolor")
-            else
+            if result and string.find(result, "Dark") then
                 SetColorScheme(default_name)
+            else
+                SetColorScheme("papercolor")
             end
         else
             -- Fallback if can't read defaults
@@ -62,7 +62,7 @@ return {
     init = function(schemes)
         Schemes = schemes
         -- Auto-detect theme on startup
-        ResetColorScheme("modus")
+        ResetColorScheme("catppuccin-mocha")
     end,
     SetColorScheme = SetColorScheme,
     ResetColorScheme = ResetColorScheme,

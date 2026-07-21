@@ -1,6 +1,29 @@
 local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
 local builtin = require("telescope.builtin")
 local workspace = require("utils.workspace")
+
+-- Switching windows normally fires telescope's BufLeave-on-prompt autocmd,
+-- which closes the whole picker. `noautocmd` sidesteps that so we can hop
+-- into the preview window and back. See:
+-- https://github.com/nvim-telescope/telescope.nvim/issues/2778
+local function focus_preview(prompt_bufnr)
+    local picker = action_state.get_current_picker(prompt_bufnr)
+    local prompt_win = picker.prompt_win
+    local previewer = picker.previewer
+    if not (previewer and previewer.state and previewer.state.winid) then
+        return
+    end
+    local preview_win = previewer.state.winid
+    local preview_bufnr = previewer.state.bufnr
+
+    vim.keymap.set("n", "<C-p>", function()
+        vim.cmd(string.format("noautocmd lua vim.api.nvim_set_current_win(%d)", prompt_win))
+        vim.cmd("startinsert")
+    end, { buffer = preview_bufnr })
+
+    vim.cmd(string.format("noautocmd lua vim.api.nvim_set_current_win(%d)", preview_win))
+end
 
 local map = require("utils").map
 
@@ -57,7 +80,10 @@ require("telescope").setup({
                 ["<s-up>"] = actions.cycle_history_prev,
                 ["<s-down>"] = actions.cycle_history_next,
 
-                ["<c-d>"] = actions.delete_buffer,
+                ["<c-x>"] = actions.delete_buffer,
+                ["<C-f>"] = actions.preview_scrolling_down,
+                ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-p>"] = focus_preview,
 
                 ["<C-w>"] = function()
                     vim.api.nvim_input("<c-s-w>")

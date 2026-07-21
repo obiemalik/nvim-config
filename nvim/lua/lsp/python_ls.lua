@@ -1,5 +1,9 @@
 -- https://jdhao.github.io/2023/07/22/neovim-pylsp-setup/
 
+if not require("config.langs").python then
+    return
+end
+
 local venv_path = os.getenv("VIRTUAL_ENV")
 local py_path = nil
 -- decide which python executable to use for mypy

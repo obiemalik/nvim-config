@@ -32,12 +32,12 @@ autocmd("Filetype", {
     command = "setlocal cc=0",
 })
 
--- Do not soft-wrap in Markdown files
-augroup("markdownNoWrap", { clear = true })
+-- Soft-wrap in Markdown files
+augroup("markdownWrap", { clear = true })
 autocmd("FileType", {
-    group = "markdownNoWrap",
+    group = "markdownWrap",
     pattern = { "markdown", "md" },
-    command = "setlocal nowrap",
+    command = "setlocal wrap linebreak",
 })
 
 -- Set indentation to 2 spaces
