@@ -23,39 +23,6 @@ local function claude_win()
     return nil, bufnr
 end
 
--- Toggle the pinned Claude Code split (right side, terminal.split_side default).
-local function claude_toggle()
-    local win = claude_win()
-    if win then
-        if #vim.api.nvim_list_wins() > 1 then
-            vim.api.nvim_win_close(win, false)
-        else
-            -- Sole window left: can't close it, so swap in a scratch buffer
-            -- instead; bufhidden=hide keeps the job alive in the background.
-            vim.api.nvim_win_set_buf(win, vim.api.nvim_create_buf(false, true))
-        end
-        return
-    end
-    require("claudecode.terminal").open()
-end
-
--- Focus the pinned split, opening it first if it isn't there.
-local function claude_focus()
-    local win = claude_win()
-    if win then
-        vim.api.nvim_set_current_win(win)
-        vim.cmd("startinsert")
-        return
-    end
-    require("claudecode.terminal").open()
-end
-
-map("n", "<leader>ac", claude_toggle)
-map("n", "<leader>af", claude_focus)
-map("v", "<leader>as", "<cmd>ClaudeCodeSend<cr>")
-map("n", "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>")
-map("n", "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>")
-
 -- Auto-zoom: whenever the Claude terminal (or its inline diff view) is
 -- focused, close NvimTree and blow the current window up to fill the tab;
 -- leaving it restores the exact prior window sizes and NvimTree. Classic
@@ -99,6 +66,78 @@ local function zoom_out()
     end
 end
 
+-- Diff view has 3 panes (terminal, original, proposed); plain zoom_in()
+-- maximizes whichever one is current and squashes the other two to nothing.
+-- Size them 20/40/40 instead.
+local function diff_zoom_in()
+    if restore_cmd then
+        return
+    end
+    restore_cmd = vim.fn.winrestcmd()
+    local ok, tree_api = pcall(require, "nvim-tree.api")
+    tree_was_open = ok and tree_api.tree.is_visible()
+    if tree_was_open then
+        tree_api.tree.close()
+    end
+
+    local term_bufnr = require("claudecode.terminal").get_active_terminal_bufnr()
+    local term_win, diff_wins = nil, {}
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        if vim.api.nvim_win_get_buf(win) == term_bufnr then
+            term_win = win
+        elseif vim.wo[win].diff then
+            table.insert(diff_wins, win)
+        end
+    end
+
+    local total = vim.o.columns
+    local term_width = term_win and math.floor(total * 0.2) or 0
+    if term_win then
+        vim.api.nvim_win_set_width(term_win, term_width)
+    end
+    local pane_width = math.floor((total - term_width) / math.max(#diff_wins, 1))
+    for _, win in ipairs(diff_wins) do
+        vim.api.nvim_win_set_width(win, pane_width)
+    end
+end
+
+-- Toggle the pinned Claude Code split (right side, terminal.split_side default).
+local function claude_toggle()
+    local win = claude_win()
+    if win then
+        if #vim.api.nvim_list_wins() > 1 then
+            vim.api.nvim_win_close(win, false)
+        else
+            -- Sole window left: can't close it, so swap in a scratch buffer
+            -- instead; bufhidden=hide keeps the job alive in the background.
+            vim.api.nvim_win_set_buf(win, vim.api.nvim_create_buf(false, true))
+        end
+        return
+    end
+    require("claudecode.terminal").open()
+end
+
+-- Focus the pinned split, opening it first if it isn't there.
+local function claude_focus()
+    local win = claude_win()
+    if win then
+        -- Re-entering an already-visible window via nvim_set_current_win
+        -- doesn't reliably fire BufEnter, so the zoom autocmd below won't
+        -- catch it; trigger zoom_in() directly instead.
+        vim.api.nvim_set_current_win(win)
+        vim.cmd("startinsert")
+        zoom_in()
+        return
+    end
+    require("claudecode.terminal").open()
+end
+
+map("n", "<leader>ac", claude_toggle)
+map("n", "<leader>af", claude_focus)
+map("v", "<leader>as", "<cmd>ClaudeCodeSend<cr>")
+map("n", "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>")
+map("n", "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>")
+
 vim.api.nvim_create_autocmd("BufEnter", {
     group = claude_group,
     callback = function(args)
@@ -120,7 +159,7 @@ vim.api.nvim_create_autocmd("BufLeave", {
 vim.api.nvim_create_autocmd("User", {
     group = claude_group,
     pattern = "ClaudeCodeDiffOpened",
-    callback = zoom_in,
+    callback = diff_zoom_in,
 })
 
 vim.api.nvim_create_autocmd("User", {

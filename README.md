@@ -162,6 +162,8 @@ These are the default keymaps, in the following shortcuts, the `<leader>` key is
 | `<leader>aa`         | Normal        | Accept Claude Code diff (`:ClaudeCodeDiffAccept`) |
 | `<leader>ad`         | Normal        | Deny Claude Code diff (`:ClaudeCodeDiffDeny`)  |
 
+Opening a diff auto-zooms the tab and sizes the three panes (terminal / original / proposed) 20/40/40.
+
 ## Configuration check
 
 - Open nvim and run command `checkhealth`, you should not see any error in the output (except for the one related to the Python 2 interpreter if don't have it):
