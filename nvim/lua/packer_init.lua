@@ -355,6 +355,14 @@ return packer.startup(function(use)
         end,
     })
 
+    -- Claude Code
+    use({
+        "coder/claudecode.nvim",
+        config = function()
+            require("plugins.claude-code")
+        end,
+    })
+
     -- Go development
     use({
         "fatih/vim-go",

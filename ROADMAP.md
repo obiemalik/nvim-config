@@ -1,5 +1,11 @@
 # Roadmap
 
+## AI Assistance
+
+- [x] **Claude Code integration** — claudecode.nvim, `lua/plugins/claude-code.lua`; `<leader>ac`/`af`/`as`/`aa`/`ad` to open/focus/send-selection/accept-diff/deny-diff.
+- [x] **Pinned, persistent Claude Code split with auto-zoom** — the Claude terminal lives in a dedicated split (right side) and is excluded from the bufferline (`buflisted = false`) so it never mixes in with file buffers; the terminal buffer/job (`bufhidden=hide`) stays alive in the background when hidden, so `<leader>af` reattaches to the same session. Focusing the split, or Claude opening its inline diff view (`User ClaudeCodeDiffOpened`/`ClaudeCodeDiffClosed`), auto-maximizes the window and closes NvimTree via the standard `winrestcmd()` zoom-toggle idiom, restoring exact prior sizes and NvimTree on leave.
+- [ ] **True corner-pinned floating panel** — the native terminal provider only supports full-height left/right splits; a floating top-right panel would need the `snacks.nvim` provider (not currently installed).
+
 ## Code Navigation & Motion
 
 - [x] **Jump-to-anywhere motion** — flash.nvim, `lua/plugins/flash.lua`.

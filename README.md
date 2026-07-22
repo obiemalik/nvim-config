@@ -43,6 +43,7 @@ Neovim Configuration with Lua
 - [nvim-lspconfig.lua](nvim/lua/plugins/nvim-lspconfig.lua): LSP configuration (language servers, keybinding)
 - [nvim-tree.lua](nvim/lua/plugins/nvim-tree.lua): File manager settings
 - [nvim-treesitter](nvim/lua/plugins/nvim-treesitter): Treesitter interface configuration
+- [claude-code.lua](nvim/lua/plugins/claude-code.lua): Claude Code integration ([claudecode.nvim](https://github.com/coder/claudecode.nvim)) keymaps
 
 ## Installation
 
@@ -155,6 +156,11 @@ These are the default keymaps, in the following shortcuts, the `<leader>` key is
 | `<Ctrl> + n`         | Normal        | Open NvimTree                                  |
 | `<leader>z`          | Normal        | Open Tagbar                                    |
 | `<leader>lt`         | Normal        | Toggle linting for current filetype (`:LintToggle`) |
+| `<leader>ac`         | Normal        | Toggle the pinned Claude Code split (session persists in background when hidden) |
+| `<leader>af`         | Normal        | Focus the pinned Claude Code split, opening it if not already open |
+| `<leader>as`         | Visual        | Send selection to Claude Code (`:ClaudeCodeSend`) |
+| `<leader>aa`         | Normal        | Accept Claude Code diff (`:ClaudeCodeDiffAccept`) |
+| `<leader>ad`         | Normal        | Deny Claude Code diff (`:ClaudeCodeDiffDeny`)  |
 
 ## Configuration check
 
